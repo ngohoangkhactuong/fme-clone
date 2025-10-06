@@ -1,0 +1,8 @@
+node_modules
+.git
+.vscode
+Dockerfile
+.gitlab-ci.yml
+README.md
+.env
+k8s

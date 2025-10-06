@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: showcase-qic-frontend
+  namespace: qapp-application
+  labels:
+    app: showcase-qic-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: showcase-qic-frontend
+  template:
+    metadata:
+      labels:
+        app: showcase-qic-frontend
+    spec:
+      containers:
+        - name: showcase-qic-frontend
+          image: REPLACED_WITH_DOCKER_IMAGE_NAME
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: showcase-qic-frontend-nginx-config
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+      volumes:
+        - name: showcase-qic-frontend-nginx-config
+          configMap:
+            name: showcase-qic-frontend-nginx-config
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: showcase-qic-frontend-service
+  namespace: qapp-application
+spec:
+  type: NodePort
+  selector:
+    app: showcase-qic-frontend
+  ports:
+    - port: 80
+      targetPort: 8080
+      nodePort: 30126
