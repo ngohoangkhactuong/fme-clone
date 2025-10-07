@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { menuData } from "@/dataSources/menu";
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -44,6 +45,18 @@ const Header = () => {
           </div>
         </div>
       </div>
+      <nav className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 text-white shadow-md">
+        <ul className="mx-auto flex max-w-7xl flex-wrap justify-center gap-x-6 gap-y-1 py-2 text-sm font-semibold uppercase">
+          {menuData.map((item) => (
+            <li
+              key={item}
+              className="cursor-pointer rounded-md px-3 py-1 transition-all hover:bg-blue-500"
+            >
+              {item}
+            </li>
+          ))}
+        </ul>
+      </nav>
     </header>
   );
 };

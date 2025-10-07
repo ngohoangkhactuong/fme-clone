@@ -24,6 +24,7 @@ export const NewsSection = () => (
       {newsData.map((news) => (
         <article
           key={news.title}
+          onClick={() => window.open(news.url, "_blank")}
           className="group relative cursor-pointer overflow-hidden rounded-2xl bg-white shadow-lg shadow-blue-500/5 transition-all hover:shadow-2xl hover:shadow-blue-500/10"
         >
           <div className="relative h-48 overflow-hidden">
@@ -66,7 +67,7 @@ export const NewsSection = () => (
             </div>
           </div>
 
-          <div className="absolute inset-0 rounded-2xl border-2 border-transparent transition-colors group-hover:border-blue-200"></div>
+          <div className="pointer-events-none absolute inset-0 rounded-2xl border-2 border-transparent transition-colors group-hover:border-blue-200"></div>
         </article>
       ))}
     </div>
