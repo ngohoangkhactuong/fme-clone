@@ -5,17 +5,22 @@ import {
   undergraduatePrograms,
   postgraduatePrograms
 } from "@/dataSources/programs";
+import { BookOpen, GraduationCap } from "lucide-react";
 
-export const Sidebar: React.FC = () => {
-  return (
-    <div className="space-y-6">
-      <DigitalClock />
-      <ProgramList title="Ngành đào tạo" programs={undergraduatePrograms} />
-      <ProgramList
-        title="Đào tạo sau đại học"
-        programs={postgraduatePrograms}
-        titleColor="text-[#E11D48]"
-      />
-    </div>
-  );
-};
+export const Sidebar: React.FC = () => (
+  <div className="space-y-6">
+    <DigitalClock />
+    <ProgramList
+      title="Ngành đào tạo"
+      programs={undergraduatePrograms}
+      icon={BookOpen}
+      gradient="from-blue-600 to-blue-700"
+    />
+    <ProgramList
+      title="Đào tạo sau đại học"
+      programs={postgraduatePrograms}
+      icon={GraduationCap}
+      gradient="from-rose-600 to-rose-700"
+    />
+  </div>
+);

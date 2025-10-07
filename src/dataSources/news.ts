@@ -4,20 +4,26 @@ export interface NewsArticle {
   date: string;
 }
 
-export const newsData: NewsArticle[] = [
+export const newsData = [
   {
-    title: "RECAP |  BUỔI BỐC THĂM CHÍNH THỨC CỦA “FRESHMAN CHAMPION 2025”",
+    title: "RECAP | BUỔI BỐC THĂM CHÍNH THỨC CỦA 'FRESHMAN CHAMPION 2025'",
+    date: "02/10/2025",
     img: "/new_1.jpg",
-    date: "02/10/2025"
+    category: "Sự kiện",
+    trending: true
   },
   {
-    title: "TIÊU CHUẨN XÉT CHỌN DANH HIỆU “SINH VIÊN 5 TỐT” CẤP TRUNG ƯƠNG",
+    title: "TIÊU CHUẨN XÉT CHỌN DANH HIỆU 'SINH VIÊN 5 TỐT' - CẤP TRUNG ƯƠNG",
+    date: "05/09/2025",
     img: "/new_2.jpg",
-    date: "25/09/2025"
+    category: "Đào tạo",
+    trending: false
   },
   {
     title: "HCMUTE CHÀO MỪNG NĂM HỌC MỚI 2025-2026",
+    date: "15/08/2025",
     img: "/new_3.jpg",
-    date: "15/09/2025"
+    category: "Tin tức",
+    trending: true
   }
 ];
