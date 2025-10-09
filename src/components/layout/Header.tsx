@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { menuData } from "@/dataSources/menu";
 
 const Header = () => {
@@ -18,7 +19,7 @@ const Header = () => {
     >
       <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between gap-4">
-          <div className="flex items-center gap-4">
+          <Link to="/" className="flex items-center gap-4">
             <div className="relative">
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 opacity-10 blur-xl"></div>
               <img
@@ -35,24 +36,30 @@ const Header = () => {
                 Trường ĐH Sư phạm Kỹ thuật TP.HCM
               </p>
             </div>
-          </div>
+          </Link>
 
           <div className="flex items-center gap-3">
-            <button className="group relative overflow-hidden rounded-full bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 transition-all hover:shadow-xl hover:shadow-blue-500/40">
-              <span className="relative z-10">Tuyển sinh 2025</span>
+            <Link
+              to="/dang-ky-truc"
+              className="group relative inline-block overflow-hidden rounded-full bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 transition-all hover:shadow-xl hover:shadow-blue-500/40"
+            >
+              <span className="relative z-10">Đăng ký ca trực</span>
               <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-blue-700 to-blue-800 transition-transform duration-300 group-hover:translate-x-0"></div>
-            </button>
+            </Link>
           </div>
         </div>
       </div>
+
       <nav className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 text-white shadow-md">
-        <ul className="mx-auto flex max-w-7xl flex-wrap justify-center gap-x-6 gap-y-1 py-2 text-sm font-semibold uppercase">
+        <ul className="mx-auto flex max-w-7xl flex-wrap justify-center gap-x-2 gap-y-1 py-2 text-sm font-semibold uppercase">
           {menuData.map((item) => (
-            <li
-              key={item}
-              className="cursor-pointer rounded-md px-3 py-1 transition-all hover:bg-blue-500"
-            >
-              {item}
+            <li key={item.label}>
+              <Link
+                to={item.path}
+                className="block cursor-pointer rounded-md px-3 py-1.5 transition-all hover:bg-blue-500"
+              >
+                {item.label}
+              </Link>
             </li>
           ))}
         </ul>
