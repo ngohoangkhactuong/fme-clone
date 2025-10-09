@@ -23,7 +23,7 @@ const Header = () => {
             <div className="relative">
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 opacity-10 blur-xl"></div>
               <img
-                src="/favicon.ico"
+                src="/logo_ckm.jpg"
                 alt="HCMUTE Logo"
                 className="relative h-16 w-auto transition-transform duration-300 hover:scale-105"
               />
