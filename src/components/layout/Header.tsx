@@ -1,8 +1,15 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { menuData } from "@/dataSources/menu";
+import { ThemeToggle } from "@/components/common/ThemeToggle";
+import React from "react";
 
-const Header = () => {
+type HeaderProps = {
+  theme: "light" | "dark";
+  toggleTheme: () => void;
+};
+
+const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -14,7 +21,9 @@ const Header = () => {
   return (
     <header
       className={`sticky top-0 z-50 backdrop-blur-xl transition-all duration-300 ${
-        scrolled ? "bg-white/95 shadow-lg shadow-blue-500/5" : "bg-white"
+        scrolled
+          ? "bg-white/95 shadow-lg shadow-blue-500/5 dark:bg-gray-900/80 dark:shadow-blue-400/10"
+          : "bg-white dark:bg-gray-900"
       }`}
     >
       <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
@@ -29,19 +38,20 @@ const Header = () => {
               />
             </div>
             <div className="hidden md:block">
-              <h1 className="bg-gradient-to-r from-blue-700 via-blue-600 to-blue-800 bg-clip-text text-xl font-bold text-transparent">
+              <h1 className="bg-gradient-to-r from-blue-700 via-blue-600 to-blue-800 bg-clip-text text-xl font-bold text-transparent dark:from-blue-400 dark:to-blue-500">
                 KHOA CƠ KHÍ CHẾ TẠO MÁY
               </h1>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
                 Trường ĐH Sư phạm Kỹ thuật TP.HCM
               </p>
             </div>
           </Link>
 
           <div className="flex items-center gap-3">
+            <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
             <Link
               to="/dang-ky-truc"
-              className="group relative inline-block overflow-hidden rounded-full bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 transition-all hover:shadow-xl hover:shadow-blue-500/40"
+              className="group relative hidden overflow-hidden rounded-full bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 transition-all hover:shadow-xl hover:shadow-blue-500/40 sm:inline-block"
             >
               <span className="relative z-10">Đăng ký ca trực</span>
               <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-blue-700 to-blue-800 transition-transform duration-300 group-hover:translate-x-0"></div>
@@ -49,7 +59,6 @@ const Header = () => {
           </div>
         </div>
       </div>
-
       <nav className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 text-white shadow-md">
         <ul className="mx-auto flex max-w-7xl flex-wrap justify-center gap-x-2 gap-y-1 py-2 text-sm font-semibold uppercase">
           {menuData.map((item) => (

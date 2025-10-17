@@ -24,15 +24,15 @@ export const BannerCarousel: React.FC = () => {
       <div className="absolute inset-0 bg-black/10"></div>
       <button
         onClick={prev}
-        className="absolute top-1/2 left-4 -translate-y-1/2 rounded-full bg-white/70 p-2 opacity-0 transition group-hover:opacity-100 hover:bg-white"
+        className="absolute top-1/2 left-4 -translate-y-1/2 rounded-full bg-white/70 p-2 opacity-0 transition group-hover:opacity-100 hover:bg-white dark:bg-gray-800/70 dark:hover:bg-gray-700"
       >
-        <ChevronLeft className="h-5 w-5 text-gray-800" />
+        <ChevronLeft className="h-5 w-5 text-gray-800 dark:text-gray-200" />
       </button>
       <button
         onClick={next}
-        className="absolute top-1/2 right-4 -translate-y-1/2 rounded-full bg-white/70 p-2 opacity-0 transition group-hover:opacity-100 hover:bg-white"
+        className="absolute top-1/2 right-4 -translate-y-1/2 rounded-full bg-white/70 p-2 opacity-0 transition group-hover:opacity-100 hover:bg-white dark:bg-gray-800/70 dark:hover:bg-gray-700"
       >
-        <ChevronRight className="h-5 w-5 text-gray-800" />
+        <ChevronRight className="h-5 w-5 text-gray-800 dark:text-gray-200" />
       </button>
       <div className="absolute right-0 bottom-3 left-0 flex justify-center gap-2">
         {bannerData.map((_, i) => (

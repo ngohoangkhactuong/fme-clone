@@ -19,9 +19,7 @@ export const DutyRegistrationForm: React.FC<DutyRegistrationFormProps> = ({
       alert("Vui lòng điền đầy đủ thông tin.");
       return;
     }
-
     onSuccess();
-
     setName("");
     setStudentId("");
     setDutyDate("");
@@ -37,7 +35,7 @@ export const DutyRegistrationForm: React.FC<DutyRegistrationFormProps> = ({
           placeholder="Họ và tên"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="w-full rounded-lg border border-gray-200 p-3 pl-10 text-sm transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+          className="w-full rounded-lg border border-gray-200 p-3 pl-10 text-sm transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:ring-blue-500/50"
         />
       </div>
       <div className="relative">
@@ -47,7 +45,7 @@ export const DutyRegistrationForm: React.FC<DutyRegistrationFormProps> = ({
           placeholder="Mã số sinh viên"
           value={studentId}
           onChange={(e) => setStudentId(e.target.value)}
-          className="w-full rounded-lg border border-gray-200 p-3 pl-10 text-sm transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+          className="w-full rounded-lg border border-gray-200 p-3 pl-10 text-sm transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:ring-blue-500/50"
         />
       </div>
       <div className="grid gap-4 md:grid-cols-2">
@@ -57,7 +55,7 @@ export const DutyRegistrationForm: React.FC<DutyRegistrationFormProps> = ({
             type="date"
             value={dutyDate}
             onChange={(e) => setDutyDate(e.target.value)}
-            className="w-full rounded-lg border border-gray-200 p-3 pl-10 text-sm text-gray-500 transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+            className="w-full rounded-lg border border-gray-200 p-3 pl-10 text-sm text-gray-500 transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 dark:focus:ring-blue-500/50"
           />
         </div>
         <div className="relative">
@@ -65,7 +63,7 @@ export const DutyRegistrationForm: React.FC<DutyRegistrationFormProps> = ({
           <select
             value={dutyShift}
             onChange={(e) => setDutyShift(e.target.value)}
-            className="w-full appearance-none rounded-lg border border-gray-200 bg-white p-3 pl-10 text-sm transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+            className="w-full appearance-none rounded-lg border border-gray-200 bg-white p-3 pl-10 text-sm transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:ring-blue-500/50"
           >
             <option>Sáng (7:30 - 11:30)</option>
             <option>Chiều (13:30 - 17:30)</option>
