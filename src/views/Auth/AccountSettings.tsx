@@ -74,120 +74,157 @@ const AccountSettings: React.FC = () => {
   };
 
   return (
-    <div className="mx-auto max-w-4xl p-6">
-      <div className="grid grid-cols-1 gap-6 rounded-2xl bg-white p-6 shadow-xl md:grid-cols-3 dark:bg-gray-800">
-        <div className="col-span-1 flex flex-col items-center gap-4">
-          <div className="h-28 w-28 overflow-hidden rounded-full bg-gray-100 shadow-md">
-            {avatarPreview ? (
-              <img
-                src={avatarPreview}
-                alt="avatar"
-                className="h-full w-full object-cover"
-              />
-            ) : (
-              <div className="flex h-full w-full items-center justify-center text-3xl font-semibold text-gray-500">
-                {user?.name.charAt(0).toUpperCase()}
-              </div>
-            )}
-          </div>
-          <div className="text-center">
-            <div className="text-lg font-medium text-gray-900 dark:text-white">
-              {user?.name}
-            </div>
-            <div className="text-sm text-gray-500">{user?.email}</div>
-          </div>
-
-          <div className="flex w-full flex-col gap-2">
-            <input
-              ref={fileRef}
-              onChange={(e) => handleAvatarPick(e.target.files?.[0])}
-              type="file"
-              accept="image/*"
-              className="hidden"
-            />
-            <button
-              type="button"
-              onClick={() => fileRef.current?.click()}
-              className="rounded-lg border px-4 py-2 text-sm"
-            >
-              Chọn ảnh
-            </button>
-            <button
-              onClick={handleAvatarSave}
-              className="rounded-lg bg-blue-600 px-4 py-2 text-sm text-white"
-            >
-              Lưu ảnh
-            </button>
-            <button
-              type="button"
-              onClick={handleAvatarRemove}
-              className="rounded-lg border px-4 py-2 text-sm"
-            >
-              Xóa ảnh
-            </button>
-          </div>
+    <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6">
+      <div className="overflow-hidden rounded-2xl bg-white shadow-md dark:bg-gray-800">
+        <div className="border-b border-gray-200 px-6 py-8 sm:px-8 dark:border-gray-700">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+            Cài đặt tài khoản
+          </h1>
+          <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
+            Quản lý thông tin và bảo mật tài khoản của bạn
+          </p>
         </div>
 
-        <div className="col-span-2 space-y-6">
-          <div className="flex items-center justify-between">
-            <h1 className="text-xl font-semibold">Cài đặt tài khoản</h1>
-            {msg && <div className="text-sm text-green-600">{msg}</div>}
-          </div>
-
-          <form
-            onSubmit={handleName}
-            className="grid grid-cols-1 gap-3 sm:grid-cols-2"
-          >
-            <div className="sm:col-span-2">
-              <label className="block text-sm font-medium text-gray-600">
-                Họ và tên
-              </label>
-              <input
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="mt-1 w-full rounded-md border border-gray-200 px-3 py-2 dark:border-gray-700 dark:bg-gray-900"
-              />
+        <div className="space-y-8 px-6 py-8 sm:px-8">
+          {msg && (
+            <div className="rounded-lg border border-green-200 bg-green-50 p-4 text-sm text-green-700 dark:border-green-900/50 dark:bg-green-900/20 dark:text-green-400">
+              {msg}
             </div>
-            <div className="sm:col-span-2">
-              <button className="rounded-lg bg-blue-600 px-4 py-2 text-white">
+          )}
+
+          <section>
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+              Ảnh đại diện
+            </h2>
+            <div className="mt-6 flex flex-col gap-6 sm:flex-row sm:items-center">
+              <div className="relative flex-shrink-0">
+                <div className="h-24 w-24 overflow-hidden rounded-full bg-gradient-to-br from-gray-100 to-gray-200 shadow-lg ring-4 ring-white dark:from-gray-700 dark:to-gray-800 dark:ring-gray-900">
+                  {avatarPreview ? (
+                    <img
+                      src={avatarPreview}
+                      alt="avatar"
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center text-3xl font-bold text-blue-600">
+                      {user?.name.charAt(0).toUpperCase()}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="flex flex-col gap-3">
+                <div>
+                  <p className="text-sm font-medium text-gray-900 dark:text-white">
+                    {user?.name}
+                  </p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    {user?.email}
+                  </p>
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                  <input
+                    ref={fileRef}
+                    onChange={(e) => handleAvatarPick(e.target.files?.[0])}
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => fileRef.current?.click()}
+                    className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800"
+                  >
+                    Chọn ảnh
+                  </button>
+                  <button
+                    onClick={handleAvatarSave}
+                    className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+                  >
+                    Lưu ảnh
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleAvatarRemove}
+                    className="inline-flex items-center gap-2 rounded-lg border border-red-300 bg-white px-4 py-2 text-sm font-medium text-red-700 hover:bg-red-50 dark:border-red-800/50 dark:bg-red-900/20 dark:text-red-400 dark:hover:bg-red-900/30"
+                  >
+                    Xóa ảnh
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section className="border-t border-gray-200 pt-8 dark:border-gray-700">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+              Thông tin cá nhân
+            </h2>
+            <form onSubmit={handleName} className="mt-6 space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                  Họ và tên
+                </label>
+                <input
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="mt-2 w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none dark:border-gray-600 dark:bg-gray-900 dark:focus:ring-blue-900"
+                />
+              </div>
+              <button className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-2 text-sm font-medium text-white hover:bg-blue-700">
                 Lưu thay đổi
               </button>
-            </div>
-          </form>
+            </form>
+          </section>
 
-          <div className="rounded-lg border border-gray-100 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900">
-            <h2 className="text-sm font-medium text-gray-700 dark:text-gray-200">
-              Đổi mật khẩu
+          <section className="border-t border-gray-200 pt-8 dark:border-gray-700">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+              Bảo mật
             </h2>
-            <form onSubmit={handlePassword} className="mt-3 grid gap-3">
-              <input
-                value={oldPwd}
-                onChange={(e) => setOldPwd(e.target.value)}
-                placeholder="Mật khẩu hiện tại"
-                type="password"
-                className="w-full rounded-md border border-gray-200 px-3 py-2 dark:border-gray-700 dark:bg-gray-900"
-              />
-              <input
-                value={newPwd}
-                onChange={(e) => setNewPwd(e.target.value)}
-                placeholder="Mật khẩu mới"
-                type="password"
-                className="w-full rounded-md border border-gray-200 px-3 py-2 dark:border-gray-700 dark:bg-gray-900"
-              />
-              <input
-                value={confirmPwd}
-                onChange={(e) => setConfirmPwd(e.target.value)}
-                placeholder="Xác nhận mật khẩu mới"
-                type="password"
-                className="w-full rounded-md border border-gray-200 px-3 py-2 dark:border-gray-700 dark:bg-gray-900"
-              />
-              <div className="flex justify-end">
-                <button className="rounded-lg bg-green-600 px-4 py-2 text-white">
+            <div className="mt-6 rounded-xl border border-gray-200 bg-gray-50 p-6 dark:border-gray-700 dark:bg-gray-900/50">
+              <h3 className="font-medium text-gray-900 dark:text-white">
+                Đổi mật khẩu
+              </h3>
+              <form onSubmit={handlePassword} className="mt-4 space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Mật khẩu hiện tại
+                  </label>
+                  <input
+                    value={oldPwd}
+                    onChange={(e) => setOldPwd(e.target.value)}
+                    type="password"
+                    className="mt-2 w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-blue-900"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Mật khẩu mới
+                  </label>
+                  <input
+                    value={newPwd}
+                    onChange={(e) => setNewPwd(e.target.value)}
+                    type="password"
+                    className="mt-2 w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-blue-900"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Xác nhận mật khẩu mới
+                  </label>
+                  <input
+                    value={confirmPwd}
+                    onChange={(e) => setConfirmPwd(e.target.value)}
+                    type="password"
+                    className="mt-2 w-full rounded-lg border border-gray-300 px-4 py-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-blue-900"
+                  />
+                </div>
+                <button className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-6 py-2 text-sm font-medium text-white hover:bg-green-700">
                   Thay đổi mật khẩu
                 </button>
-              </div>
-            </form>
-          </div>
+              </form>
+            </div>
+          </section>
         </div>
       </div>
     </div>

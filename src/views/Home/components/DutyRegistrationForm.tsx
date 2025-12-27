@@ -119,15 +119,48 @@ export const DutyRegistrationForm = ({
 
   if (!user) {
     return (
-      <div className="rounded-lg border border-dashed border-gray-200 p-6 text-center">
-        <p className="mb-4">Bạn cần đăng nhập để đăng ký ca trực.</p>
-        <div className="flex justify-center gap-3">
-          <a href="/auth/signin" className="text-blue-600 underline">
-            Đăng nhập
-          </a>
-          <a href="/auth/signup" className="text-green-600 underline">
-            Đăng ký
-          </a>
+      <div className="flex min-h-[50vh] items-center justify-center px-4 py-8">
+        <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-xl dark:bg-gray-800">
+          <div className="text-center">
+            <div className="mb-4 flex justify-center">
+              <div className="rounded-full bg-blue-100 p-3 dark:bg-blue-900/30">
+                <svg
+                  className="h-6 w-6 text-blue-600 dark:text-blue-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                  />
+                </svg>
+              </div>
+            </div>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+              Đăng nhập yêu cầu
+            </h2>
+            <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+              Bạn cần đăng nhập để đăng ký ca trực.
+            </p>
+          </div>
+
+          <div className="mt-8 space-y-3">
+            <a
+              href="/auth/signin"
+              className="block rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 px-4 py-2.5 text-center font-semibold text-white shadow-md hover:from-blue-700 hover:to-blue-800"
+            >
+              Đăng nhập
+            </a>
+            <a
+              href="/auth/signup"
+              className="block rounded-lg border-2 border-blue-600 px-4 py-2.5 text-center font-semibold text-blue-600 hover:bg-blue-50 dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-900/20"
+            >
+              Tạo tài khoản mới
+            </a>
+          </div>
         </div>
       </div>
     );
@@ -135,55 +168,112 @@ export const DutyRegistrationForm = ({
 
   if (!allowed) {
     return (
-      <div className="rounded-lg border border-dashed border-gray-200 p-6 text-center">
-        <p className="mb-4">
-          Tài khoản của bạn chưa được cấp quyền đăng ký ca trực.
-        </p>
-        <p className="text-sm text-gray-500">
-          Liên hệ admin để được phê duyệt.
-        </p>
+      <div className="flex min-h-[50vh] items-center justify-center px-4 py-8">
+        <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-xl dark:bg-gray-800">
+          <div className="text-center">
+            <div className="mb-4 flex justify-center">
+              <div className="rounded-full bg-amber-100 p-3 dark:bg-amber-900/30">
+                <svg
+                  className="h-6 w-6 text-amber-600 dark:text-amber-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </div>
+            </div>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+              Quyền truy cập bị từ chối
+            </h2>
+            <p className="mt-3 text-sm text-gray-600 dark:text-gray-400">
+              Tài khoản của bạn chưa được cấp quyền đăng ký ca trực.
+            </p>
+            <p className="mt-2 text-xs text-gray-500 dark:text-gray-500">
+              Liên hệ admin để được phê duyệt trước khi sử dụng tính năng này.
+            </p>
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
     <form className="space-y-4" onSubmit={handleSubmit}>
-      <FormField
-        icon={User}
-        onChange={(value) => handleChange("name", value)}
-        placeholder="Họ và tên"
-        value={form.name}
-      />
-
-      <FormField
-        icon={User}
-        onChange={(value) => handleChange("studentId", value)}
-        placeholder="Mã số sinh viên"
-        value={form.studentId}
-      />
-
-      <div className="grid gap-4 md:grid-cols-2">
-        <div className="relative">
-          <Calendar className="absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 text-gray-400" />
-          <input
-            onChange={(e) => handleChange("dutyDate", e.target.value)}
-            type="date"
-            value={form.dutyDate}
-            className="w-full rounded-lg border border-gray-200 p-3 pl-10 text-sm text-gray-500 transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 dark:focus:ring-blue-500/50"
-          />
-        </div>
-
-        <DutyShiftSelect
-          onChange={(value) => handleChange("dutyShift", value)}
-          value={form.dutyShift}
+      <div>
+        <label
+          htmlFor="name"
+          className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+        >
+          Họ và tên <span className="text-red-500">*</span>
+        </label>
+        <FormField
+          icon={User}
+          onChange={(value) => handleChange("name", value)}
+          placeholder="Họ và tên"
+          value={form.name}
         />
       </div>
 
+      <div>
+        <label
+          htmlFor="studentId"
+          className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+        >
+          Mã số sinh viên <span className="text-red-500">*</span>
+        </label>
+        <FormField
+          icon={User}
+          onChange={(value) => handleChange("studentId", value)}
+          placeholder="Mã số sinh viên (MSSV)"
+          value={form.studentId}
+        />
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2">
+        <div>
+          <label
+            htmlFor="dutyDate"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          >
+            Ngày ca trực <span className="text-red-500">*</span>
+          </label>
+          <div className="relative mt-2">
+            <Calendar className="absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 text-gray-400" />
+            <input
+              id="dutyDate"
+              onChange={(e) => handleChange("dutyDate", e.target.value)}
+              type="date"
+              value={form.dutyDate}
+              className="w-full rounded-lg border border-gray-300 bg-white p-2.5 pl-10 text-sm text-gray-700 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:ring-blue-900"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label
+            htmlFor="dutyShift"
+            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+          >
+            Ca trực <span className="text-red-500">*</span>
+          </label>
+          <DutyShiftSelect
+            onChange={(value) => handleChange("dutyShift", value)}
+            value={form.dutyShift}
+          />
+        </div>
+      </div>
+
       <button
-        className="group flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 transition-all hover:shadow-xl hover:shadow-blue-500/40"
+        className="group flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-3 text-sm font-semibold text-white shadow-md hover:from-blue-700 hover:to-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900"
         type="submit"
       >
-        <Send className="h-5 w-5 transition-transform group-hover:rotate-45" />
+        <Send className="h-4 w-4 transition-transform group-hover:translate-x-1" />
         Đăng ký ngay
       </button>
     </form>

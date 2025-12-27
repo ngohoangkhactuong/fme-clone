@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Notification } from "@/components/layout/Notification";
-import { ReportSection } from "./ReportSection";
 import { ImageUploader } from "@/components/common/ImageUploader";
 import { useAuth } from "@/hooks/useAuth";
 import { registeredStudentEmails } from "@/dataSources/registeredStudents";
@@ -125,17 +124,46 @@ export const DutyReportPage = () => {
 
   if (!user) {
     return (
-      <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="rounded-lg border border-dashed border-gray-200 p-6 text-center">
-          <p className="mb-4">
-            Bạn cần đăng nhập để xem và gửi báo cáo ca trực.
-          </p>
-          <div className="flex justify-center gap-3">
-            <a href="/auth/signin" className="text-blue-600 underline">
+      <div className="flex min-h-[60vh] items-center justify-center px-4 py-12">
+        <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-xl dark:bg-gray-800">
+          <div className="text-center">
+            <div className="mb-4 flex justify-center">
+              <div className="rounded-full bg-blue-100 p-3 dark:bg-blue-900/30">
+                <svg
+                  className="h-6 w-6 text-blue-600 dark:text-blue-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                  />
+                </svg>
+              </div>
+            </div>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+              Đăng nhập yêu cầu
+            </h2>
+            <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+              Bạn cần đăng nhập để xem và gửi báo cáo ca trực.
+            </p>
+          </div>
+
+          <div className="mt-8 space-y-3">
+            <a
+              href="/auth/signin"
+              className="block rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 px-4 py-2.5 text-center font-semibold text-white shadow-md hover:from-blue-700 hover:to-blue-800"
+            >
               Đăng nhập
             </a>
-            <a href="/auth/signup" className="text-green-600 underline">
-              Đăng ký
+            <a
+              href="/auth/signup"
+              className="block rounded-lg border-2 border-blue-600 px-4 py-2.5 text-center font-semibold text-blue-600 hover:bg-blue-50 dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-900/20"
+            >
+              Tạo tài khoản mới
             </a>
           </div>
         </div>
@@ -145,14 +173,36 @@ export const DutyReportPage = () => {
 
   if (!allowed) {
     return (
-      <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="rounded-lg border border-dashed border-gray-200 p-6 text-center">
-          <p className="mb-4">
-            Tài khoản của bạn chưa được cấp quyền xem/gửi báo cáo ca trực.
-          </p>
-          <p className="text-sm text-gray-500">
-            Liên hệ admin để được phê duyệt.
-          </p>
+      <div className="flex min-h-[60vh] items-center justify-center px-4 py-12">
+        <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-xl dark:bg-gray-800">
+          <div className="text-center">
+            <div className="mb-4 flex justify-center">
+              <div className="rounded-full bg-amber-100 p-3 dark:bg-amber-900/30">
+                <svg
+                  className="h-6 w-6 text-amber-600 dark:text-amber-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </div>
+            </div>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+              Quyền truy cập bị từ chối
+            </h2>
+            <p className="mt-3 text-sm text-gray-600 dark:text-gray-400">
+              Tài khoản của bạn chưa được cấp quyền xem/gửi báo cáo ca trực.
+            </p>
+            <p className="mt-2 text-xs text-gray-500 dark:text-gray-500">
+              Liên hệ admin để được phê duyệt trước khi sử dụng tính năng này.
+            </p>
+          </div>
         </div>
       </div>
     );
@@ -160,166 +210,204 @@ export const DutyReportPage = () => {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
-      <div className="space-y-6 rounded-2xl bg-white p-6 shadow-xl shadow-blue-500/10 dark:bg-gray-800 dark:shadow-black/20">
-        <header className="mb-2">
-          <h1 className="text-2xl font-bold">Báo cáo ca trực</h1>
-          <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            Tạo báo cáo sau hoặc trong ca trực — mô tả công việc, sự cố và lưu
-            trữ ảnh.
-          </p>
-        </header>
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+          Báo cáo ca trực
+        </h1>
+        <p className="mt-2 text-gray-600 dark:text-gray-400">
+          Tạo báo cáo sau hoặc trong ca trực — mô tả công việc, sự cố và lưu trữ
+          ảnh.
+        </p>
+      </div>
 
-        <ReportSection title="Tổng quan">
+      <form className="space-y-6">
+        {/* Tổng quan Section */}
+        <div className="rounded-2xl bg-white p-6 shadow-lg dark:bg-gray-800">
+          <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">
+            Tổng quan
+          </h2>
           <div className="grid gap-4 md:grid-cols-2">
             <div>
-              <label className="mb-1 block text-sm font-medium text-gray-700">
-                Tiêu đề
+              <label
+                htmlFor="title"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
+                Tiêu đề <span className="text-red-500">*</span>
               </label>
               <input
+                id="title"
                 value={report.title}
                 onChange={(e) => update("title", e.target.value)}
                 placeholder="Tiêu đề báo cáo"
-                className="w-full rounded-md border border-gray-200 p-2 text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                className="mt-2 w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none dark:border-gray-600 dark:bg-gray-900 dark:focus:ring-blue-900"
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm font-medium text-gray-700">
-                Trạng thái
-              </label>
-              <select
-                value={report.status}
-                onChange={(e) =>
-                  update("status", e.target.value as ReportStatus)
-                }
-                className="w-full rounded-md border border-gray-200 p-2 text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+              <label
+                htmlFor="date"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
               >
-                <option value="draft">Nháp</option>
-                <option value="submitted">Đã gửi</option>
-              </select>
+                Ngày ca <span className="text-red-500">*</span>
+              </label>
+              <input
+                id="date"
+                value={report.date}
+                onChange={(e) => update("date", e.target.value)}
+                type="date"
+                className="mt-2 w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none dark:border-gray-600 dark:bg-gray-900 dark:focus:ring-blue-900"
+              />
             </div>
           </div>
-        </ReportSection>
+        </div>
 
-        <ReportSection title="Chi tiết">
+        {/* Thời gian Section */}
+        <div className="rounded-2xl bg-white p-6 shadow-lg dark:bg-gray-800">
+          <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">
+            Thời gian ca trực
+          </h2>
+          <div className="grid gap-4 md:grid-cols-2">
+            <div>
+              <label
+                htmlFor="startTime"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
+                Bắt đầu
+              </label>
+              <input
+                id="startTime"
+                value={report.startTime}
+                onChange={(e) => update("startTime", e.target.value)}
+                type="time"
+                className="mt-2 w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none dark:border-gray-600 dark:bg-gray-900 dark:focus:ring-blue-900"
+              />
+            </div>
+            <div>
+              <label
+                htmlFor="endTime"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
+                Kết thúc
+              </label>
+              <input
+                id="endTime"
+                value={report.endTime}
+                onChange={(e) => update("endTime", e.target.value)}
+                type="time"
+                className="mt-2 w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none dark:border-gray-600 dark:bg-gray-900 dark:focus:ring-blue-900"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Chi tiết Section */}
+        <div className="rounded-2xl bg-white p-6 shadow-lg dark:bg-gray-800">
+          <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">
+            Chi tiết ca trực
+          </h2>
           <div className="space-y-4">
             <div>
-              <label className="mb-1 block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="summary"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
                 Tóm tắt
               </label>
               <textarea
+                id="summary"
                 rows={3}
                 value={report.summary}
                 onChange={(e) => update("summary", e.target.value)}
                 placeholder="Tóm tắt nhanh về ca trực"
-                className="w-full rounded-md border border-gray-200 p-2 text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                className="mt-2 w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none dark:border-gray-600 dark:bg-gray-900 dark:focus:ring-blue-900"
               />
             </div>
 
             <div>
-              <label className="mb-1 block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="tasks"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
                 Công việc đã thực hiện
               </label>
               <textarea
+                id="tasks"
                 rows={4}
                 value={report.tasks}
                 onChange={(e) => update("tasks", e.target.value)}
                 placeholder="Liệt kê nhiệm vụ và hành động cụ thể"
-                className="w-full rounded-md border border-gray-200 p-2 text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                className="mt-2 w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none dark:border-gray-600 dark:bg-gray-900 dark:focus:ring-blue-900"
               />
             </div>
 
             <div>
-              <label className="mb-1 block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="incidents"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+              >
                 Sự cố / Ghi chú
               </label>
               <textarea
+                id="incidents"
                 rows={3}
                 value={report.incidents}
                 onChange={(e) => update("incidents", e.target.value)}
                 placeholder="Mô tả sự cố (nếu có)"
-                className="w-full rounded-md border border-gray-200 p-2 text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+                className="mt-2 w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none dark:border-gray-600 dark:bg-gray-900 dark:focus:ring-blue-900"
               />
             </div>
           </div>
-        </ReportSection>
+        </div>
 
-        <ReportSection title="Thời gian">
-          <div className="grid gap-4 md:grid-cols-3">
-            <div>
-              <label className="mb-1 block text-sm font-medium text-gray-700">
-                Ngày ca
-              </label>
-              <input
-                value={report.date}
-                onChange={(e) => update("date", e.target.value)}
-                type="date"
-                className="w-full rounded-md border border-gray-200 p-2 text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-              />
-            </div>
-            <div>
-              <label className="mb-1 block text-sm font-medium text-gray-700">
-                Bắt đầu
-              </label>
-              <input
-                value={report.startTime}
-                onChange={(e) => update("startTime", e.target.value)}
-                type="time"
-                className="w-full rounded-md border border-gray-200 p-2 text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-              />
-            </div>
-            <div>
-              <label className="mb-1 block text-sm font-medium text-gray-700">
-                Kết thúc
-              </label>
-              <input
-                value={report.endTime}
-                onChange={(e) => update("endTime", e.target.value)}
-                type="time"
-                className="w-full rounded-md border border-gray-200 p-2 text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white"
-              />
-            </div>
-          </div>
-        </ReportSection>
-
-        <ReportSection title="Ảnh đính kèm">
+        {/* Ảnh đính kèm Section */}
+        <div className="rounded-2xl bg-white p-6 shadow-lg dark:bg-gray-800">
+          <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">
+            Ảnh đính kèm
+          </h2>
           <ImageUploader images={report.images} onChange={handleImagesChange} />
-        </ReportSection>
+        </div>
 
-        <ReportSection title="Ghi chú bổ sung">
+        {/* Ghi chú bổ sung Section */}
+        <div className="rounded-2xl bg-white p-6 shadow-lg dark:bg-gray-800">
+          <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">
+            Ghi chú bổ sung
+          </h2>
           <textarea
             rows={3}
             value={report.notes}
             onChange={(e) => update("notes", e.target.value)}
             placeholder="Các ghi chú phụ trợ"
-            className="w-full rounded-md border border-gray-200 p-2 text-sm dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+            className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none dark:border-gray-600 dark:bg-gray-900 dark:focus:ring-blue-900"
           />
-        </ReportSection>
+        </div>
 
+        {/* Action Buttons */}
         <div className="flex items-center gap-3">
           <button
             onClick={handleSaveDraft}
             disabled={saving}
-            className="rounded-md border border-gray-200 px-4 py-2 text-sm hover:bg-gray-50 disabled:opacity-50 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+            type="button"
+            className="rounded-lg border-2 border-gray-300 px-6 py-2.5 font-semibold text-gray-700 transition hover:bg-gray-50 disabled:opacity-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
           >
-            {saving ? "Đang lưu..." : "Lưu nháp"}
+            {saving ? "Đang lưu..." : "💾 Lưu nháp"}
           </button>
 
           <button
             onClick={handleSubmit}
             disabled={submitting}
-            className="rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-50"
+            type="button"
+            className="rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-2.5 font-semibold text-white shadow-md hover:from-blue-700 hover:to-blue-800 disabled:opacity-50"
           >
-            {submitting ? "Đang gửi..." : "Gửi báo cáo"}
+            {submitting ? "Đang gửi..." : "✓ Gửi báo cáo"}
           </button>
         </div>
-      </div>
+      </form>
 
       {showNotification && (
         <Notification
           message={
             report.status === "submitted"
-              ? "Báo cáo đã được gửi."
-              : "Nháp đã được lưu."
+              ? "✓ Báo cáo đã được gửi thành công."
+              : "✓ Nháp đã được lưu."
           }
           onClose={() => setShowNotification(false)}
         />

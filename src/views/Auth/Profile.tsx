@@ -15,15 +15,15 @@ const Profile: React.FC = () => {
   }
 
   return (
-    <div className="mx-auto max-w-6xl p-6">
-      <div className="relative overflow-hidden rounded-2xl bg-white shadow-xl dark:bg-gray-800">
-        <div className="h-48 w-full bg-gradient-to-r from-blue-700 to-indigo-600" />
+    <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6">
+      <div className="overflow-hidden rounded-2xl bg-white shadow-md dark:bg-gray-800">
+        <div className="h-40 w-full bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-600" />
 
-        <div className="px-6 py-8">
-          <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
-            <div className="flex flex-col gap-6 md:flex-row md:items-center">
-              <div className="relative">
-                <div className="h-28 w-28 overflow-hidden rounded-full bg-gray-100 shadow-lg ring-4 ring-white dark:ring-gray-900">
+        <div className="px-6 py-8 sm:px-8">
+          <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
+            <div className="flex items-start gap-4">
+              <div className="relative flex-shrink-0">
+                <div className="h-24 w-24 overflow-hidden rounded-full bg-gradient-to-br from-gray-100 to-gray-200 shadow-lg ring-4 ring-white dark:from-gray-700 dark:to-gray-800 dark:ring-gray-900">
                   {user.avatar ? (
                     <img
                       src={user.avatar}
@@ -36,16 +36,10 @@ const Profile: React.FC = () => {
                     </div>
                   )}
                 </div>
-                <Link
-                  to="/account/settings"
-                  className="absolute right-0 bottom-0 rounded-full bg-blue-600 p-2 text-white shadow-md hover:bg-blue-700"
-                  title="Chỉnh sửa"
-                >
-                  <Settings size={16} />
-                </Link>
+                <div className="absolute -right-1 -bottom-1 rounded-full bg-green-500 p-1.5 shadow-md" />
               </div>
 
-              <div>
+              <div className="min-w-0 flex-1">
                 <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
                   {user.name}
                 </h1>
@@ -57,72 +51,70 @@ const Profile: React.FC = () => {
                     MSSV: {user.studentId}
                   </p>
                 )}
-                <div className="mt-3 flex flex-wrap gap-2">
-                  <span className="inline-flex items-center gap-1 rounded-full bg-gray-200 px-3 py-1 text-xs font-semibold text-gray-700 dark:bg-gray-700 dark:text-gray-200">
-                    <Users size={12} />
+                <div className="mt-4 flex flex-wrap gap-2">
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-100 px-3 py-1.5 text-xs font-semibold text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
+                    <Users size={14} />
                     {user.role === "admin" ? "Admin" : "Sinh viên"}
                   </span>
+                  <Link
+                    to="/bao-cao-ca-truc"
+                    className="inline-flex items-center gap-1.5 rounded-full bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-blue-700"
+                  >
+                    <FileText size={14} /> Báo cáo ca trực
+                  </Link>
                 </div>
               </div>
             </div>
 
-            <div className="flex gap-8">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-gray-900 dark:text-white">
-                  0
-                </div>
-                <div className="text-xs text-gray-500">Reports</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-gray-900 dark:text-white">
-                  0
-                </div>
-                <div className="text-xs text-gray-500">Submitted</div>
-              </div>
-              <Link
-                to="/bao-cao-ca-truc"
-                className="inline-flex items-center gap-2 self-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
-              >
-                <FileText size={16} /> Báo cáo ca trực
-              </Link>
-            </div>
+            <Link
+              to="/account/settings"
+              className="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800"
+            >
+              <Settings size={16} /> Chỉnh sửa
+            </Link>
           </div>
 
-          <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-3">
+          <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-3">
             <div className="col-span-2 rounded-xl bg-gray-50 p-6 dark:bg-gray-900">
               <h3 className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-200">
-                <Calendar size={16} /> Recent activity
+                <Calendar size={16} /> Hoạt động gần đây
               </h3>
               <div className="mt-4">
-                <div className="rounded-md border border-dashed border-gray-200 p-6 text-sm text-gray-600 dark:border-gray-700 dark:text-gray-300">
-                  Chưa có hoạt động gần đây.
+                <div className="rounded-lg border border-dashed border-gray-300 p-8 text-center text-sm text-gray-500 dark:border-gray-700 dark:text-gray-400">
+                  Chưa có hoạt động
                 </div>
               </div>
             </div>
 
-            <aside className="rounded-xl bg-white p-6 shadow-sm dark:bg-gray-800">
-              <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-200">
-                Thông tin
+            <aside className="rounded-xl border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-900">
+              <h4 className="text-sm font-semibold text-gray-900 dark:text-white">
+                Thông tin cá nhân
               </h4>
-              <dl className="mt-3 space-y-3 text-sm text-gray-600 dark:text-gray-300">
+              <dl className="mt-4 space-y-4 text-sm text-gray-600 dark:text-gray-300">
                 <div>
-                  <dt className="font-medium text-gray-500">Email</dt>
-                  <dd className="truncate text-gray-900 dark:text-gray-100">
+                  <dt className="text-xs font-semibold tracking-wide text-gray-500 uppercase dark:text-gray-400">
+                    Email
+                  </dt>
+                  <dd className="mt-1 truncate text-gray-900 dark:text-gray-100">
                     {user.email}
                   </dd>
                 </div>
                 {user.studentId && (
                   <div>
-                    <dt className="font-medium text-gray-500">MSSV</dt>
-                    <dd className="text-gray-900 dark:text-gray-100">
+                    <dt className="text-xs font-semibold tracking-wide text-gray-500 uppercase dark:text-gray-400">
+                      MSSV
+                    </dt>
+                    <dd className="mt-1 text-gray-900 dark:text-gray-100">
                       {user.studentId}
                     </dd>
                   </div>
                 )}
                 <div>
-                  <dt className="font-medium text-gray-500">Role</dt>
-                  <dd className="text-gray-900 dark:text-gray-100">
-                    {user.role}
+                  <dt className="text-xs font-semibold tracking-wide text-gray-500 uppercase dark:text-gray-400">
+                    Vai trò
+                  </dt>
+                  <dd className="mt-1 text-gray-900 dark:text-gray-100">
+                    {user.role === "admin" ? "Quản trị viên" : "Sinh viên"}
                   </dd>
                 </div>
               </dl>

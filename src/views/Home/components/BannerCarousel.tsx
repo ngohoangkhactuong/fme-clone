@@ -12,8 +12,8 @@ const BannerNavButton = ({
   <button
     onClick={onClick}
     aria-label={direction === "prev" ? "Slide trước" : "Slide tiếp theo"}
-    className="absolute top-1/2 -translate-y-1/2 rounded-full bg-white/70 p-2 opacity-0 transition hover:bg-white dark:bg-gray-800/70 dark:hover:bg-gray-700"
-    style={{ [direction === "prev" ? "left" : "right"]: "1rem" }}
+    className="absolute top-1/2 -translate-y-1/2 rounded-full bg-white/80 p-2.5 opacity-0 shadow-lg transition group-hover:opacity-100 hover:bg-white hover:shadow-xl dark:bg-gray-900/80 dark:hover:bg-gray-800"
+    style={{ [direction === "prev" ? "left" : "right"]: "1.5rem" }}
   >
     {direction === "prev" ? (
       <ChevronLeft className="h-5 w-5 text-gray-800 dark:text-gray-200" />
