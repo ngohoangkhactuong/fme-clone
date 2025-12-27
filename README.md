@@ -1,4 +1,3 @@
-// filepath: /Users/ngohoangkhactuong/GitHub/fme-clone/README.md
 # FME — Frontend (Khoa Cơ Khí Chế Tạo Máy)
 
 Phiên bản README này cung cấp hướng dẫn chi tiết để cài đặt, phát triển, debug, đóng gói và đóng góp cho frontend ứng dụng `qic-frontend` (dựa trên Vite, React + TypeScript, TailwindCSS). README viết bằng tiếng Việt để phù hợp với codebase hiện tại.
