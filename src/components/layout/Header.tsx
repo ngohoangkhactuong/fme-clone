@@ -45,6 +45,13 @@ const HeaderActions = ({
       <span className="relative z-10">Đăng ký ca trực</span>
       <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-blue-700 to-blue-800 transition-transform duration-300 group-hover:translate-x-0" />
     </Link>
+    <Link
+      to="/bao-cao-ca-truc"
+      className="hidden rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-blue-700 transition hover:bg-gray-50 sm:inline-block dark:border-gray-600 dark:bg-gray-800 dark:text-blue-300 dark:hover:bg-gray-700"
+      aria-label="Báo cáo ca trực"
+    >
+      Báo cáo ca trực
+    </Link>
   </div>
 );
 
