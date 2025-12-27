@@ -118,10 +118,10 @@ const HeaderActions = ({
           </button>
 
           {menuOpen && (
-            <div className="absolute right-0 mt-2 w-64 rounded-lg border border-gray-200 bg-white shadow-xl dark:border-gray-700 dark:bg-gray-800">
-              <div className="border-b border-gray-200 p-4 dark:border-gray-700">
+            <div className="absolute right-0 mt-3 w-72 overflow-hidden rounded-2xl border border-gray-200/50 bg-white/95 shadow-2xl shadow-gray-200/50 backdrop-blur-xl dark:border-gray-700/50 dark:bg-gray-800/95 dark:shadow-black/20">
+              <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-4">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
+                  <div className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-xl bg-white/20 ring-2 ring-white/30">
                     {user.avatar ? (
                       <img
                         src={user.avatar}
@@ -129,67 +129,94 @@ const HeaderActions = ({
                         className="h-full w-full object-cover"
                       />
                     ) : (
-                      <span className="text-lg font-bold text-blue-600">
+                      <span className="text-xl font-bold text-white">
                         {user.name.charAt(0).toUpperCase()}
                       </span>
                     )}
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-semibold text-gray-900 dark:text-white">
+                    <p className="truncate text-sm font-semibold text-white">
                       {user.name}
                     </p>
-                    <p className="truncate text-xs text-gray-500 dark:text-gray-400">
+                    <p className="truncate text-xs text-blue-100">
                       {user.email}
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div className="py-2">
+              <div className="p-2">
                 <Link
                   to="/account/profile"
-                  className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
+                  className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-gray-700 transition-all hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700/50"
                   onClick={() => setMenuOpen(false)}
                 >
-                  <Settings size={14} /> Profile
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-100 dark:bg-blue-900/30">
+                    <Settings
+                      size={16}
+                      className="text-blue-600 dark:text-blue-400"
+                    />
+                  </div>
+                  Hồ sơ cá nhân
                 </Link>
                 {user.role === "admin" && (
                   <Link
                     to="/admin/schedules"
-                    className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
+                    className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-gray-700 transition-all hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700/50"
                     onClick={() => setMenuOpen(false)}
                   >
-                    <Settings size={14} /> Quản lý lịch
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-purple-100 dark:bg-purple-900/30">
+                      <Settings
+                        size={16}
+                        className="text-purple-600 dark:text-purple-400"
+                      />
+                    </div>
+                    Quản lý lịch trực
                   </Link>
                 )}
                 <Link
                   to="/account/settings"
-                  className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
+                  className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-gray-700 transition-all hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700/50"
                   onClick={() => setMenuOpen(false)}
                 >
-                  <Settings size={14} /> Account settings
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-700">
+                    <Settings
+                      size={16}
+                      className="text-gray-600 dark:text-gray-400"
+                    />
+                  </div>
+                  Cài đặt tài khoản
                 </Link>
                 <button
                   onClick={() => {
                     toggleTheme();
                     setMenuOpen(false);
                   }}
-                  className="flex w-full items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
+                  className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-gray-700 transition-all hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700/50"
                 >
-                  {theme === "light" ? <Moon size={14} /> : <Sun size={14} />}
-                  Theme
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-100 dark:bg-amber-900/30">
+                    {theme === "light" ? (
+                      <Moon size={16} className="text-amber-600" />
+                    ) : (
+                      <Sun size={16} className="text-amber-400" />
+                    )}
+                  </div>
+                  Đổi giao diện
                 </button>
               </div>
 
-              <div className="border-t border-gray-200 p-2 dark:border-gray-700">
+              <div className="border-t border-gray-200/50 p-2 dark:border-gray-700/50">
                 <button
                   onClick={() => {
                     signOut();
                     setMenuOpen(false);
                   }}
-                  className="flex w-full items-center gap-2 rounded px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
+                  className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-red-600 transition-all hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20"
                 >
-                  <LogOut size={14} /> Log out
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-red-100 dark:bg-red-900/30">
+                    <LogOut size={16} />
+                  </div>
+                  Đăng xuất
                 </button>
               </div>
             </div>
@@ -216,15 +243,16 @@ const HeaderActions = ({
 };
 
 const Navigation = () => (
-  <nav className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 text-white shadow-md">
-    <ul className="mx-auto flex max-w-7xl flex-wrap justify-center gap-x-2 gap-y-1 py-2 text-sm font-semibold uppercase">
+  <nav className="bg-gradient-to-r from-blue-900 via-indigo-900 to-blue-900 text-white shadow-lg">
+    <ul className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-1 px-4 py-2">
       {menuData.map((item) => (
         <li key={item.label}>
           <Link
-            className="block cursor-pointer rounded-md px-3 py-1.5 transition-all hover:bg-blue-500"
+            className="group relative block cursor-pointer rounded-lg px-4 py-2 text-sm font-medium tracking-wide transition-all hover:bg-white/10"
             to={item.path}
           >
-            {item.label}
+            <span className="relative z-10">{item.label}</span>
+            <span className="absolute inset-x-4 -bottom-0.5 h-0.5 scale-x-0 rounded-full bg-white transition-transform group-hover:scale-x-100" />
           </Link>
         </li>
       ))}
