@@ -30,13 +30,15 @@ const SocialIconButton = ({
   icon: typeof Facebook;
   label: string;
 }) => (
-  <a
-    className="group rounded-xl bg-white/10 p-3 backdrop-blur-sm transition-all hover:bg-white hover:shadow-lg"
-    href="#"
+  <button
+    type="button"
+    aria-label={label}
     title={label}
+    className="group rounded-xl bg-white/10 p-3 backdrop-blur-sm transition-all hover:bg-white hover:shadow-lg"
+    onClick={() => {}}
   >
     <Icon className="h-5 w-5 text-blue-100 transition-colors group-hover:text-blue-600" />
-  </a>
+  </button>
 );
 
 const FooterSection = () => (
@@ -76,13 +78,14 @@ const QuickLinksSection = () => (
     <ul className="space-y-3">
       {QUICK_LINKS.map((link) => (
         <li key={link}>
-          <a
+          <button
+            type="button"
             className="group flex items-center gap-2 text-sm text-blue-100 transition-colors hover:text-white"
-            href="#"
+            onClick={() => {}}
           >
             <span className="h-1.5 w-1.5 rounded-full bg-blue-400 transition-all group-hover:w-3" />
             {link}
-          </a>
+          </button>
         </li>
       ))}
     </ul>
@@ -166,12 +169,20 @@ export const Footer = () => (
               TP.HCM
             </p>
             <div className="flex gap-6 text-sm text-blue-200">
-              <a className="transition-colors hover:text-white" href="#">
+              <button
+                type="button"
+                className="transition-colors hover:text-white"
+                onClick={() => {}}
+              >
                 Chính sách bảo mật
-              </a>
-              <a className="transition-colors hover:text-white" href="#">
+              </button>
+              <button
+                type="button"
+                className="transition-colors hover:text-white"
+                onClick={() => {}}
+              >
                 Điều khoản sử dụng
-              </a>
+              </button>
             </div>
           </div>
         </div>

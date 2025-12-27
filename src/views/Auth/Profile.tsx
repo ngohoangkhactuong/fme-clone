@@ -89,35 +89,41 @@ const Profile: React.FC = () => {
           </div>
 
           <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-3">
-            <div className="col-span-2 rounded-xl bg-gray-50 p-4 dark:bg-gray-900">
+            <div className="col-span-2 rounded-xl bg-gray-50 p-6 dark:bg-gray-900">
               <h3 className="flex items-center gap-2 text-sm font-semibold text-gray-700 dark:text-gray-200">
                 <Calendar size={16} /> Recent activity
               </h3>
-              <div className="mt-3 space-y-3">
-                <div className="rounded-md border border-dashed border-gray-200 p-4 text-sm text-gray-600 dark:border-gray-700 dark:text-gray-300">
+              <div className="mt-4">
+                <div className="rounded-md border border-dashed border-gray-200 p-6 text-sm text-gray-600 dark:border-gray-700 dark:text-gray-300">
                   Chưa có hoạt động gần đây.
                 </div>
               </div>
             </div>
 
-            <aside className="rounded-xl bg-white p-4 shadow-sm dark:bg-gray-800">
+            <aside className="rounded-xl bg-white p-6 shadow-sm dark:bg-gray-800">
               <h4 className="text-sm font-semibold text-gray-700 dark:text-gray-200">
                 Thông tin
               </h4>
-              <dl className="mt-3 space-y-2 text-sm text-gray-600 dark:text-gray-300">
+              <dl className="mt-3 space-y-3 text-sm text-gray-600 dark:text-gray-300">
                 <div>
-                  <dt className="font-medium">Email</dt>
-                  <dd className="truncate">{user.email}</dd>
+                  <dt className="font-medium text-gray-500">Email</dt>
+                  <dd className="truncate text-gray-900 dark:text-gray-100">
+                    {user.email}
+                  </dd>
                 </div>
                 {user.studentId && (
                   <div>
-                    <dt className="font-medium">MSSV</dt>
-                    <dd>{user.studentId}</dd>
+                    <dt className="font-medium text-gray-500">MSSV</dt>
+                    <dd className="text-gray-900 dark:text-gray-100">
+                      {user.studentId}
+                    </dd>
                   </div>
                 )}
                 <div>
-                  <dt className="font-medium">Role</dt>
-                  <dd>{user.role}</dd>
+                  <dt className="font-medium text-gray-500">Role</dt>
+                  <dd className="text-gray-900 dark:text-gray-100">
+                    {user.role}
+                  </dd>
                 </div>
               </dl>
             </aside>

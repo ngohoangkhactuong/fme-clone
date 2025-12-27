@@ -74,101 +74,121 @@ const AccountSettings: React.FC = () => {
   };
 
   return (
-    <div className="mx-auto max-w-3xl p-6">
-      <div className="space-y-6 rounded-2xl bg-white p-6 shadow-xl dark:bg-gray-800">
-        <h1 className="text-xl font-semibold">Cài đặt tài khoản</h1>
-
-        {msg && <div className="text-sm text-green-600">{msg}</div>}
-
-        <form onSubmit={handleName} className="space-y-3">
-          <label className="block text-sm font-medium">Avatar</label>
-          <div className="flex items-center gap-4">
-            <div className="h-16 w-16 overflow-hidden rounded-full bg-gray-100">
-              {avatarPreview ? (
-                <img
-                  src={avatarPreview}
-                  alt="avatar"
-                  className="h-full w-full object-cover"
-                />
-              ) : (
-                <div className="flex h-full w-full items-center justify-center text-gray-500">
-                  No
-                </div>
-              )}
-            </div>
-            <div className="flex gap-2">
-              <input
-                ref={fileRef}
-                onChange={(e) => handleAvatarPick(e.target.files?.[0])}
-                type="file"
-                accept="image/*"
-                className="hidden"
+    <div className="mx-auto max-w-4xl p-6">
+      <div className="grid grid-cols-1 gap-6 rounded-2xl bg-white p-6 shadow-xl md:grid-cols-3 dark:bg-gray-800">
+        <div className="col-span-1 flex flex-col items-center gap-4">
+          <div className="h-28 w-28 overflow-hidden rounded-full bg-gray-100 shadow-md">
+            {avatarPreview ? (
+              <img
+                src={avatarPreview}
+                alt="avatar"
+                className="h-full w-full object-cover"
               />
-              <button
-                type="button"
-                onClick={() => fileRef.current?.click()}
-                className="rounded-md border px-3 py-2"
-              >
-                Chọn ảnh
-              </button>
-              <button
-                onClick={handleAvatarSave}
-                className="rounded-md bg-blue-600 px-3 py-2 text-white"
-              >
-                Lưu ảnh
-              </button>
-              <button
-                type="button"
-                onClick={handleAvatarRemove}
-                className="rounded-md border px-3 py-2"
-              >
-                Xóa
+            ) : (
+              <div className="flex h-full w-full items-center justify-center text-3xl font-semibold text-gray-500">
+                {user?.name.charAt(0).toUpperCase()}
+              </div>
+            )}
+          </div>
+          <div className="text-center">
+            <div className="text-lg font-medium text-gray-900 dark:text-white">
+              {user?.name}
+            </div>
+            <div className="text-sm text-gray-500">{user?.email}</div>
+          </div>
+
+          <div className="flex w-full flex-col gap-2">
+            <input
+              ref={fileRef}
+              onChange={(e) => handleAvatarPick(e.target.files?.[0])}
+              type="file"
+              accept="image/*"
+              className="hidden"
+            />
+            <button
+              type="button"
+              onClick={() => fileRef.current?.click()}
+              className="rounded-lg border px-4 py-2 text-sm"
+            >
+              Chọn ảnh
+            </button>
+            <button
+              onClick={handleAvatarSave}
+              className="rounded-lg bg-blue-600 px-4 py-2 text-sm text-white"
+            >
+              Lưu ảnh
+            </button>
+            <button
+              type="button"
+              onClick={handleAvatarRemove}
+              className="rounded-lg border px-4 py-2 text-sm"
+            >
+              Xóa ảnh
+            </button>
+          </div>
+        </div>
+
+        <div className="col-span-2 space-y-6">
+          <div className="flex items-center justify-between">
+            <h1 className="text-xl font-semibold">Cài đặt tài khoản</h1>
+            {msg && <div className="text-sm text-green-600">{msg}</div>}
+          </div>
+
+          <form
+            onSubmit={handleName}
+            className="grid grid-cols-1 gap-3 sm:grid-cols-2"
+          >
+            <div className="sm:col-span-2">
+              <label className="block text-sm font-medium text-gray-600">
+                Họ và tên
+              </label>
+              <input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="mt-1 w-full rounded-md border border-gray-200 px-3 py-2 dark:border-gray-700 dark:bg-gray-900"
+              />
+            </div>
+            <div className="sm:col-span-2">
+              <button className="rounded-lg bg-blue-600 px-4 py-2 text-white">
+                Lưu thay đổi
               </button>
             </div>
-          </div>
+          </form>
 
-          <label className="block text-sm font-medium">Họ và tên</label>
-          <input
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="w-full rounded-md border border-gray-200 px-3 py-2 dark:border-gray-700 dark:bg-gray-900"
-          />
-          <div>
-            <button className="rounded-md bg-blue-600 px-3 py-2 text-white">
-              Lưu tên
-            </button>
+          <div className="rounded-lg border border-gray-100 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-900">
+            <h2 className="text-sm font-medium text-gray-700 dark:text-gray-200">
+              Đổi mật khẩu
+            </h2>
+            <form onSubmit={handlePassword} className="mt-3 grid gap-3">
+              <input
+                value={oldPwd}
+                onChange={(e) => setOldPwd(e.target.value)}
+                placeholder="Mật khẩu hiện tại"
+                type="password"
+                className="w-full rounded-md border border-gray-200 px-3 py-2 dark:border-gray-700 dark:bg-gray-900"
+              />
+              <input
+                value={newPwd}
+                onChange={(e) => setNewPwd(e.target.value)}
+                placeholder="Mật khẩu mới"
+                type="password"
+                className="w-full rounded-md border border-gray-200 px-3 py-2 dark:border-gray-700 dark:bg-gray-900"
+              />
+              <input
+                value={confirmPwd}
+                onChange={(e) => setConfirmPwd(e.target.value)}
+                placeholder="Xác nhận mật khẩu mới"
+                type="password"
+                className="w-full rounded-md border border-gray-200 px-3 py-2 dark:border-gray-700 dark:bg-gray-900"
+              />
+              <div className="flex justify-end">
+                <button className="rounded-lg bg-green-600 px-4 py-2 text-white">
+                  Thay đổi mật khẩu
+                </button>
+              </div>
+            </form>
           </div>
-        </form>
-
-        <form onSubmit={handlePassword} className="space-y-3">
-          <label className="block text-sm font-medium">Đổi mật khẩu</label>
-          <input
-            value={oldPwd}
-            onChange={(e) => setOldPwd(e.target.value)}
-            placeholder="Mật khẩu hiện tại"
-            type="password"
-            className="w-full rounded-md border border-gray-200 px-3 py-2 dark:border-gray-700 dark:bg-gray-900"
-          />
-          <input
-            value={newPwd}
-            onChange={(e) => setNewPwd(e.target.value)}
-            placeholder="Mật khẩu mới"
-            type="password"
-            className="w-full rounded-md border border-gray-200 px-3 py-2 dark:border-gray-700 dark:bg-gray-900"
-          />
-          <input
-            value={confirmPwd}
-            onChange={(e) => setConfirmPwd(e.target.value)}
-            placeholder="Xác nhận mật khẩu mới"
-            type="password"
-            className="w-full rounded-md border border-gray-200 px-3 py-2 dark:border-gray-700 dark:bg-gray-900"
-          />
-          <div>
-            <button className="rounded-md bg-green-600 px-3 py-2 text-white">
-              Thay đổi mật khẩu
-            </button>
-          </div>
-        </form>
+        </div>
       </div>
     </div>
   );

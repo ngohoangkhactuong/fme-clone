@@ -3,7 +3,8 @@ import React, {
   useContext,
   useEffect,
   useMemo,
-  useState
+  useState,
+  useCallback
 } from "react";
 import type { MockAccount } from "@/dataSources/mockAccounts";
 import { initialMockAccounts } from "@/dataSources/mockAccounts";
@@ -77,7 +78,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     else localStorage.removeItem(AUTH_USER_KEY);
   }, [user]);
 
-  const signIn = async (email: string, password: string) => {
+  const signIn = useCallback(async (email: string, password: string) => {
     const accounts = readAccounts();
     const found = accounts.find(
       (a) => a.email === email && a.password === password
@@ -93,75 +94,88 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       return true;
     }
     return false;
-  };
+  }, []);
 
-  const signUp = async (name: string, email: string, password: string) => {
-    // enforce email format: mssv@student.hcmute.edu.vn
-    const m = EMAIL_REGEX.exec(email.trim());
-    if (!m) return false;
-    const studentId = m[1];
+  const signUp = useCallback(
+    async (name: string, email: string, password: string) => {
+      // enforce email format: mssv@student.hcmute.edu.vn
+      const m = EMAIL_REGEX.exec(email.trim());
+      if (!m) return false;
+      const studentId = m[1];
 
-    const accounts = readAccounts();
-    if (accounts.find((a) => a.email === email)) return false;
-
-    const role: "admin" | "user" = studentId === "23146053" ? "admin" : "user";
-    const nextAccount: Account = { name, email, password, role, studentId };
-    const next = [...accounts, nextAccount];
-    writeAccounts(next);
-    setUser({ email, name, role, studentId });
-    return true;
-  };
-
-  const updateAvatar = async (dataUrl: string | null) => {
-    if (!user) return false;
-    try {
       const accounts = readAccounts();
-      const idx = accounts.findIndex((a) => a.email === user.email);
-      if (idx === -1) return false;
-      accounts[idx] = {
-        ...accounts[idx],
-        avatar: dataUrl ?? undefined
-      } as Account;
-      writeAccounts(accounts);
-      setUser((u) => (u ? { ...u, avatar: dataUrl ?? undefined } : u));
-      return true;
-    } catch {
-      return false;
-    }
-  };
+      if (accounts.find((a) => a.email === email)) return false;
 
-  const updateProfile = async (name: string) => {
-    if (!user) return false;
-    try {
-      const accounts = readAccounts();
-      const idx = accounts.findIndex((a) => a.email === user.email);
-      if (idx === -1) return false;
-      accounts[idx] = { ...accounts[idx], name };
-      writeAccounts(accounts);
-      setUser((u) => (u ? { ...u, name } : u));
+      const role: "admin" | "user" =
+        studentId === "23146053" ? "admin" : "user";
+      const nextAccount: Account = { name, email, password, role, studentId };
+      const next = [...accounts, nextAccount];
+      writeAccounts(next);
+      setUser({ email, name, role, studentId });
       return true;
-    } catch {
-      return false;
-    }
-  };
+    },
+    []
+  );
 
-  const changePassword = async (oldPassword: string, newPassword: string) => {
-    if (!user) return false;
-    try {
-      const accounts = readAccounts();
-      const idx = accounts.findIndex(
-        (a) => a.email === user.email && a.password === oldPassword
-      );
-      if (idx === -1) return false;
-      accounts[idx] = { ...accounts[idx], password: newPassword };
-      writeAccounts(accounts);
-      return true;
-    } catch {
-      return false;
-    }
-  };
+  const updateAvatar = useCallback(
+    async (dataUrl: string | null) => {
+      if (!user) return false;
+      try {
+        const accounts = readAccounts();
+        const idx = accounts.findIndex((a) => a.email === user.email);
+        if (idx === -1) return false;
+        accounts[idx] = {
+          ...accounts[idx],
+          avatar: dataUrl ?? undefined
+        } as Account;
+        writeAccounts(accounts);
+        setUser((u) => (u ? { ...u, avatar: dataUrl ?? undefined } : u));
+        return true;
+      } catch {
+        return false;
+      }
+    },
+    [user]
+  );
 
-  const signOut = () => setUser(null);
+  const updateProfile = useCallback(
+    async (name: string) => {
+      if (!user) return false;
+      try {
+        const accounts = readAccounts();
+        const idx = accounts.findIndex((a) => a.email === user.email);
+        if (idx === -1) return false;
+        accounts[idx] = { ...accounts[idx], name };
+        writeAccounts(accounts);
+        setUser((u) => (u ? { ...u, name } : u));
+        return true;
+      } catch {
+        return false;
+      }
+    },
+    [user]
+  );
+
+  const changePassword = useCallback(
+    async (oldPassword: string, newPassword: string) => {
+      if (!user) return false;
+      try {
+        const accounts = readAccounts();
+        const idx = accounts.findIndex(
+          (a) => a.email === user.email && a.password === oldPassword
+        );
+        if (idx === -1) return false;
+        accounts[idx] = { ...accounts[idx], password: newPassword };
+        writeAccounts(accounts);
+        return true;
+      } catch {
+        return false;
+      }
+    },
+    [user]
+  );
+
+  const signOut = useCallback(() => setUser(null), []);
 
   const value = useMemo(
     () => ({
@@ -173,7 +187,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       changePassword,
       signOut
     }),
-    [user]
+    [user, signIn, signUp, updateProfile, updateAvatar, changePassword, signOut]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
