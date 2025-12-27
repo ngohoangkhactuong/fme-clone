@@ -13,6 +13,7 @@ type User = {
   name: string;
   role: "admin" | "user";
   studentId?: string;
+  avatar?: string;
 };
 
 type AuthContextValue = {
@@ -20,6 +21,7 @@ type AuthContextValue = {
   signIn: (email: string, password: string) => Promise<boolean>;
   signUp: (name: string, email: string, password: string) => Promise<boolean>;
   updateProfile: (name: string) => Promise<boolean>;
+  updateAvatar: (dataUrl: string | null) => Promise<boolean>;
   changePassword: (
     oldPassword: string,
     newPassword: string
@@ -85,7 +87,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         email: found.email,
         name: found.name,
         role: found.role,
-        studentId: found.studentId
+        studentId: found.studentId,
+        avatar: (found as Account).avatar
       });
       return true;
     }
@@ -107,6 +110,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     writeAccounts(next);
     setUser({ email, name, role, studentId });
     return true;
+  };
+
+  const updateAvatar = async (dataUrl: string | null) => {
+    if (!user) return false;
+    try {
+      const accounts = readAccounts();
+      const idx = accounts.findIndex((a) => a.email === user.email);
+      if (idx === -1) return false;
+      accounts[idx] = {
+        ...accounts[idx],
+        avatar: dataUrl ?? undefined
+      } as Account;
+      writeAccounts(accounts);
+      setUser((u) => (u ? { ...u, avatar: dataUrl ?? undefined } : u));
+      return true;
+    } catch {
+      return false;
+    }
   };
 
   const updateProfile = async (name: string) => {
@@ -143,7 +164,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const signOut = () => setUser(null);
 
   const value = useMemo(
-    () => ({ user, signIn, signUp, updateProfile, changePassword, signOut }),
+    () => ({
+      user,
+      signIn,
+      signUp,
+      updateProfile,
+      updateAvatar,
+      changePassword,
+      signOut
+    }),
     [user]
   );
 

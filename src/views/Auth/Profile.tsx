@@ -18,9 +18,17 @@ const Profile: React.FC = () => {
       <div className="rounded-2xl bg-white p-6 shadow-md dark:bg-gray-800">
         <div className="flex items-center gap-4">
           <div className="h-20 w-20 shrink-0 rounded-full bg-gradient-to-br from-blue-500 to-green-400 p-1">
-            <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-full bg-white text-xl font-semibold text-gray-700 dark:bg-gray-900">
-              {user.name.charAt(0).toUpperCase()}
-            </div>
+            {user.avatar ? (
+              <img
+                src={user.avatar}
+                alt={user.name}
+                className="h-full w-full rounded-full object-cover"
+              />
+            ) : (
+              <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-full bg-white text-xl font-semibold text-gray-700 dark:bg-gray-900">
+                {user.name.charAt(0).toUpperCase()}
+              </div>
+            )}
           </div>
           <div>
             <h2 className="text-xl font-semibold">{user.name}</h2>
