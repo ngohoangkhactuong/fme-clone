@@ -1,8 +1,8 @@
 import { menuData } from "@/dataSources/menu";
 import { ThemeToggle } from "@/components/common/ThemeToggle";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { Settings } from "lucide-react";
+import { Settings, LogOut, Moon, Sun } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { registeredStudentEmails } from "@/dataSources/registeredStudents";
 
@@ -40,11 +40,28 @@ const HeaderActions = ({
   toggleTheme: () => void;
 }) => {
   const { user, signOut } = useAuth();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
   const allowed =
     !!user &&
     (user.role === "admin" ||
       user.studentId === "23146053" ||
       registeredStudentEmails.includes(user.email));
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setMenuOpen(false);
+      }
+    };
+    if (menuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () =>
+        document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return undefined;
+  }, [menuOpen]);
 
   return (
     <div className="flex items-center gap-3">
@@ -87,37 +104,109 @@ const HeaderActions = ({
       )}
 
       {user ? (
-        <div className="flex items-center gap-3">
-          <Link
-            to="/account/profile"
-            className="hidden text-sm font-medium hover:underline sm:inline-block"
-          >
-            {user.name}
-          </Link>
-          <Link
-            to="/account/settings"
-            className="hidden rounded-md p-2 text-gray-600 hover:bg-gray-100 sm:inline-block dark:text-gray-300 dark:hover:bg-gray-700"
-          >
-            <Settings size={16} />
-          </Link>
+        <div className="relative" ref={menuRef}>
           <button
-            onClick={signOut}
-            className="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-300"
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="flex items-center gap-2 rounded-lg p-1.5 hover:bg-gray-100 dark:hover:bg-gray-800"
           >
-            Đăng xuất
+            <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
+              {user.avatar ? (
+                <img
+                  src={user.avatar}
+                  alt={user.name}
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <span className="text-sm font-bold text-blue-600">
+                  {user.name.charAt(0).toUpperCase()}
+                </span>
+              )}
+            </div>
+            <span className="hidden text-sm font-medium text-gray-900 sm:inline dark:text-white">
+              {user.name}
+            </span>
           </button>
+
+          {menuOpen && (
+            <div className="absolute right-0 mt-2 w-64 rounded-lg border border-gray-200 bg-white shadow-xl dark:border-gray-700 dark:bg-gray-800">
+              <div className="border-b border-gray-200 p-4 dark:border-gray-700">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700">
+                    {user.avatar ? (
+                      <img
+                        src={user.avatar}
+                        alt={user.name}
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <span className="text-lg font-bold text-blue-600">
+                        {user.name.charAt(0).toUpperCase()}
+                      </span>
+                    )}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-sm font-semibold text-gray-900 dark:text-white">
+                      {user.name}
+                    </p>
+                    <p className="truncate text-xs text-gray-500 dark:text-gray-400">
+                      {user.email}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="py-2">
+                <Link
+                  to="/account/profile"
+                  className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <Settings size={14} /> Profile
+                </Link>
+                <Link
+                  to="/account/settings"
+                  className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <Settings size={14} /> Account settings
+                </Link>
+                <button
+                  onClick={() => {
+                    toggleTheme();
+                    setMenuOpen(false);
+                  }}
+                  className="flex w-full items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
+                >
+                  {theme === "light" ? <Moon size={14} /> : <Sun size={14} />}
+                  Theme
+                </button>
+              </div>
+
+              <div className="border-t border-gray-200 p-2 dark:border-gray-700">
+                <button
+                  onClick={() => {
+                    signOut();
+                    setMenuOpen(false);
+                  }}
+                  className="flex w-full items-center gap-2 rounded px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
+                >
+                  <LogOut size={14} /> Log out
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       ) : (
-        <div className="flex gap-2">
+        <div className="flex gap-2 sm:gap-3">
           <Link
             to="/auth/signin"
-            className="text-sm text-blue-700 hover:underline"
+            className="hidden rounded-lg border border-blue-600 bg-white px-4 py-2 text-sm font-semibold text-blue-600 transition hover:bg-blue-50 sm:inline-block dark:border-blue-500 dark:bg-transparent dark:text-blue-400 dark:hover:bg-blue-500/10"
           >
             Đăng nhập
           </Link>
           <Link
             to="/auth/signup"
-            className="text-sm text-green-700 hover:underline"
+            className="rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 transition hover:shadow-xl hover:shadow-blue-500/40 dark:from-blue-600 dark:to-blue-700"
           >
             Đăng ký
           </Link>
