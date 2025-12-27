@@ -19,6 +19,11 @@ type AuthContextValue = {
   user: User | null;
   signIn: (email: string, password: string) => Promise<boolean>;
   signUp: (name: string, email: string, password: string) => Promise<boolean>;
+  updateProfile: (name: string) => Promise<boolean>;
+  changePassword: (
+    oldPassword: string,
+    newPassword: string
+  ) => Promise<boolean>;
   signOut: () => void;
 };
 
@@ -104,9 +109,43 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     return true;
   };
 
+  const updateProfile = async (name: string) => {
+    if (!user) return false;
+    try {
+      const accounts = readAccounts();
+      const idx = accounts.findIndex((a) => a.email === user.email);
+      if (idx === -1) return false;
+      accounts[idx] = { ...accounts[idx], name };
+      writeAccounts(accounts);
+      setUser((u) => (u ? { ...u, name } : u));
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  const changePassword = async (oldPassword: string, newPassword: string) => {
+    if (!user) return false;
+    try {
+      const accounts = readAccounts();
+      const idx = accounts.findIndex(
+        (a) => a.email === user.email && a.password === oldPassword
+      );
+      if (idx === -1) return false;
+      accounts[idx] = { ...accounts[idx], password: newPassword };
+      writeAccounts(accounts);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
   const signOut = () => setUser(null);
 
-  const value = useMemo(() => ({ user, signIn, signUp, signOut }), [user]);
+  const value = useMemo(
+    () => ({ user, signIn, signUp, updateProfile, changePassword, signOut }),
+    [user]
+  );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

@@ -7,6 +7,8 @@ import DutyReportPage from "./views/Home/components/DutyReportPage";
 import { AuthProvider } from "./hooks/useAuth";
 import SignIn from "./views/Auth/SignIn";
 import SignUp from "./views/Auth/SignUp";
+import Profile from "./views/Auth/Profile";
+import AccountSettings from "./views/Auth/AccountSettings";
 
 const App = () => (
   <BrowserRouter>
@@ -18,6 +20,8 @@ const App = () => (
           <Route element={<DutyReportPage />} path="/bao-cao-ca-truc" />
           <Route element={<SignIn />} path="/auth/signin" />
           <Route element={<SignUp />} path="/auth/signup" />
+          <Route element={<Profile />} path="/account/profile" />
+          <Route element={<AccountSettings />} path="/account/settings" />
         </Routes>
       </MainLayout>
     </AuthProvider>

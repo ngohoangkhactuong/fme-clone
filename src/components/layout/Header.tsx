@@ -2,6 +2,7 @@ import { menuData } from "@/dataSources/menu";
 import { ThemeToggle } from "@/components/common/ThemeToggle";
 import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { Settings } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { registeredStudentEmails } from "@/dataSources/registeredStudents";
 
@@ -86,10 +87,19 @@ const HeaderActions = ({
       )}
 
       {user ? (
-        <div className="flex items-center gap-2">
-          <span className="hidden text-sm font-medium sm:inline-block">
+        <div className="flex items-center gap-3">
+          <Link
+            to="/account/profile"
+            className="hidden text-sm font-medium hover:underline sm:inline-block"
+          >
             {user.name}
-          </span>
+          </Link>
+          <Link
+            to="/account/settings"
+            className="hidden rounded-md p-2 text-gray-600 hover:bg-gray-100 sm:inline-block dark:text-gray-300 dark:hover:bg-gray-700"
+          >
+            <Settings size={16} />
+          </Link>
           <button
             onClick={signOut}
             className="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-300"
