@@ -17,74 +17,74 @@ const Profile: React.FC = () => {
   return (
     <div className="mx-auto max-w-6xl p-6">
       <div className="relative overflow-hidden rounded-2xl bg-white shadow-xl dark:bg-gray-800">
-        <div className="h-40 w-full bg-gradient-to-r from-blue-700 to-indigo-600" />
+        <div className="h-48 w-full bg-gradient-to-r from-blue-700 to-indigo-600" />
 
-        <div className="-mt-12 px-6 pb-6">
-          <div className="flex items-start gap-6">
-            <div className="relative">
-              <div className="h-28 w-28 overflow-hidden rounded-full bg-gray-100 ring-4 ring-white dark:ring-gray-900">
-                {user.avatar ? (
-                  <img
-                    src={user.avatar}
-                    alt={user.name}
-                    className="h-full w-full object-cover"
-                  />
-                ) : (
-                  <div className="flex h-full w-full items-center justify-center text-2xl font-semibold text-gray-700">
-                    {user.name.charAt(0).toUpperCase()}
-                  </div>
-                )}
-              </div>
-              <div className="absolute right-0 bottom-0 -mr-2 -mb-2">
+        <div className="px-6 py-8">
+          <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
+            <div className="flex flex-col gap-6 md:flex-row md:items-center">
+              <div className="relative">
+                <div className="h-28 w-28 overflow-hidden rounded-full bg-gray-100 shadow-lg ring-4 ring-white dark:ring-gray-900">
+                  {user.avatar ? (
+                    <img
+                      src={user.avatar}
+                      alt={user.name}
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center text-2xl font-bold text-blue-600">
+                      {user.name.charAt(0).toUpperCase()}
+                    </div>
+                  )}
+                </div>
                 <Link
                   to="/account/settings"
-                  className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:bg-gray-900 dark:text-gray-200"
+                  className="absolute right-0 bottom-0 rounded-full bg-blue-600 p-2 text-white shadow-md hover:bg-blue-700"
+                  title="Chỉnh sửa"
                 >
-                  <Settings size={14} /> Chỉnh sửa
+                  <Settings size={16} />
                 </Link>
               </div>
-            </div>
 
-            <div className="flex-1">
-              <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
-                {user.name}
-              </h1>
-              <p className="mt-1 text-sm text-gray-500 dark:text-gray-300">
-                {user.email}{" "}
-                {user.studentId ? <span className="mx-2">•</span> : null}{" "}
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+                  {user.name}
+                </h1>
+                <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
+                  {user.email}
+                </p>
                 {user.studentId && (
-                  <span className="font-mono text-sm text-gray-600">
-                    {user.studentId}
-                  </span>
+                  <p className="mt-1 font-mono text-xs text-gray-500 dark:text-gray-400">
+                    MSSV: {user.studentId}
+                  </p>
                 )}
-              </p>
-              <div className="mt-3 flex flex-wrap items-center gap-3">
-                <span className="inline-flex items-center gap-2 rounded-md bg-gray-100 px-3 py-1 text-sm font-medium text-gray-700 dark:bg-gray-700 dark:text-gray-200">
-                  <Users size={14} />{" "}
-                  {user.role === "admin" ? "Admin" : "Sinh viên"}
-                </span>
-                <Link
-                  to="/bao-cao-ca-truc"
-                  className="inline-flex items-center gap-2 rounded-md bg-blue-600 px-3 py-1 text-sm font-medium text-white hover:brightness-95"
-                >
-                  <FileText size={14} /> Báo cáo ca trực
-                </Link>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-gray-200 px-3 py-1 text-xs font-semibold text-gray-700 dark:bg-gray-700 dark:text-gray-200">
+                    <Users size={12} />
+                    {user.role === "admin" ? "Admin" : "Sinh viên"}
+                  </span>
+                </div>
               </div>
             </div>
 
-            <div className="hidden md:flex md:items-center md:gap-6">
+            <div className="flex gap-8">
               <div className="text-center">
-                <div className="text-lg font-semibold text-gray-900 dark:text-white">
+                <div className="text-2xl font-bold text-gray-900 dark:text-white">
                   0
                 </div>
                 <div className="text-xs text-gray-500">Reports</div>
               </div>
               <div className="text-center">
-                <div className="text-lg font-semibold text-gray-900 dark:text-white">
+                <div className="text-2xl font-bold text-gray-900 dark:text-white">
                   0
                 </div>
                 <div className="text-xs text-gray-500">Submitted</div>
               </div>
+              <Link
+                to="/bao-cao-ca-truc"
+                className="inline-flex items-center gap-2 self-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700"
+              >
+                <FileText size={16} /> Báo cáo ca trực
+              </Link>
             </div>
           </div>
 
