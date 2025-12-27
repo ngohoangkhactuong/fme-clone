@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Notification } from "@/components/layout/Notification";
 import { ReportSection } from "./ReportSection";
 import { ImageUploader } from "@/components/common/ImageUploader";
+import { useAuth } from "@/hooks/useAuth";
+import { registeredStudentEmails } from "@/dataSources/registeredStudents";
 
 type ReportStatus = "draft" | "submitted";
 
@@ -34,6 +36,8 @@ const initialReport: DutyReport = {
 };
 
 export const DutyReportPage = () => {
+  const { user } = useAuth();
+  const allowed = !!user && registeredStudentEmails.includes(user.email);
   const [report, setReport] = useState<DutyReport>(initialReport);
   const [saving, setSaving] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -85,11 +89,28 @@ export const DutyReportPage = () => {
       return;
     }
 
+    if (!user) {
+      alert("Bạn cần đăng nhập để gửi báo cáo.");
+      return;
+    }
+
+    if (!allowed) {
+      alert("Tài khoản của bạn chưa được cấp quyền gửi báo cáo.");
+      return;
+    }
+
     setSubmitting(true);
     try {
       // Simulate submit; in real app replace with API call.
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      const submitted = { ...report, status: "submitted" as ReportStatus };
+      const submitted = {
+        ...report,
+        status: "submitted" as ReportStatus,
+        // attach who submitted
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        submittedBy: (user as any).email,
+        submittedAt: new Date().toISOString()
+      } as DutyReport & { submittedBy?: string; submittedAt?: string };
       setReport(submitted);
       localStorage.removeItem(DRAFT_KEY);
       setShowNotification(true);
@@ -97,6 +118,41 @@ export const DutyReportPage = () => {
       setSubmitting(false);
     }
   };
+
+  if (!user) {
+    return (
+      <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="rounded-lg border border-dashed border-gray-200 p-6 text-center">
+          <p className="mb-4">
+            Bạn cần đăng nhập để xem và gửi báo cáo ca trực.
+          </p>
+          <div className="flex justify-center gap-3">
+            <a href="/auth/signin" className="text-blue-600 underline">
+              Đăng nhập
+            </a>
+            <a href="/auth/signup" className="text-green-600 underline">
+              Đăng ký
+            </a>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!allowed) {
+    return (
+      <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="rounded-lg border border-dashed border-gray-200 p-6 text-center">
+          <p className="mb-4">
+            Tài khoản của bạn chưa được cấp quyền xem/gửi báo cáo ca trực.
+          </p>
+          <p className="text-sm text-gray-500">
+            Liên hệ admin để được phê duyệt.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">

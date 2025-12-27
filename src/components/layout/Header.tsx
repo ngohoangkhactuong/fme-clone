@@ -2,6 +2,8 @@ import { menuData } from "@/dataSources/menu";
 import { ThemeToggle } from "@/components/common/ThemeToggle";
 import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
+import { registeredStudentEmails } from "@/dataSources/registeredStudents";
 
 type HeaderProps = {
   theme: "light" | "dark";
@@ -35,25 +37,81 @@ const HeaderActions = ({
 }: {
   theme: "light" | "dark";
   toggleTheme: () => void;
-}) => (
-  <div className="flex items-center gap-3">
-    <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
-    <Link
-      className="group relative hidden overflow-hidden rounded-full bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 transition-all hover:shadow-xl hover:shadow-blue-500/40 sm:inline-block"
-      to="/dang-ky-truc"
-    >
-      <span className="relative z-10">Đăng ký ca trực</span>
-      <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-blue-700 to-blue-800 transition-transform duration-300 group-hover:translate-x-0" />
-    </Link>
-    <Link
-      to="/bao-cao-ca-truc"
-      className="hidden rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-blue-700 transition hover:bg-gray-50 sm:inline-block dark:border-gray-600 dark:bg-gray-800 dark:text-blue-300 dark:hover:bg-gray-700"
-      aria-label="Báo cáo ca trực"
-    >
-      Báo cáo ca trực
-    </Link>
-  </div>
-);
+}) => {
+  const { user, signOut } = useAuth();
+  const allowed = !!user && registeredStudentEmails.includes(user.email);
+
+  return (
+    <div className="flex items-center gap-3">
+      <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
+
+      {allowed ? (
+        <Link
+          className="group relative hidden overflow-hidden rounded-full bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 transition-all hover:shadow-xl hover:shadow-blue-500/40 sm:inline-block"
+          to="/dang-ky-truc"
+        >
+          <span className="relative z-10">Đăng ký ca trực</span>
+          <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-blue-700 to-blue-800 transition-transform duration-300 group-hover:translate-x-0" />
+        </Link>
+      ) : (
+        <Link
+          to="/auth/signin"
+          title="Chỉ dành cho sinh viên đã đăng ký"
+          className="hidden rounded-full border border-gray-200 bg-gray-100/60 px-6 py-2.5 text-sm font-semibold text-gray-600 sm:inline-block dark:border-gray-700 dark:bg-gray-800/50 dark:text-gray-300"
+        >
+          Đăng ký ca trực
+        </Link>
+      )}
+
+      {allowed ? (
+        <Link
+          to="/bao-cao-ca-truc"
+          className="hidden rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-blue-700 transition hover:bg-gray-50 sm:inline-block dark:border-gray-600 dark:bg-gray-800 dark:text-blue-300 dark:hover:bg-gray-700"
+          aria-label="Báo cáo ca trực"
+        >
+          Báo cáo ca trực
+        </Link>
+      ) : (
+        <Link
+          to="/auth/signin"
+          title="Chỉ dành cho sinh viên đã đăng ký"
+          className="hidden rounded-full border border-gray-200 bg-gray-100/60 px-4 py-2 text-sm font-semibold text-gray-600 sm:inline-block dark:border-gray-700 dark:bg-gray-800/50 dark:text-gray-300"
+        >
+          Báo cáo ca trực
+        </Link>
+      )}
+
+      {user ? (
+        <div className="flex items-center gap-2">
+          <span className="hidden text-sm font-medium sm:inline-block">
+            {user.name}
+          </span>
+          <button
+            onClick={signOut}
+            className="text-sm text-gray-600 hover:text-gray-900 dark:text-gray-300"
+          >
+            Đăng xuất
+          </button>
+        </div>
+      ) : (
+        <div className="flex gap-2">
+          <Link
+            to="/auth/signin"
+            className="text-sm text-blue-700 hover:underline"
+          >
+            Đăng nhập
+          </Link>
+          <Link
+            to="/auth/signup"
+            className="text-sm text-green-700 hover:underline"
+          >
+            Đăng ký
+          </Link>
+        </div>
+      )}
+    </div>
+  );
+};
 
 const Navigation = () => (
   <nav className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 text-white shadow-md">

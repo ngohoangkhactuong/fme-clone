@@ -1,6 +1,8 @@
 import { Calendar, Clock, Send, User } from "lucide-react";
 import { useState } from "react";
 import React from "react";
+import { useAuth } from "@/hooks/useAuth";
+import { registeredStudentEmails } from "@/dataSources/registeredStudents";
 
 const DUTY_SHIFTS = [
   "Sáng (7:30 - 11:30)",
@@ -72,7 +74,13 @@ const DutyShiftSelect = ({
 export const DutyRegistrationForm = ({
   onSuccess
 }: DutyRegistrationFormProps) => {
-  const [form, setForm] = useState<FormState>(INITIAL_STATE);
+  const { user } = useAuth();
+  const allowed = !!user && registeredStudentEmails.includes(user.email);
+
+  const [form, setForm] = useState<FormState>(() => ({
+    ...INITIAL_STATE,
+    name: user?.name ?? ""
+  }));
 
   const handleChange = <K extends keyof FormState>(
     field: K,
@@ -89,9 +97,50 @@ export const DutyRegistrationForm = ({
       return;
     }
 
+    // Attach submit metadata so admin can see who submitted
+    const payload = {
+      ...form,
+      submittedBy: user?.email ?? "anonymous",
+      submittedAt: new Date().toISOString()
+    };
+
+    // In a real app we'd POST payload to the server here.
+    // For now keep a console log and call onSuccess to show UI feedback.
+    // eslint-disable-next-line no-console
+    console.log("Duty registration submitted:", payload);
+
     onSuccess();
-    setForm(INITIAL_STATE);
+    setForm({ ...INITIAL_STATE, name: user?.name ?? "" });
   };
+
+  if (!user) {
+    return (
+      <div className="rounded-lg border border-dashed border-gray-200 p-6 text-center">
+        <p className="mb-4">Bạn cần đăng nhập để đăng ký ca trực.</p>
+        <div className="flex justify-center gap-3">
+          <a href="/auth/signin" className="text-blue-600 underline">
+            Đăng nhập
+          </a>
+          <a href="/auth/signup" className="text-green-600 underline">
+            Đăng ký
+          </a>
+        </div>
+      </div>
+    );
+  }
+
+  if (!allowed) {
+    return (
+      <div className="rounded-lg border border-dashed border-gray-200 p-6 text-center">
+        <p className="mb-4">
+          Tài khoản của bạn chưa được cấp quyền đăng ký ca trực.
+        </p>
+        <p className="text-sm text-gray-500">
+          Liên hệ admin để được phê duyệt.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <form className="space-y-4" onSubmit={handleSubmit}>
