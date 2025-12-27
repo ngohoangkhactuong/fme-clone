@@ -67,29 +67,12 @@ const HeaderActions = ({
     <div className="flex items-center gap-3">
       <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
 
-      {allowed ? (
-        <Link
-          className="group relative hidden overflow-hidden rounded-full bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 transition-all hover:shadow-xl hover:shadow-blue-500/40 sm:inline-block"
-          to="/dang-ky-truc"
-        >
-          <span className="relative z-10">Đăng ký ca trực</span>
-          <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-blue-700 to-blue-800 transition-transform duration-300 group-hover:translate-x-0" />
-        </Link>
-      ) : (
-        <Link
-          to="/auth/signin"
-          title="Chỉ dành cho sinh viên đã đăng ký"
-          className="hidden rounded-full border border-gray-200 bg-gray-100/60 px-6 py-2.5 text-sm font-semibold text-gray-600 sm:inline-block dark:border-gray-700 dark:bg-gray-800/50 dark:text-gray-300"
-        >
-          Đăng ký ca trực
-        </Link>
-      )}
-
       <Link
         to="/calendar"
-        className="hidden rounded-full border border-gray-200 bg-gray-100/60 px-4 py-2 text-sm font-semibold text-gray-600 sm:inline-block dark:border-gray-700 dark:bg-gray-800/50 dark:text-gray-300"
+        className="group relative hidden overflow-hidden rounded-full bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 transition-all hover:shadow-xl hover:shadow-blue-500/40 sm:inline-block"
       >
-        Lịch trực
+        <span className="relative z-10">Lịch trực</span>
+        <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-blue-700 to-blue-800 transition-transform duration-300 group-hover:translate-x-0" />
       </Link>
 
       {allowed ? (
