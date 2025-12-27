@@ -11,9 +11,22 @@ const SignUp: React.FC = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
 
+  const EMAIL_REGEX = /^(\d+)@student\.hcmute\.edu\.vn$/i;
+
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+
+    if (!EMAIL_REGEX.test(email.trim())) {
+      setError("Email phải có định dạng mssv@student.hcmute.edu.vn");
+      return;
+    }
+
+    if (password.length < 8) {
+      setError("Mật khẩu phải có ít nhất 8 ký tự");
+      return;
+    }
+
     const ok = await signUp(name.trim(), email.trim(), password);
     if (ok) navigate(-1);
     else setError("Email đã tồn tại hoặc không hợp lệ");

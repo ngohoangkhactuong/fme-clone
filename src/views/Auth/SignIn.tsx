@@ -13,6 +13,12 @@ const SignIn: React.FC = () => {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
+    const EMAIL_REGEX = /^(\d+)@student\.hcmute\.edu\.vn$/i;
+    if (!EMAIL_REGEX.test(email.trim())) {
+      setError("Email phải có định dạng mssv@student.hcmute.edu.vn");
+      return;
+    }
+
     const ok = await signIn(email.trim(), password);
     if (ok) navigate(-1);
     else setError("Email hoặc mật khẩu không hợp lệ");

@@ -1,6 +1,6 @@
 export const registeredStudentEmails: string[] = [
-  // Example registered emails allowed to access shift features
-  "student1@university.edu",
-  "student2@university.edu",
-  "student3@university.edu"
+  // Seeded test account (MSSV allowed to perform actions)
+  "23146053@student.hcmute.edu.vn",
+  // additional examples
+  "20190001@student.hcmute.edu.vn"
 ];
