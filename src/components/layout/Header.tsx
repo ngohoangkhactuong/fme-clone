@@ -1,22 +1,81 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { menuData } from "@/dataSources/menu";
 import { ThemeToggle } from "@/components/common/ThemeToggle";
-import React from "react";
+import { useCallback, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 type HeaderProps = {
   theme: "light" | "dark";
   toggleTheme: () => void;
 };
 
-const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
+const Logo = () => (
+  <Link className="flex items-center gap-4" to="/">
+    <div className="relative">
+      <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 opacity-10 blur-xl" />
+      <img
+        alt="HCMUTE Logo"
+        className="relative h-16 w-auto transition-transform duration-300 hover:scale-105"
+        src="/logo_ckm.jpg"
+      />
+    </div>
+    <div className="hidden md:block">
+      <h1 className="bg-gradient-to-r from-blue-700 via-blue-600 to-blue-800 bg-clip-text text-xl font-bold text-transparent dark:from-blue-400 dark:to-blue-500">
+        KHOA CƠ KHÍ CHẾ TẠO MÁY
+      </h1>
+      <p className="text-sm text-gray-600 dark:text-gray-400">
+        Trường ĐH Sư phạm Kỹ thuật TP.HCM
+      </p>
+    </div>
+  </Link>
+);
+
+const HeaderActions = ({
+  theme,
+  toggleTheme
+}: {
+  theme: "light" | "dark";
+  toggleTheme: () => void;
+}) => (
+  <div className="flex items-center gap-3">
+    <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
+    <Link
+      className="group relative hidden overflow-hidden rounded-full bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 transition-all hover:shadow-xl hover:shadow-blue-500/40 sm:inline-block"
+      to="/dang-ky-truc"
+    >
+      <span className="relative z-10">Đăng ký ca trực</span>
+      <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-blue-700 to-blue-800 transition-transform duration-300 group-hover:translate-x-0" />
+    </Link>
+  </div>
+);
+
+const Navigation = () => (
+  <nav className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 text-white shadow-md">
+    <ul className="mx-auto flex max-w-7xl flex-wrap justify-center gap-x-2 gap-y-1 py-2 text-sm font-semibold uppercase">
+      {menuData.map((item) => (
+        <li key={item.label}>
+          <Link
+            className="block cursor-pointer rounded-md px-3 py-1.5 transition-all hover:bg-blue-500"
+            to={item.path}
+          >
+            {item.label}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  </nav>
+);
+
+const Header = ({ theme, toggleTheme }: HeaderProps) => {
   const [scrolled, setScrolled] = useState(false);
 
+  const handleScroll = useCallback(() => {
+    setScrolled(window.scrollY > 20);
+  }, []);
+
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [handleScroll]);
 
   return (
     <header
@@ -28,51 +87,11 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
     >
       <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between gap-4">
-          <Link to="/" className="flex items-center gap-4">
-            <div className="relative">
-              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 opacity-10 blur-xl"></div>
-              <img
-                src="/logo_ckm.jpg"
-                alt="HCMUTE Logo"
-                className="relative h-16 w-auto transition-transform duration-300 hover:scale-105"
-              />
-            </div>
-            <div className="hidden md:block">
-              <h1 className="bg-gradient-to-r from-blue-700 via-blue-600 to-blue-800 bg-clip-text text-xl font-bold text-transparent dark:from-blue-400 dark:to-blue-500">
-                KHOA CƠ KHÍ CHẾ TẠO MÁY
-              </h1>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Trường ĐH Sư phạm Kỹ thuật TP.HCM
-              </p>
-            </div>
-          </Link>
-
-          <div className="flex items-center gap-3">
-            <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
-            <Link
-              to="/dang-ky-truc"
-              className="group relative hidden overflow-hidden rounded-full bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 transition-all hover:shadow-xl hover:shadow-blue-500/40 sm:inline-block"
-            >
-              <span className="relative z-10">Đăng ký ca trực</span>
-              <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-blue-700 to-blue-800 transition-transform duration-300 group-hover:translate-x-0"></div>
-            </Link>
-          </div>
+          <Logo />
+          <HeaderActions theme={theme} toggleTheme={toggleTheme} />
         </div>
       </div>
-      <nav className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 text-white shadow-md">
-        <ul className="mx-auto flex max-w-7xl flex-wrap justify-center gap-x-2 gap-y-1 py-2 text-sm font-semibold uppercase">
-          {menuData.map((item) => (
-            <li key={item.label}>
-              <Link
-                to={item.path}
-                className="block cursor-pointer rounded-md px-3 py-1.5 transition-all hover:bg-blue-500"
-              >
-                {item.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
+      <Navigation />
     </header>
   );
 };

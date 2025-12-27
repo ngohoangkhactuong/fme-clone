@@ -1,79 +1,134 @@
-import React, { useState } from "react";
-import { User, Calendar, Clock, Send } from "lucide-react";
+import { Calendar, Clock, Send, User } from "lucide-react";
+import { useState } from "react";
+import React from "react";
+
+const DUTY_SHIFTS = [
+  "Sáng (7:30 - 11:30)",
+  "Chiều (13:30 - 17:30)",
+  "Tối (17:30 - 21:30)"
+];
+
+const INITIAL_STATE = {
+  dutyDate: "",
+  dutyShift: DUTY_SHIFTS[0],
+  name: "",
+  studentId: ""
+};
+
+type FormState = typeof INITIAL_STATE;
 
 type DutyRegistrationFormProps = {
   onSuccess: () => void;
 };
 
-export const DutyRegistrationForm: React.FC<DutyRegistrationFormProps> = ({
+const FormField = ({
+  icon: Icon,
+  placeholder,
+  type = "text",
+  value,
+  onChange
+}: {
+  icon: typeof User;
+  placeholder: string;
+  type?: string;
+  value: string;
+  onChange: (value: string) => void;
+}) => (
+  <div className="relative">
+    <Icon className="absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 text-gray-400" />
+    <input
+      onChange={(e) => onChange(e.target.value)}
+      placeholder={placeholder}
+      type={type}
+      value={value}
+      className="w-full rounded-lg border border-gray-200 p-3 pl-10 text-sm transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:ring-blue-500/50"
+    />
+  </div>
+);
+
+const DutyShiftSelect = ({
+  value,
+  onChange
+}: {
+  value: string;
+  onChange: (value: string) => void;
+}) => (
+  <div className="relative">
+    <Clock className="absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 text-gray-400" />
+    <select
+      onChange={(e) => onChange(e.target.value)}
+      value={value}
+      className="w-full appearance-none rounded-lg border border-gray-200 bg-white p-3 pl-10 text-sm transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:ring-blue-500/50"
+    >
+      {DUTY_SHIFTS.map((shift) => (
+        <option key={shift} value={shift}>
+          {shift}
+        </option>
+      ))}
+    </select>
+  </div>
+);
+
+export const DutyRegistrationForm = ({
   onSuccess
-}) => {
-  const [name, setName] = useState("");
-  const [studentId, setStudentId] = useState("");
-  const [dutyDate, setDutyDate] = useState("");
-  const [dutyShift, setDutyShift] = useState("Sáng");
+}: DutyRegistrationFormProps) => {
+  const [form, setForm] = useState<FormState>(INITIAL_STATE);
+
+  const handleChange = <K extends keyof FormState>(
+    field: K,
+    value: FormState[K]
+  ) => {
+    setForm((prev) => ({ ...prev, [field]: value }));
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !studentId || !dutyDate) {
+
+    if (!form.name || !form.studentId || !form.dutyDate) {
       alert("Vui lòng điền đầy đủ thông tin.");
       return;
     }
+
     onSuccess();
-    setName("");
-    setStudentId("");
-    setDutyDate("");
-    setDutyShift("Sáng");
+    setForm(INITIAL_STATE);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="relative">
-        <User className="absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 text-gray-400" />
-        <input
-          type="text"
-          placeholder="Họ và tên"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          className="w-full rounded-lg border border-gray-200 p-3 pl-10 text-sm transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:ring-blue-500/50"
-        />
-      </div>
-      <div className="relative">
-        <User className="absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 text-gray-400" />
-        <input
-          type="text"
-          placeholder="Mã số sinh viên"
-          value={studentId}
-          onChange={(e) => setStudentId(e.target.value)}
-          className="w-full rounded-lg border border-gray-200 p-3 pl-10 text-sm transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:ring-blue-500/50"
-        />
-      </div>
+    <form className="space-y-4" onSubmit={handleSubmit}>
+      <FormField
+        icon={User}
+        onChange={(value) => handleChange("name", value)}
+        placeholder="Họ và tên"
+        value={form.name}
+      />
+
+      <FormField
+        icon={User}
+        onChange={(value) => handleChange("studentId", value)}
+        placeholder="Mã số sinh viên"
+        value={form.studentId}
+      />
+
       <div className="grid gap-4 md:grid-cols-2">
         <div className="relative">
           <Calendar className="absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 text-gray-400" />
           <input
+            onChange={(e) => handleChange("dutyDate", e.target.value)}
             type="date"
-            value={dutyDate}
-            onChange={(e) => setDutyDate(e.target.value)}
+            value={form.dutyDate}
             className="w-full rounded-lg border border-gray-200 p-3 pl-10 text-sm text-gray-500 transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-200 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-400 dark:focus:ring-blue-500/50"
           />
         </div>
-        <div className="relative">
-          <Clock className="absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 text-gray-400" />
-          <select
-            value={dutyShift}
-            onChange={(e) => setDutyShift(e.target.value)}
-            className="w-full appearance-none rounded-lg border border-gray-200 bg-white p-3 pl-10 text-sm transition-all focus:border-blue-500 focus:ring-2 focus:ring-blue-200 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:focus:ring-blue-500/50"
-          >
-            <option>Sáng (7:30 - 11:30)</option>
-            <option>Chiều (13:30 - 17:30)</option>
-            <option>Tối (17:30 - 21:30)</option>
-          </select>
-        </div>
+
+        <DutyShiftSelect
+          onChange={(value) => handleChange("dutyShift", value)}
+          value={form.dutyShift}
+        />
       </div>
+
       <button
-        type="submit"
         className="group flex w-full items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 transition-all hover:shadow-xl hover:shadow-blue-500/40"
+        type="submit"
       >
         <Send className="h-5 w-5 transition-transform group-hover:rotate-45" />
         Đăng ký ngay

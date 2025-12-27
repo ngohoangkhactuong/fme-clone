@@ -1,13 +1,9 @@
-import React, { useState } from "react";
-import { DutyRegistrationForm } from "./DutyRegistrationForm";
+import { useState } from "react";
 import { Notification } from "@/components/layout/Notification";
+import { DutyRegistrationForm } from "./DutyRegistrationForm";
 
-const DutyRegistrationPage: React.FC = () => {
+const DutyRegistrationPage = () => {
   const [showNotification, setShowNotification] = useState(false);
-
-  const handleRegistrationSuccess = () => {
-    setShowNotification(true);
-  };
 
   return (
     <>
@@ -25,7 +21,7 @@ const DutyRegistrationPage: React.FC = () => {
                 lịch trực tại văn phòng Khoa.
               </p>
             </div>
-            <DutyRegistrationForm onSuccess={handleRegistrationSuccess} />
+            <DutyRegistrationForm onSuccess={() => setShowNotification(true)} />
           </section>
         </div>
       </div>
