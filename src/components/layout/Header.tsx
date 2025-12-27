@@ -85,6 +85,13 @@ const HeaderActions = ({
         </Link>
       )}
 
+      <Link
+        to="/calendar"
+        className="hidden rounded-full border border-gray-200 bg-gray-100/60 px-4 py-2 text-sm font-semibold text-gray-600 sm:inline-block dark:border-gray-700 dark:bg-gray-800/50 dark:text-gray-300"
+      >
+        Lịch trực
+      </Link>
+
       {allowed ? (
         <Link
           to="/bao-cao-ca-truc"
@@ -163,6 +170,15 @@ const HeaderActions = ({
                 >
                   <Settings size={14} /> Profile
                 </Link>
+                {user.role === "admin" && (
+                  <Link
+                    to="/admin/schedules"
+                    className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    <Settings size={14} /> Quản lý lịch
+                  </Link>
+                )}
                 <Link
                   to="/account/settings"
                   className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"

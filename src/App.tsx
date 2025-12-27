@@ -4,6 +4,8 @@ import { MainLayout } from "./components/layout/MainLayout";
 import HomePage from "./views/Home";
 import DutyRegistrationPage from "./views/Home/components/DutyRegistrationPage";
 import DutyReportPage from "./views/Home/components/DutyReportPage";
+import ScheduleManager from "./views/Admin/ScheduleManager";
+import ScheduleCalendar from "./views/Home/components/ScheduleCalendar";
 import { AuthProvider } from "./hooks/useAuth";
 import SignIn from "./views/Auth/SignIn";
 import SignUp from "./views/Auth/SignUp";
@@ -22,6 +24,8 @@ const App = () => (
           <Route element={<SignUp />} path="/auth/signup" />
           <Route element={<Profile />} path="/account/profile" />
           <Route element={<AccountSettings />} path="/account/settings" />
+          <Route element={<ScheduleManager />} path="/admin/schedules" />
+          <Route element={<ScheduleCalendar />} path="/calendar" />
         </Routes>
       </MainLayout>
     </AuthProvider>
