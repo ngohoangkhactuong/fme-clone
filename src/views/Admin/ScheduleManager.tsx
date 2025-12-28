@@ -105,11 +105,11 @@ export const ScheduleManager = () => {
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center gap-4">
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-600 to-purple-600 shadow-lg shadow-indigo-500/30">
-            <CalendarCheck className="h-7 w-7 text-white" />
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
+            <CalendarCheck className="h-6 w-6 text-blue-700 dark:text-blue-300" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+            <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
               Quản lý lịch trực
             </h1>
             <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
@@ -122,10 +122,10 @@ export const ScheduleManager = () => {
       <div className="grid gap-8 lg:grid-cols-3">
         {/* Add Schedule Form */}
         <div className="lg:col-span-1">
-          <div className="sticky top-24 overflow-hidden rounded-3xl bg-white shadow-xl shadow-gray-200/50 dark:bg-gray-800 dark:shadow-black/20">
-            <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-5">
-              <h3 className="flex items-center gap-2 text-lg font-bold text-white">
-                <Plus className="h-5 w-5" />
+          <div className="sticky top-24 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800">
+            <div className="border-b border-gray-100 p-5 dark:border-gray-700">
+              <h3 className="flex items-center gap-2 text-lg font-semibold text-gray-900 dark:text-white">
+                <Plus className="h-5 w-5 text-blue-700 dark:text-blue-300" />
                 Thêm lịch mới
               </h3>
             </div>
@@ -141,7 +141,7 @@ export const ScheduleManager = () => {
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
                     type="date"
-                    className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm transition-colors focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:focus:border-indigo-500 dark:focus:ring-indigo-900"
+                    className="w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm transition-colors focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-200 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:focus:border-blue-500 dark:focus:ring-blue-900"
                   />
                 </div>
 
@@ -153,7 +153,7 @@ export const ScheduleManager = () => {
                   <select
                     value={shift}
                     onChange={(e) => setShift(e.target.value)}
-                    className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm transition-colors focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:focus:border-indigo-500 dark:focus:ring-indigo-900"
+                    className="w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm transition-colors focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-200 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:focus:border-blue-500 dark:focus:ring-blue-900"
                   >
                     {DEFAULT_SHIFTS.map((s) => (
                       <option key={s} value={s}>
@@ -172,7 +172,7 @@ export const ScheduleManager = () => {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Nguyễn Văn A"
-                    className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm transition-colors focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:focus:border-indigo-500 dark:focus:ring-indigo-900"
+                    className="w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm transition-colors focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-200 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:focus:border-blue-500 dark:focus:ring-blue-900"
                   />
                 </div>
 
@@ -185,7 +185,7 @@ export const ScheduleManager = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="mssv@student.hcmute.edu.vn"
-                    className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm transition-colors focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:focus:border-indigo-500 dark:focus:ring-indigo-900"
+                    className="w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 text-sm transition-colors focus:border-blue-500 focus:bg-white focus:ring-2 focus:ring-blue-200 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:focus:border-blue-500 dark:focus:ring-blue-900"
                   />
                 </div>
 
@@ -193,7 +193,7 @@ export const ScheduleManager = () => {
                   <button
                     onClick={addSchedule}
                     type="button"
-                    className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/30 transition-all hover:shadow-xl hover:shadow-indigo-500/40"
+                    className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
                   >
                     <Plus className="h-4 w-4" />
                     Thêm lịch
@@ -217,13 +217,13 @@ export const ScheduleManager = () => {
 
         {/* Schedule List */}
         <div className="lg:col-span-2">
-          <div className="overflow-hidden rounded-3xl bg-white shadow-xl shadow-gray-200/50 dark:bg-gray-800 dark:shadow-black/20">
+          <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800">
             <div className="flex items-center justify-between border-b border-gray-100 px-6 py-5 dark:border-gray-700">
-              <h3 className="flex items-center gap-2 text-lg font-bold text-gray-900 dark:text-white">
-                <Calendar className="h-5 w-5 text-indigo-600" />
+              <h3 className="flex items-center gap-2 text-lg font-semibold text-gray-900 dark:text-white">
+                <Calendar className="h-5 w-5 text-blue-700 dark:text-blue-300" />
                 Danh sách lịch trực
               </h3>
-              <span className="rounded-full bg-indigo-100 px-3 py-1 text-sm font-semibold text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300">
+              <span className="rounded-full bg-blue-100 px-3 py-1 text-sm font-semibold text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
                 {schedules.length} lịch
               </span>
             </div>
@@ -246,10 +246,10 @@ export const ScheduleManager = () => {
                   {schedules.map((it) => (
                     <div
                       key={it.id}
-                      className="group flex items-center justify-between rounded-2xl border border-gray-100 bg-gray-50/50 p-4 transition-all hover:border-indigo-200 hover:bg-indigo-50/50 dark:border-gray-700 dark:bg-gray-900/50 dark:hover:border-indigo-800 dark:hover:bg-indigo-900/20"
+                      className="group flex items-center justify-between rounded-2xl border border-gray-100 bg-gray-50/50 p-4 transition-colors hover:border-blue-200 hover:bg-blue-50/50 dark:border-gray-700 dark:bg-gray-900/50 dark:hover:border-blue-800"
                     >
                       <div className="flex items-center gap-4">
-                        <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 font-bold text-white shadow-md">
+                        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-md bg-blue-600 font-bold text-white">
                           {it.studentName.charAt(0).toUpperCase()}
                         </div>
                         <div>

@@ -59,13 +59,13 @@ export const BannerCarousel = () => {
   }, []);
 
   return (
-    <div className="group relative w-full overflow-hidden rounded-2xl shadow-xl">
+    <div className="group relative w-full overflow-hidden rounded-3xl shadow-2xl shadow-blue-200/50 dark:shadow-blue-900/30">
       <img
         src={bannerData[index]}
         alt="Banner"
-        className="h-[420px] w-full scale-100 object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
+        className="h-[480px] w-full scale-100 object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
       />
-      <div className="absolute inset-0 bg-black/10" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
 
       <BannerNavButton direction="prev" onClick={prev} />
       <BannerNavButton direction="next" onClick={next} />

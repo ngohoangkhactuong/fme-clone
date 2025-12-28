@@ -12,20 +12,23 @@ type HeaderProps = {
 };
 
 const Logo = () => (
-  <Link className="flex items-center gap-4" to="/">
+  <Link
+    className="flex items-center gap-4 transition-transform hover:scale-105"
+    to="/"
+  >
     <div className="relative">
-      <div className="absolute inset-0 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 opacity-10 blur-xl" />
+      <div className="animate-pulse-slow absolute inset-0 rounded-full bg-blue-400/20 blur-xl" />
       <img
         alt="HCMUTE Logo"
-        className="relative h-16 w-auto transition-transform duration-300 hover:scale-105"
+        className="relative h-16 w-auto"
         src="/logo_ckm.jpg"
       />
     </div>
     <div className="hidden md:block">
-      <h1 className="bg-gradient-to-r from-blue-700 via-blue-600 to-blue-800 bg-clip-text text-xl font-bold text-transparent dark:from-blue-400 dark:to-blue-500">
+      <h1 className="bg-gradient-to-r from-blue-700 to-blue-900 bg-clip-text text-xl font-bold text-transparent dark:from-blue-300 dark:to-blue-500">
         KHOA CƠ KHÍ CHẾ TẠO MÁY
       </h1>
-      <p className="text-sm text-gray-600 dark:text-gray-400">
+      <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
         Trường ĐH Sư phạm Kỹ thuật TP.HCM
       </p>
     </div>
@@ -69,10 +72,9 @@ const HeaderActions = ({
 
       <Link
         to="/calendar"
-        className="group relative hidden overflow-hidden rounded-full bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 transition-all hover:shadow-xl hover:shadow-blue-500/40 sm:inline-block"
+        className="hidden rounded-full border border-blue-600 bg-transparent px-5 py-2 text-sm font-semibold text-blue-700 transition hover:bg-blue-50 sm:inline-block dark:border-blue-500 dark:bg-transparent dark:text-blue-400 dark:hover:bg-blue-500/10"
       >
-        <span className="relative z-10">Lịch trực</span>
-        <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-blue-700 to-blue-800 transition-transform duration-300 group-hover:translate-x-0" />
+        Lịch trực
       </Link>
 
       {allowed ? (
@@ -118,10 +120,10 @@ const HeaderActions = ({
           </button>
 
           {menuOpen && (
-            <div className="absolute right-0 mt-3 w-72 overflow-hidden rounded-2xl border border-gray-200/50 bg-white/95 shadow-2xl shadow-gray-200/50 backdrop-blur-xl dark:border-gray-700/50 dark:bg-gray-800/95 dark:shadow-black/20">
-              <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-4">
+            <div className="absolute right-0 mt-3 w-72 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-800">
+              <div className="border-b border-gray-100 p-4 dark:border-gray-700">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-xl bg-white/20 ring-2 ring-white/30">
+                  <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-gray-100 dark:bg-gray-700">
                     {user.avatar ? (
                       <img
                         src={user.avatar}
@@ -129,16 +131,16 @@ const HeaderActions = ({
                         className="h-full w-full object-cover"
                       />
                     ) : (
-                      <span className="text-xl font-bold text-white">
+                      <span className="text-sm font-bold text-blue-700 dark:text-blue-300">
                         {user.name.charAt(0).toUpperCase()}
                       </span>
                     )}
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-semibold text-white">
+                    <p className="truncate text-sm font-semibold text-gray-900 dark:text-white">
                       {user.name}
                     </p>
-                    <p className="truncate text-xs text-blue-100">
+                    <p className="truncate text-xs text-gray-500 dark:text-gray-400">
                       {user.email}
                     </p>
                   </div>
@@ -148,12 +150,12 @@ const HeaderActions = ({
               <div className="p-2">
                 <Link
                   to="/account/profile"
-                  className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-gray-700 transition-all hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700/50"
+                  className="flex items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700/50"
                   onClick={() => setMenuOpen(false)}
                 >
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-100 dark:bg-blue-900/30">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-md bg-blue-100 dark:bg-blue-900/30">
                     <Settings
-                      size={16}
+                      size={14}
                       className="text-blue-600 dark:text-blue-400"
                     />
                   </div>
@@ -162,13 +164,13 @@ const HeaderActions = ({
                 {user.role === "admin" && (
                   <Link
                     to="/admin/schedules"
-                    className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-gray-700 transition-all hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700/50"
+                    className="flex items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700/50"
                     onClick={() => setMenuOpen(false)}
                   >
-                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-purple-100 dark:bg-purple-900/30">
+                    <div className="flex h-7 w-7 items-center justify-center rounded-md bg-blue-100 dark:bg-blue-900/30">
                       <Settings
-                        size={16}
-                        className="text-purple-600 dark:text-purple-400"
+                        size={14}
+                        className="text-blue-600 dark:text-blue-400"
                       />
                     </div>
                     Quản lý lịch trực
@@ -176,12 +178,12 @@ const HeaderActions = ({
                 )}
                 <Link
                   to="/account/settings"
-                  className="flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-gray-700 transition-all hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700/50"
+                  className="flex items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700/50"
                   onClick={() => setMenuOpen(false)}
                 >
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-700">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-md bg-gray-100 dark:bg-gray-700">
                     <Settings
-                      size={16}
+                      size={14}
                       className="text-gray-600 dark:text-gray-400"
                     />
                   </div>
@@ -192,28 +194,31 @@ const HeaderActions = ({
                     toggleTheme();
                     setMenuOpen(false);
                   }}
-                  className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-gray-700 transition-all hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700/50"
+                  className="flex w-full items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700/50"
                 >
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-amber-100 dark:bg-amber-900/30">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-md bg-gray-100 dark:bg-gray-700">
                     {theme === "light" ? (
-                      <Moon size={16} className="text-amber-600" />
+                      <Moon
+                        size={14}
+                        className="text-gray-600 dark:text-gray-300"
+                      />
                     ) : (
-                      <Sun size={16} className="text-amber-400" />
+                      <Sun size={14} className="text-gray-300" />
                     )}
                   </div>
                   Đổi giao diện
                 </button>
               </div>
 
-              <div className="border-t border-gray-200/50 p-2 dark:border-gray-700/50">
+              <div className="border-t border-gray-200 p-2 dark:border-gray-700">
                 <button
                   onClick={() => {
                     signOut();
                     setMenuOpen(false);
                   }}
-                  className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-red-600 transition-all hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20"
+                  className="flex w-full items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium text-red-600 transition-colors hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20"
                 >
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-red-100 dark:bg-red-900/30">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-md bg-red-100 dark:bg-red-900/30">
                     <LogOut size={16} />
                   </div>
                   Đăng xuất
@@ -232,7 +237,7 @@ const HeaderActions = ({
           </Link>
           <Link
             to="/auth/signup"
-            className="rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 transition hover:shadow-xl hover:shadow-blue-500/40 dark:from-blue-600 dark:to-blue-700"
+            className="rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 transition-all hover:shadow-xl hover:shadow-blue-500/40"
           >
             Đăng ký
           </Link>
@@ -243,16 +248,16 @@ const HeaderActions = ({
 };
 
 const Navigation = () => (
-  <nav className="bg-gradient-to-r from-blue-900 via-indigo-900 to-blue-900 text-white shadow-lg">
+  <nav className="border-t border-blue-200/50 bg-gradient-to-r from-blue-50/50 via-white to-blue-50/50 dark:border-blue-900/50 dark:from-gray-900 dark:via-blue-950/20 dark:to-gray-900">
     <ul className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-1 px-4 py-2">
       {menuData.map((item) => (
         <li key={item.label}>
           <Link
-            className="group relative block cursor-pointer rounded-lg px-4 py-2 text-sm font-medium tracking-wide transition-all hover:bg-white/10"
+            className="group relative block cursor-pointer rounded-md px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:text-blue-700 dark:text-gray-300 dark:hover:text-blue-300"
             to={item.path}
           >
             <span className="relative z-10">{item.label}</span>
-            <span className="absolute inset-x-4 -bottom-0.5 h-0.5 scale-x-0 rounded-full bg-white transition-transform group-hover:scale-x-100" />
+            <span className="absolute inset-x-4 -bottom-0.5 h-0.5 scale-x-0 rounded-full bg-blue-600 transition-transform group-hover:scale-x-100 dark:bg-blue-400" />
           </Link>
         </li>
       ))}
@@ -276,8 +281,8 @@ const Header = ({ theme, toggleTheme }: HeaderProps) => {
     <header
       className={`sticky top-0 z-50 backdrop-blur-xl transition-all duration-300 ${
         scrolled
-          ? "bg-white/95 shadow-lg shadow-blue-500/5 dark:bg-gray-900/80 dark:shadow-blue-400/10"
-          : "bg-white dark:bg-gray-900"
+          ? "bg-gradient-to-r from-blue-50/95 via-white/95 to-blue-50/95 shadow-lg shadow-blue-500/20 dark:from-gray-900/80 dark:via-blue-950/30 dark:to-gray-900/80 dark:shadow-blue-400/10"
+          : "bg-gradient-to-r from-blue-50 via-white to-blue-50 dark:from-gray-900 dark:via-blue-950/30 dark:to-gray-900"
       }`}
     >
       <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">

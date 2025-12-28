@@ -7,12 +7,28 @@
     --glass-bg: rgba(255, 255, 255, 0.7);
     --glass-border: rgba(255, 255, 255, 0.2);
     --shadow-color: rgba(0, 0, 0, 0.08);
+    /* Brand palette */
+    --brand-blue-50: #eff6ff;
+    --brand-blue-100: #dbeafe;
+    --brand-blue-200: #bfdbfe;
+    --brand-blue-300: #93c5fd;
+    --brand-blue-400: #60a5fa;
+    --brand-blue-500: #3b82f6;
+    /* primary */
+    --brand-blue-600: #2563eb;
+    --brand-blue-700: #1d4ed8;
+    --brand-blue-800: #1e40af;
+    --brand-blue-900: #1e3a8a;
 }
 
 .dark {
     --glass-bg: rgba(30, 41, 59, 0.8);
     --glass-border: rgba(255, 255, 255, 0.1);
     --shadow-color: rgba(0, 0, 0, 0.3);
+    /* Dark mode brand tweaks */
+    --brand-blue-500: #3b82f6;
+    --brand-blue-600: #2563eb;
+    --brand-blue-700: #1d4ed8;
 }
 
 /* Smooth scroll */
@@ -45,6 +61,24 @@ html {
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid var(--glass-border);
+}
+
+/* Brand utilities */
+.brand-btn-primary {
+    background-color: var(--brand-blue-600);
+    color: white;
+}
+
+.brand-btn-primary:hover {
+    background-color: var(--brand-blue-700);
+}
+
+.brand-link {
+    color: var(--brand-blue-700);
+}
+
+.brand-link:hover {
+    color: var(--brand-blue-800);
 }
 
 /* Modern card hover effect */
@@ -133,4 +167,63 @@ html {
 
 .stagger-children>*:nth-child(6) {
     animation-delay: 0.6s;
+}
+
+/* Enhanced fade-in animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+}
+
+.animate-fade-in-delay {
+    animation: fadeIn 0.6s ease-out 0.2s forwards;
+    opacity: 0;
+}
+
+.animate-fade-in-delay-2 {
+    animation: fadeIn 0.6s ease-out 0.4s forwards;
+    opacity: 0;
+}
+
+/* Pulse slow animation for subtle effects */
+@keyframes pulseSlow {
+
+    0%,
+    100% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: scale(1.05);
+    }
+}
+
+.animate-pulse-slow {
+    animation: pulseSlow 4s ease-in-out infinite;
+}
+
+/* Scale animation for hover */
+.scale-102 {
+    transform: scale(1.02);
+}
+
+.scale-105 {
+    transform: scale(1.05);
+}
+
+.scale-110 {
+    transform: scale(1.1);
 }

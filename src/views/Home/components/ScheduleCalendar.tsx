@@ -73,14 +73,14 @@ export const ScheduleCalendar = () => {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <div className="flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 shadow-lg shadow-blue-500/30">
-                <Calendar className="h-6 w-6 text-white" />
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
+                <Calendar className="h-5 w-5 text-blue-700 dark:text-blue-300" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+                <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
                   Lịch trực
                 </h1>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
+                <p className="text-sm text-gray-600 dark:text-gray-400">
                   Xem và theo dõi lịch trực theo tháng
                 </p>
               </div>
@@ -118,7 +118,7 @@ export const ScheduleCalendar = () => {
       <div className="grid gap-6 lg:grid-cols-3">
         {/* Calendar Grid */}
         <div className="lg:col-span-2">
-          <div className="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 dark:bg-gray-800 dark:shadow-black/20">
+          <div className="overflow-hidden rounded-2xl bg-white shadow-md dark:bg-gray-800">
             {/* Week Header */}
             <div className="grid grid-cols-7 border-b border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-900/50">
               {WeekDays.map((wd, i) => (
@@ -205,9 +205,9 @@ export const ScheduleCalendar = () => {
         {/* Side Panel */}
         <div className="space-y-6">
           {/* Selected Date Info */}
-          <div className="overflow-hidden rounded-2xl bg-white shadow-xl shadow-gray-200/50 dark:bg-gray-800 dark:shadow-black/20">
-            <div className="bg-gradient-to-br from-blue-600 to-indigo-600 p-5">
-              <h3 className="text-lg font-bold text-white">
+          <div className="overflow-hidden rounded-2xl bg-white shadow-md dark:bg-gray-800">
+            <div className="border-b border-gray-200 p-5 dark:border-gray-700">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                 {selectedDate
                   ? format(new Date(selectedDate), "EEEE, d MMMM", {
                       locale: vi
@@ -215,7 +215,7 @@ export const ScheduleCalendar = () => {
                   : "Chọn ngày để xem chi tiết"}
               </h3>
               {selectedDate && (
-                <p className="mt-1 text-sm text-blue-100">
+                <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
                   {selectedEvents.length} ca trực được xếp lịch
                 </p>
               )}
@@ -227,10 +227,10 @@ export const ScheduleCalendar = () => {
                   {selectedEvents.map((ev) => (
                     <div
                       key={ev.id}
-                      className="group rounded-xl border border-gray-200 bg-gray-50 p-4 transition-all hover:border-blue-200 hover:bg-blue-50 dark:border-gray-700 dark:bg-gray-900 dark:hover:border-blue-800 dark:hover:bg-blue-900/20"
+                      className="group rounded-xl border border-gray-200 bg-gray-50 p-4 transition-colors hover:border-blue-200 hover:bg-blue-50 dark:border-gray-700 dark:bg-gray-900 dark:hover:border-blue-800"
                     >
                       <div className="flex items-start gap-3">
-                        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-indigo-500 font-bold text-white shadow-md">
+                        <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-md bg-blue-600 font-bold text-white">
                           {ev.studentName.charAt(0).toUpperCase()}
                         </div>
                         <div className="min-w-0 flex-1">
@@ -273,13 +273,19 @@ export const ScheduleCalendar = () => {
 
           {/* Stats */}
           <div className="grid grid-cols-2 gap-4">
-            <div className="rounded-2xl bg-gradient-to-br from-blue-500 to-blue-600 p-5 text-white shadow-lg shadow-blue-500/30">
-              <p className="text-sm font-medium text-blue-100">Tổng ca trực</p>
-              <p className="mt-1 text-3xl font-bold">{schedules.length}</p>
+            <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                Tổng ca trực
+              </p>
+              <p className="mt-1 text-3xl font-semibold text-blue-700 dark:text-blue-300">
+                {schedules.length}
+              </p>
             </div>
-            <div className="rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-600 p-5 text-white shadow-lg shadow-purple-500/30">
-              <p className="text-sm font-medium text-indigo-100">Tháng này</p>
-              <p className="mt-1 text-3xl font-bold">
+            <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+                Tháng này
+              </p>
+              <p className="mt-1 text-3xl font-semibold text-blue-700 dark:text-blue-300">
                 {
                   schedules.filter((s) => {
                     const d = new Date(s.date);

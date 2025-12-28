@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
-import { User, Lock, ArrowRight, Sparkles } from "lucide-react";
+import { User, Lock, ArrowRight } from "lucide-react";
 
 const SignIn: React.FC = () => {
   const { signIn } = useAuth();
@@ -30,23 +30,15 @@ const SignIn: React.FC = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 px-4 py-12 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800">
-      {/* Background decorations */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-gradient-to-br from-blue-400/20 to-purple-400/20 blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-gradient-to-br from-indigo-400/20 to-blue-400/20 blur-3xl" />
-      </div>
-
-      <div className="relative w-full max-w-md">
-        <div className="overflow-hidden rounded-3xl bg-white/80 shadow-2xl shadow-gray-200/50 backdrop-blur-xl dark:bg-gray-800/80 dark:shadow-black/20">
-          {/* Header */}
-          <div className="bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 px-8 py-10 text-center">
-            <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm">
-              <Sparkles className="h-8 w-8 text-white" />
-            </div>
-            <h1 className="text-3xl font-bold text-white">Chào mừng trở lại</h1>
-            <p className="mt-2 text-blue-100">
-              Đăng nhập để tiếp tục trải nghiệm
+    <div className="flex min-h-screen items-center justify-center bg-white px-4 py-12 dark:bg-gray-900">
+      <div className="w-full max-w-md">
+        <div className="overflow-hidden rounded-2xl bg-white shadow-md dark:bg-gray-800">
+          <div className="px-8 pt-8 text-center">
+            <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
+              Đăng nhập
+            </h1>
+            <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+              Sử dụng email sinh viên HCMUTE
             </p>
           </div>
 
@@ -127,7 +119,7 @@ const SignIn: React.FC = () => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="group flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 py-3.5 font-semibold text-white shadow-lg shadow-blue-500/30 transition-all hover:shadow-xl hover:shadow-blue-500/40 focus:ring-4 focus:ring-blue-500/30 disabled:opacity-70"
+                className="group flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 py-3 font-semibold text-white transition-colors hover:bg-blue-700 focus:ring-4 focus:ring-blue-500/20 disabled:opacity-70"
               >
                 {isLoading ? (
                   <svg
@@ -158,28 +150,25 @@ const SignIn: React.FC = () => {
               </button>
             </div>
 
-            <div className="mt-8 flex items-center justify-between text-sm">
+            <div className="mt-6 flex items-center justify-between text-sm">
               <Link
                 to="/auth/signup"
-                className="group font-medium text-blue-600 transition-colors hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
+                className="font-medium text-blue-700 transition-colors hover:text-blue-800 dark:text-blue-300 dark:hover:text-blue-200"
               >
                 Chưa có tài khoản?{" "}
                 <span className="underline underline-offset-2">Đăng ký</span>
               </Link>
               <Link
                 to="#"
-                className="text-gray-500 transition-colors hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                className="text-gray-600 transition-colors hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
               >
                 Quên mật khẩu?
               </Link>
             </div>
           </form>
         </div>
-
-        <p className="mt-8 text-center text-sm text-gray-500 dark:text-gray-400">
-          <span className="rounded-lg bg-gray-100 px-3 py-1.5 font-mono text-xs dark:bg-gray-800">
-            Mật khẩu mặc định: password123
-          </span>
+        <p className="mt-6 text-center text-xs text-gray-600 dark:text-gray-400">
+          Mật khẩu mặc định: password123
         </p>
       </div>
     </div>
