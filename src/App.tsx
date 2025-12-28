@@ -10,20 +10,21 @@ import SignIn from "./views/Auth/SignIn";
 import SignUp from "./views/Auth/SignUp";
 import Profile from "./views/Auth/Profile";
 import AccountSettings from "./views/Auth/AccountSettings";
+import { ROUTES } from "@/constants";
 
 const App = () => (
   <BrowserRouter>
     <AuthProvider>
       <MainLayout>
         <Routes>
-          <Route element={<HomePage />} path="/" />
-          <Route element={<DutyReportPage />} path="/bao-cao-ca-truc" />
-          <Route element={<SignIn />} path="/auth/signin" />
-          <Route element={<SignUp />} path="/auth/signup" />
-          <Route element={<Profile />} path="/account/profile" />
-          <Route element={<AccountSettings />} path="/account/settings" />
-          <Route element={<ScheduleManager />} path="/admin/schedules" />
-          <Route element={<ScheduleCalendar />} path="/calendar" />
+          <Route element={<HomePage />} path={ROUTES.HOME} />
+          <Route element={<DutyReportPage />} path={ROUTES.DUTY_REPORT} />
+          <Route element={<SignIn />} path={ROUTES.AUTH.SIGN_IN} />
+          <Route element={<SignUp />} path={ROUTES.AUTH.SIGN_UP} />
+          <Route element={<Profile />} path={ROUTES.ACCOUNT.PROFILE} />
+          <Route element={<AccountSettings />} path={ROUTES.ACCOUNT.SETTINGS} />
+          <Route element={<ScheduleManager />} path={ROUTES.ADMIN.SCHEDULES} />
+          <Route element={<ScheduleCalendar />} path={ROUTES.CALENDAR} />
         </Routes>
       </MainLayout>
     </AuthProvider>
