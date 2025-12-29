@@ -13,6 +13,7 @@ import { vi } from "date-fns/locale";
 import { Calendar, ChevronLeft, ChevronRight, Clock, User } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { ROUTES } from "@/constants";
 
 type ScheduleItem = {
@@ -36,6 +37,7 @@ export const ScheduleCalendar = () => {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     try {
@@ -132,7 +134,7 @@ export const ScheduleCalendar = () => {
               onClick={goToday}
               className="rounded-xl bg-blue-50 px-4 py-2 text-sm font-medium text-blue-700 transition-colors hover:bg-blue-100 dark:bg-blue-900/30 dark:text-blue-300 dark:hover:bg-blue-900/50"
             >
-              Hôm nay
+              {t("common.today")}
             </button>
             <div className="flex items-center gap-1 rounded-xl bg-white p-1 shadow-lg shadow-gray-200/50 dark:bg-gray-800 dark:shadow-black/20">
               <button
@@ -252,11 +254,13 @@ export const ScheduleCalendar = () => {
                   ? format(new Date(selectedDate), "EEEE, d MMMM", {
                       locale: vi
                     })
-                  : "Chọn ngày để xem chi tiết"}
+                  : t("schedules.header")}
               </h3>
               {selectedDate && (
                 <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                  {selectedEvents.length} ca trực được xếp lịch
+                  {t("schedules.assignedCount", {
+                    count: selectedEvents.length
+                  })}
                 </p>
               )}
             </div>
@@ -290,14 +294,14 @@ export const ScheduleCalendar = () => {
                       <div className="mt-3 flex items-center gap-2">
                         {ev.confirmed ? (
                           <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
-                            Đã xác nhận
+                            {t("schedules.confirmed")}
                           </span>
                         ) : (
                           <button
                             onClick={() => toggleConfirm(ev.id)}
                             className="rounded-lg bg-blue-600 px-3 py-1 text-xs font-semibold text-white hover:bg-blue-700"
                           >
-                            Xác nhận
+                            {t("schedules.confirm")}
                           </button>
                         )}
 
@@ -305,7 +309,7 @@ export const ScheduleCalendar = () => {
                           onClick={() => openReportFor(ev.id, ev.date)}
                           className="rounded-lg border border-gray-200 px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-700"
                         >
-                          Viết báo cáo
+                          {t("schedules.writeReport")}
                         </button>
                       </div>
                     </div>
@@ -317,7 +321,7 @@ export const ScheduleCalendar = () => {
                     <User className="h-6 w-6 text-gray-400" />
                   </div>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
-                    Không có ca trực nào trong ngày này
+                    {t("schedules.noEvents")}
                   </p>
                 </div>
               ) : (

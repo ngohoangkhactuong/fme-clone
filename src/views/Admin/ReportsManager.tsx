@@ -3,6 +3,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { STORAGE_KEYS } from "@/constants";
 import { Download, Trash2 } from "lucide-react";
 import { Notification } from "@/components/layout/Notification";
+import { useTranslation } from "react-i18next";
 
 type ReportItem = {
   id?: string;
@@ -52,6 +53,7 @@ const toCSV = (rows: ReportItem[]) => {
 
 const ReportsManager: React.FC = () => {
   const { user } = useAuth();
+  const { t } = useTranslation();
   const [reports, setReports] = useState<ReportItem[]>([]);
   const [filterBy, setFilterBy] = useState("");
   const [fromDate, setFromDate] = useState("");
@@ -128,13 +130,13 @@ const ReportsManager: React.FC = () => {
     if (!id) return;
     const next = reports.filter((r) => r.id !== id);
     persist(next);
-    setNotif("Đã xóa báo cáo.");
+    setNotif(t("admin.reportDeleted"));
   };
 
   if (!user || user.role !== "admin") {
     return (
       <div className="mx-auto max-w-3xl p-6 text-center">
-        <p>Chỉ quản trị viên mới có thể xem báo cáo.</p>
+        <p>{t("common.accessDenied")}</p>
       </div>
     );
   }
@@ -142,26 +144,26 @@ const ReportsManager: React.FC = () => {
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">Quản lý báo cáo ca trực</h1>
+        <h1 className="text-2xl font-semibold">{t("admin.reportsHeader")}</h1>
         <div className="flex items-center gap-2">
           <button
             onClick={downloadJSON}
             className="inline-flex items-center gap-2 rounded-lg bg-gray-100 px-3 py-2 text-sm"
           >
-            <Download /> JSON
+            <Download /> {t("admin.downloadJSON")}
           </button>
           <button
             onClick={downloadCSV}
             className="inline-flex items-center gap-2 rounded-lg bg-gray-100 px-3 py-2 text-sm"
           >
-            <Download /> CSV
+            <Download /> {t("admin.downloadCSV")}
           </button>
         </div>
       </div>
 
       <div className="mb-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
         <input
-          placeholder="Lọc theo email người gửi"
+          placeholder={t("admin.filterByEmail") || undefined}
           value={filterBy}
           onChange={(e) => setFilterBy(e.target.value)}
           className="rounded-lg border px-3 py-2"
@@ -183,20 +185,20 @@ const ReportsManager: React.FC = () => {
       <div className="rounded-2xl border bg-white p-4">
         {filtered.length === 0 ? (
           <div className="py-12 text-center text-sm text-gray-500">
-            Không có báo cáo
+            {t("admin.noReports")}
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full table-auto text-sm">
               <thead>
                 <tr className="text-left text-xs text-gray-600">
-                  <th className="px-3 py-2">Tiêu đề</th>
-                  <th className="px-3 py-2">Ngày</th>
-                  <th className="px-3 py-2">Người gửi</th>
-                  <th className="px-3 py-2">Thời gian gửi</th>
+                  <th className="px-3 py-2">{t("duty.titleLabel")}</th>
+                  <th className="px-3 py-2">{t("admin.date")}</th>
+                  <th className="px-3 py-2">{t("admin.sender")}</th>
+                  <th className="px-3 py-2">{t("admin.sentAt")}</th>
                   <th className="px-3 py-2">Schedule</th>
-                  <th className="px-3 py-2">Trạng thái</th>
-                  <th className="px-3 py-2">Hành động</th>
+                  <th className="px-3 py-2">{t("admin.status")}</th>
+                  <th className="px-3 py-2">{t("admin.actions")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -217,7 +219,7 @@ const ReportsManager: React.FC = () => {
                         onClick={() => removeReport(r.id)}
                         className="inline-flex items-center gap-2 rounded-lg bg-red-50 px-3 py-1 text-xs text-red-600"
                       >
-                        <Trash2 /> Xóa
+                        <Trash2 /> {t("admin.delete")}
                       </button>
                     </td>
                   </tr>

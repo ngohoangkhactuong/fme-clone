@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Notification } from "@/components/layout/Notification";
+import { useTranslation } from "react-i18next";
 import { ImageUploader } from "@/components/common/ImageUploader";
 import { useAuth } from "@/hooks/useAuth";
 import { registeredStudentEmails } from "@/dataSources/registeredStudents";
@@ -38,6 +39,7 @@ const initialReport: DutyReport = {
 
 export const DutyReportPage = () => {
   const { user } = useAuth();
+  const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const [linkedScheduleId, setLinkedScheduleId] = useState<string | null>(null);
   const allowed =
@@ -125,17 +127,17 @@ export const DutyReportPage = () => {
 
   const handleSubmit = async () => {
     if (!report.title || !report.date) {
-      alert("Vui lòng nhập tiêu đề và chọn ngày ca trực trước khi gửi.");
+      alert(t("duty.needTitleAndDate"));
       return;
     }
 
     if (!user) {
-      alert("Bạn cần đăng nhập để gửi báo cáo.");
+      alert(t("duty.needLogin"));
       return;
     }
 
     if (!allowed) {
-      alert("Tài khoản của bạn chưa được cấp quyền gửi báo cáo.");
+      alert(t("duty.needPermission"));
       return;
     }
 
@@ -267,7 +269,7 @@ export const DutyReportPage = () => {
     <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
       <div className="mb-6">
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-          Báo cáo ca trực
+          {t("duty.title")}
         </h1>
         <p className="mt-2 text-gray-600 dark:text-gray-400">
           Tạo báo cáo sau hoặc trong ca trực — mô tả công việc, sự cố và lưu trữ
@@ -279,7 +281,7 @@ export const DutyReportPage = () => {
         {/* Tổng quan Section */}
         <div className="rounded-2xl bg-white p-6 shadow-lg dark:bg-gray-800">
           <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">
-            Tổng quan
+            {t("duty.overview")}
           </h2>
           <div className="grid gap-4 md:grid-cols-2">
             <div>
@@ -287,7 +289,7 @@ export const DutyReportPage = () => {
                 htmlFor="title"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300"
               >
-                Tiêu đề <span className="text-red-500">*</span>
+                {t("duty.titleLabel")} <span className="text-red-500">*</span>
               </label>
               <input
                 id="title"
@@ -302,7 +304,7 @@ export const DutyReportPage = () => {
                 htmlFor="date"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300"
               >
-                Ngày ca <span className="text-red-500">*</span>
+                {t("duty.dateLabel")} <span className="text-red-500">*</span>
               </label>
               <input
                 id="date"
@@ -318,7 +320,7 @@ export const DutyReportPage = () => {
         {/* Thời gian Section */}
         <div className="rounded-2xl bg-white p-6 shadow-lg dark:bg-gray-800">
           <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">
-            Thời gian ca trực
+            {t("duty.time")}
           </h2>
           <div className="grid gap-4 md:grid-cols-2">
             <div>
@@ -326,7 +328,7 @@ export const DutyReportPage = () => {
                 htmlFor="startTime"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300"
               >
-                Bắt đầu
+                {t("duty.start")}
               </label>
               <input
                 id="startTime"
@@ -341,7 +343,7 @@ export const DutyReportPage = () => {
                 htmlFor="endTime"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300"
               >
-                Kết thúc
+                {t("duty.end")}
               </label>
               <input
                 id="endTime"
@@ -357,7 +359,7 @@ export const DutyReportPage = () => {
         {/* Chi tiết Section */}
         <div className="rounded-2xl bg-white p-6 shadow-lg dark:bg-gray-800">
           <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">
-            Chi tiết ca trực
+            {t("duty.details")}
           </h2>
           <div className="space-y-4">
             <div>
@@ -365,7 +367,7 @@ export const DutyReportPage = () => {
                 htmlFor="summary"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300"
               >
-                Tóm tắt
+                {t("duty.summary")}
               </label>
               <textarea
                 id="summary"
@@ -382,7 +384,7 @@ export const DutyReportPage = () => {
                 htmlFor="tasks"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300"
               >
-                Công việc đã thực hiện
+                {t("duty.tasks")}
               </label>
               <textarea
                 id="tasks"
@@ -399,7 +401,7 @@ export const DutyReportPage = () => {
                 htmlFor="incidents"
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300"
               >
-                Sự cố / Ghi chú
+                {t("duty.incidents")}
               </label>
               <textarea
                 id="incidents"
@@ -416,7 +418,7 @@ export const DutyReportPage = () => {
         {/* Ảnh đính kèm Section */}
         <div className="rounded-2xl bg-white p-6 shadow-lg dark:bg-gray-800">
           <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">
-            Ảnh đính kèm
+            {t("duty.attachments")}
           </h2>
           <ImageUploader images={report.images} onChange={handleImagesChange} />
         </div>
@@ -424,7 +426,7 @@ export const DutyReportPage = () => {
         {/* Ghi chú bổ sung Section */}
         <div className="rounded-2xl bg-white p-6 shadow-lg dark:bg-gray-800">
           <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">
-            Ghi chú bổ sung
+            {t("duty.extraNotes")}
           </h2>
           <textarea
             rows={3}
@@ -443,7 +445,7 @@ export const DutyReportPage = () => {
             type="button"
             className="rounded-lg border-2 border-gray-300 px-6 py-2.5 font-semibold text-gray-700 transition hover:bg-gray-50 disabled:opacity-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
           >
-            {saving ? "Đang lưu..." : "💾 Lưu nháp"}
+            {saving ? t("common.submitting") : t("common.saveDraft")}
           </button>
 
           <button
@@ -452,7 +454,7 @@ export const DutyReportPage = () => {
             type="button"
             className="rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-2.5 font-semibold text-white shadow-md hover:from-blue-700 hover:to-blue-800 disabled:opacity-50"
           >
-            {submitting ? "Đang gửi..." : "✓ Gửi báo cáo"}
+            {submitting ? t("common.submitting") : t("common.submitReport")}
           </button>
         </div>
       </form>
@@ -461,8 +463,8 @@ export const DutyReportPage = () => {
         <Notification
           message={
             report.status === "submitted"
-              ? "✓ Báo cáo đã được gửi thành công."
-              : "✓ Nháp đã được lưu."
+              ? t("duty.reportSent")
+              : t("duty.draftSaved")
           }
           onClose={() => setShowNotification(false)}
         />

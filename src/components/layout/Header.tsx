@@ -1,5 +1,7 @@
 import { menuData } from "@/dataSources/menu";
 import { ThemeToggle } from "@/components/common/ThemeToggle";
+import LanguageToggle from "@/components/common/LanguageToggle";
+import { useTranslation } from "react-i18next";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Settings, LogOut, Moon, Sun } from "lucide-react";
@@ -43,6 +45,7 @@ const HeaderActions = ({
   toggleTheme: () => void;
 }) => {
   const { user, signOut } = useAuth();
+  const { t } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -74,24 +77,24 @@ const HeaderActions = ({
         to="/calendar"
         className="hidden rounded-full border border-blue-600 bg-transparent px-5 py-2 text-sm font-semibold text-blue-700 transition hover:bg-blue-50 sm:inline-block dark:border-blue-500 dark:bg-transparent dark:text-blue-400 dark:hover:bg-blue-500/10"
       >
-        Lịch trực
+        {t("schedules.header")}
       </Link>
 
       {allowed ? (
         <Link
           to="/bao-cao-ca-truc"
           className="hidden rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-blue-700 transition hover:bg-gray-50 sm:inline-block dark:border-gray-600 dark:bg-gray-800 dark:text-blue-300 dark:hover:bg-gray-700"
-          aria-label="Báo cáo ca trực"
+          aria-label={t("common.report")}
         >
-          Báo cáo ca trực
+          {t("common.report")}
         </Link>
       ) : (
         <Link
           to="/auth/signin"
-          title="Chỉ dành cho sinh viên đã đăng ký"
+          title={t("common.report")}
           className="hidden rounded-full border border-gray-200 bg-gray-100/60 px-4 py-2 text-sm font-semibold text-gray-600 sm:inline-block dark:border-gray-700 dark:bg-gray-800/50 dark:text-gray-300"
         >
-          Báo cáo ca trực
+          {t("common.report")}
         </Link>
       )}
 
@@ -159,7 +162,7 @@ const HeaderActions = ({
                       className="text-blue-600 dark:text-blue-400"
                     />
                   </div>
-                  Hồ sơ cá nhân
+                  {t("common.profile")}
                 </Link>
                 {user.role === "admin" && (
                   <Link
@@ -173,7 +176,7 @@ const HeaderActions = ({
                         className="text-blue-600 dark:text-blue-400"
                       />
                     </div>
-                    Quản lý lịch trực
+                    {t("common.adminSchedules")}
                   </Link>
                 )}
                 <Link
@@ -187,7 +190,7 @@ const HeaderActions = ({
                       className="text-gray-600 dark:text-gray-400"
                     />
                   </div>
-                  Cài đặt tài khoản
+                  {t("common.settings")}
                 </Link>
                 <button
                   onClick={() => {
@@ -206,6 +209,7 @@ const HeaderActions = ({
                       <Sun size={14} className="text-gray-300" />
                     )}
                   </div>
+                  {/* Theme toggle label could be localized */}
                   Đổi giao diện
                 </button>
               </div>
@@ -221,6 +225,7 @@ const HeaderActions = ({
                   <div className="flex h-7 w-7 items-center justify-center rounded-md bg-red-100 dark:bg-red-900/30">
                     <LogOut size={16} />
                   </div>
+                  {/* Logout label could be localized */}
                   Đăng xuất
                 </button>
               </div>
@@ -228,19 +233,20 @@ const HeaderActions = ({
           )}
         </div>
       ) : (
-        <div className="flex gap-2 sm:gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           <Link
             to="/auth/signin"
             className="hidden rounded-lg border border-blue-600 bg-white px-4 py-2 text-sm font-semibold text-blue-600 transition hover:bg-blue-50 sm:inline-block dark:border-blue-500 dark:bg-transparent dark:text-blue-400 dark:hover:bg-blue-500/10"
           >
-            Đăng nhập
+            {t("common.signIn")}
           </Link>
           <Link
             to="/auth/signup"
             className="rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-blue-500/30 transition-all hover:shadow-xl hover:shadow-blue-500/40"
           >
-            Đăng ký
+            {t("common.signUp")}
           </Link>
+          <LanguageToggle />
         </div>
       )}
     </div>
