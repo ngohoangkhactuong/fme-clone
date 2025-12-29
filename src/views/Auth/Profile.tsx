@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { Settings, FileText, Calendar, Users } from "lucide-react";
 import { STORAGE_KEYS } from "@/constants";
 
 const Profile: React.FC = () => {
   const { user } = useAuth();
+  const { t } = useTranslation();
   type ReportSummary = {
     id?: string;
     title?: string;
@@ -76,13 +78,15 @@ const Profile: React.FC = () => {
                 <div className="mt-4 flex flex-wrap gap-2">
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-100 px-3 py-1.5 text-xs font-semibold text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
                     <Users size={14} />
-                    {user.role === "admin" ? "Admin" : "Sinh viên"}
+                    {user.role === "admin"
+                      ? t("profile.admin")
+                      : t("profile.student")}
                   </span>
                   <Link
                     to="/bao-cao-ca-truc"
                     className="inline-flex items-center gap-1.5 rounded-full bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-blue-700"
                   >
-                    <FileText size={14} /> Báo cáo ca trực
+                    <FileText size={14} /> {t("common.report")}
                   </Link>
                 </div>
               </div>
@@ -92,7 +96,7 @@ const Profile: React.FC = () => {
               to="/account/settings"
               className="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800"
             >
-              <Settings size={16} /> Chỉnh sửa
+              <Settings size={16} /> {t("profile.editProfile")}
             </Link>
           </div>
 
@@ -115,7 +119,7 @@ const Profile: React.FC = () => {
                       >
                         <div>
                           <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                            {r.title || "(Không có tiêu đề)"}
+                            {r.title || `(${t("profile.noTitle")})`}
                           </div>
                           <div className="text-xs text-gray-500">
                             {r.submittedAt
@@ -156,10 +160,12 @@ const Profile: React.FC = () => {
                 )}
                 <div>
                   <dt className="text-xs font-semibold tracking-wide text-gray-500 uppercase dark:text-gray-400">
-                    Vai trò
+                    {t("profile.role")}
                   </dt>
                   <dd className="mt-1 text-gray-900 dark:text-gray-100">
-                    {user.role === "admin" ? "Quản trị viên" : "Sinh viên"}
+                    {user.role === "admin"
+                      ? t("profile.admin")
+                      : t("profile.student")}
                   </dd>
                 </div>
               </dl>

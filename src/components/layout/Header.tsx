@@ -13,29 +13,32 @@ type HeaderProps = {
   toggleTheme: () => void;
 };
 
-const Logo = () => (
-  <Link
-    className="flex items-center gap-4 transition-transform hover:scale-105"
-    to="/"
-  >
-    <div className="relative">
-      <div className="animate-pulse-slow absolute inset-0 rounded-full bg-blue-400/20 blur-xl" />
-      <img
-        alt="HCMUTE Logo"
-        className="relative h-16 w-auto"
-        src="/logo_ckm.jpg"
-      />
-    </div>
-    <div className="hidden md:block">
-      <h1 className="bg-gradient-to-r from-blue-700 to-blue-900 bg-clip-text text-xl font-bold text-transparent dark:from-blue-300 dark:to-blue-500">
-        KHOA CƠ KHÍ CHẾ TẠO MÁY
-      </h1>
-      <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-        Trường ĐH Sư phạm Kỹ thuật TP.HCM
-      </p>
-    </div>
-  </Link>
-);
+const Logo = () => {
+  const { t } = useTranslation();
+  return (
+    <Link
+      className="flex items-center gap-4 transition-transform hover:scale-105"
+      to="/"
+    >
+      <div className="relative">
+        <div className="animate-pulse-slow absolute inset-0 rounded-full bg-blue-400/20 blur-xl" />
+        <img
+          alt="HCMUTE Logo"
+          className="relative h-16 w-auto"
+          src="/logo_ckm.jpg"
+        />
+      </div>
+      <div className="hidden md:block">
+        <h1 className="bg-gradient-to-r from-blue-700 to-blue-900 bg-clip-text text-xl font-bold text-transparent dark:from-blue-300 dark:to-blue-500">
+          {t("header.departmentName")}
+        </h1>
+        <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+          {t("header.universityName")}
+        </p>
+      </div>
+    </Link>
+  );
+};
 
 const HeaderActions = ({
   theme,
@@ -71,6 +74,7 @@ const HeaderActions = ({
 
   return (
     <div className="flex items-center gap-3">
+      <LanguageToggle />
       <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
 
       <Link
@@ -165,19 +169,34 @@ const HeaderActions = ({
                   {t("common.profile")}
                 </Link>
                 {user.role === "admin" && (
-                  <Link
-                    to="/admin/schedules"
-                    className="flex items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700/50"
-                    onClick={() => setMenuOpen(false)}
-                  >
-                    <div className="flex h-7 w-7 items-center justify-center rounded-md bg-blue-100 dark:bg-blue-900/30">
-                      <Settings
-                        size={14}
-                        className="text-blue-600 dark:text-blue-400"
-                      />
-                    </div>
-                    {t("common.adminSchedules")}
-                  </Link>
+                  <>
+                    <Link
+                      to="/admin/schedules"
+                      className="flex items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700/50"
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      <div className="flex h-7 w-7 items-center justify-center rounded-md bg-blue-100 dark:bg-blue-900/30">
+                        <Settings
+                          size={14}
+                          className="text-blue-600 dark:text-blue-400"
+                        />
+                      </div>
+                      {t("common.adminSchedules")}
+                    </Link>
+                    <Link
+                      to="/admin/reports"
+                      className="flex items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700/50"
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      <div className="flex h-7 w-7 items-center justify-center rounded-md bg-blue-100 dark:bg-blue-900/30">
+                        <Settings
+                          size={14}
+                          className="text-blue-600 dark:text-blue-400"
+                        />
+                      </div>
+                      {t("common.adminReports")}
+                    </Link>
+                  </>
                 )}
                 <Link
                   to="/account/settings"
@@ -209,8 +228,7 @@ const HeaderActions = ({
                       <Sun size={14} className="text-gray-300" />
                     )}
                   </div>
-                  {/* Theme toggle label could be localized */}
-                  Đổi giao diện
+                  {t("common.themeToggle")}
                 </button>
               </div>
 
@@ -225,8 +243,7 @@ const HeaderActions = ({
                   <div className="flex h-7 w-7 items-center justify-center rounded-md bg-red-100 dark:bg-red-900/30">
                     <LogOut size={16} />
                   </div>
-                  {/* Logout label could be localized */}
-                  Đăng xuất
+                  {t("common.logout")}
                 </button>
               </div>
             </div>
@@ -246,30 +263,32 @@ const HeaderActions = ({
           >
             {t("common.signUp")}
           </Link>
-          <LanguageToggle />
         </div>
       )}
     </div>
   );
 };
 
-const Navigation = () => (
-  <nav className="border-t border-blue-200/50 bg-gradient-to-r from-blue-50/50 via-white to-blue-50/50 dark:border-blue-900/50 dark:from-gray-900 dark:via-blue-950/20 dark:to-gray-900">
-    <ul className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-1 px-4 py-2">
-      {menuData.map((item) => (
-        <li key={item.label}>
-          <Link
-            className="group relative block cursor-pointer rounded-md px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:text-blue-700 dark:text-gray-300 dark:hover:text-blue-300"
-            to={item.path}
-          >
-            <span className="relative z-10">{item.label}</span>
-            <span className="absolute inset-x-4 -bottom-0.5 h-0.5 scale-x-0 rounded-full bg-blue-600 transition-transform group-hover:scale-x-100 dark:bg-blue-400" />
-          </Link>
-        </li>
-      ))}
-    </ul>
-  </nav>
-);
+const Navigation = () => {
+  const { t } = useTranslation();
+  return (
+    <nav className="border-t border-blue-200/50 bg-gradient-to-r from-blue-50/50 via-white to-blue-50/50 dark:border-blue-900/50 dark:from-gray-900 dark:via-blue-950/20 dark:to-gray-900">
+      <ul className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-1 px-4 py-2">
+        {menuData.map((item) => (
+          <li key={item.labelKey}>
+            <Link
+              className="group relative block cursor-pointer rounded-md px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:text-blue-700 dark:text-gray-300 dark:hover:text-blue-300"
+              to={item.path}
+            >
+              <span className="relative z-10">{t(item.labelKey)}</span>
+              <span className="absolute inset-x-4 -bottom-0.5 h-0.5 scale-x-0 rounded-full bg-blue-600 transition-transform group-hover:scale-x-100 dark:bg-blue-400" />
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+};
 
 const Header = ({ theme, toggleTheme }: HeaderProps) => {
   const [scrolled, setScrolled] = useState(false);

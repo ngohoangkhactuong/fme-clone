@@ -1,8 +1,10 @@
 import React, { useState, useRef } from "react";
 import { useAuth } from "@/hooks/useAuth";
+import { useTranslation } from "react-i18next";
 
 const AccountSettings: React.FC = () => {
   const { user, updateProfile, changePassword, updateAvatar } = useAuth();
+  const { t } = useTranslation();
   const [name, setName] = useState(user?.name ?? "");
   const [avatarPreview, setAvatarPreview] = useState<string | null>(
     user?.avatar ?? null
@@ -16,7 +18,7 @@ const AccountSettings: React.FC = () => {
   if (!user) {
     return (
       <div className="mx-auto max-w-3xl p-6 text-center">
-        <p>Bạn cần đăng nhập để thay đổi thông tin.</p>
+        <p>{t("accountSettings.needLogin")}</p>
       </div>
     );
   }
@@ -40,17 +42,25 @@ const AccountSettings: React.FC = () => {
   const handleAvatarSave = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!avatarPreview) {
-      setMsg("Chưa có avatar để lưu");
+      setMsg(t("accountSettings.noAvatarToSave"));
       return;
     }
     const ok = await updateAvatar(avatarPreview);
-    setMsg(ok ? "Avatar đã được cập nhật" : "Cập nhật avatar thất bại");
+    setMsg(
+      ok
+        ? t("accountSettings.avatarUpdated")
+        : t("accountSettings.avatarUpdateFailed")
+    );
   };
 
   const handleAvatarRemove = async () => {
     const ok = await updateAvatar(null);
     if (ok) setAvatarPreview(null);
-    setMsg(ok ? "Avatar đã bị xóa" : "Xóa avatar thất bại");
+    setMsg(
+      ok
+        ? t("accountSettings.avatarDeleted")
+        : t("accountSettings.avatarDeleteFailed")
+    );
   };
 
   const handlePassword = async (e: React.FormEvent) => {
@@ -78,10 +88,10 @@ const AccountSettings: React.FC = () => {
       <div className="overflow-hidden rounded-2xl bg-white shadow-md dark:bg-gray-800">
         <div className="border-b border-gray-200 px-6 py-8 sm:px-8 dark:border-gray-700">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-            Cài đặt tài khoản
+            {t("accountSettings.title")}
           </h1>
           <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">
-            Quản lý thông tin và bảo mật tài khoản của bạn
+            {t("accountSettings.description")}
           </p>
         </div>
 
@@ -94,7 +104,7 @@ const AccountSettings: React.FC = () => {
 
           <section>
             <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-              Ảnh đại diện
+              {t("accountSettings.avatar")}
             </h2>
             <div className="mt-6 flex flex-col gap-6 sm:flex-row sm:items-center">
               <div className="relative flex-shrink-0">
@@ -136,20 +146,20 @@ const AccountSettings: React.FC = () => {
                     onClick={() => fileRef.current?.click()}
                     className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800"
                   >
-                    Chọn ảnh
+                    {t("accountSettings.selectImage")}
                   </button>
                   <button
                     onClick={handleAvatarSave}
                     className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
                   >
-                    Lưu ảnh
+                    {t("accountSettings.saveImage")}
                   </button>
                   <button
                     type="button"
                     onClick={handleAvatarRemove}
                     className="inline-flex items-center gap-2 rounded-lg border border-red-300 bg-white px-4 py-2 text-sm font-medium text-red-700 hover:bg-red-50 dark:border-red-800/50 dark:bg-red-900/20 dark:text-red-400 dark:hover:bg-red-900/30"
                   >
-                    Xóa ảnh
+                    {t("common.deleteImage")}
                   </button>
                 </div>
               </div>
@@ -172,23 +182,23 @@ const AccountSettings: React.FC = () => {
                 />
               </div>
               <button className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-2 text-sm font-medium text-white hover:bg-blue-700">
-                Lưu thay đổi
+                {t("accountSettings.saveChanges")}
               </button>
             </form>
           </section>
 
           <section className="border-t border-gray-200 pt-8 dark:border-gray-700">
             <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-              Bảo mật
+              {t("accountSettings.security")}
             </h2>
             <div className="mt-6 rounded-xl border border-gray-200 bg-gray-50 p-6 dark:border-gray-700 dark:bg-gray-900/50">
               <h3 className="font-medium text-gray-900 dark:text-white">
-                Đổi mật khẩu
+                {t("accountSettings.changePassword")}
               </h3>
               <form onSubmit={handlePassword} className="mt-4 space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Mật khẩu hiện tại
+                    {t("accountSettings.currentPassword")}
                   </label>
                   <input
                     value={oldPwd}
@@ -199,7 +209,7 @@ const AccountSettings: React.FC = () => {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Mật khẩu mới
+                    {t("accountSettings.newPassword")}
                   </label>
                   <input
                     value={newPwd}
@@ -210,7 +220,7 @@ const AccountSettings: React.FC = () => {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Xác nhận mật khẩu mới
+                    {t("accountSettings.confirmPassword")}
                   </label>
                   <input
                     value={confirmPwd}

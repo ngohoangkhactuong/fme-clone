@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { Notification } from "@/components/layout/Notification";
+import { useTranslation } from "react-i18next";
 import {
   Calendar,
   Clock,
@@ -71,6 +72,7 @@ const seedIfEmpty = () => {
 
 export const ScheduleManager = () => {
   const { user } = useAuth();
+  const { t } = useTranslation();
   const [schedules, setSchedules] = useState<ScheduleItem[]>([]);
   const [date, setDate] = useState<string>("");
   const [shift, setShift] = useState<string>(DEFAULT_SHIFTS[0]);
@@ -97,12 +99,12 @@ export const ScheduleManager = () => {
               <ShieldAlert className="h-8 w-8 text-white" />
             </div>
             <h2 className="text-2xl font-bold text-white">
-              Quyền truy cập bị từ chối
+              {t("common.accessDenied")}
             </h2>
           </div>
           <div className="p-8 text-center">
             <p className="text-gray-600 dark:text-gray-400">
-              Chỉ quản trị viên mới có thể truy cập trang quản lý lịch trực.
+              {t("admin.adminOnly")}
             </p>
           </div>
         </div>
@@ -112,7 +114,7 @@ export const ScheduleManager = () => {
 
   const addSchedule = () => {
     if (!date || !name || !email) {
-      setNotif("Vui lòng điền đủ thông tin.");
+      setNotif(t("admin.fillAllFields"));
       return;
     }
     const item: ScheduleItem = {
@@ -124,14 +126,14 @@ export const ScheduleManager = () => {
       confirmed: false
     };
     setSchedules((s) => [item, ...s]);
-    setNotif("Đã thêm lịch trực.");
+    setNotif(t("admin.scheduleAdded"));
     setName("");
     setEmail("");
   };
 
   const removeSchedule = (id: string) => {
     setSchedules((s) => s.filter((it) => it.id !== id));
-    setNotif("Đã xóa lịch trực.");
+    setNotif(t("admin.scheduleDeleted"));
   };
 
   return (
@@ -144,10 +146,10 @@ export const ScheduleManager = () => {
           </div>
           <div>
             <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
-              Quản lý lịch trực
+              {t("admin.schedulesHeader")}
             </h1>
             <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-              Tạo và quản lý lịch trực cho sinh viên
+              {t("admin.manageDesc")}
             </p>
           </div>
         </div>
@@ -160,7 +162,7 @@ export const ScheduleManager = () => {
             <div className="border-b border-gray-100 p-5 dark:border-gray-700">
               <h3 className="flex items-center gap-2 text-lg font-semibold text-gray-900 dark:text-white">
                 <Plus className="h-5 w-5 text-blue-700 dark:text-blue-300" />
-                Thêm lịch mới
+                {t("admin.addSchedule")}
               </h3>
             </div>
 
@@ -169,7 +171,7 @@ export const ScheduleManager = () => {
                 <div>
                   <label className="mb-2 flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                     <Calendar className="h-4 w-4 text-gray-400" />
-                    Ngày
+                    {t("admin.date")}
                   </label>
                   <input
                     value={date}
@@ -182,7 +184,7 @@ export const ScheduleManager = () => {
                 <div>
                   <label className="mb-2 flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                     <Clock className="h-4 w-4 text-gray-400" />
-                    Ca trực
+                    {t("admin.shift")}
                   </label>
                   <select
                     value={shift}
@@ -200,7 +202,7 @@ export const ScheduleManager = () => {
                 <div>
                   <label className="mb-2 flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                     <User className="h-4 w-4 text-gray-400" />
-                    Họ và tên
+                    {t("admin.name")}
                   </label>
                   <input
                     value={name}
@@ -213,7 +215,7 @@ export const ScheduleManager = () => {
                 <div>
                   <label className="mb-2 flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                     <Mail className="h-4 w-4 text-gray-400" />
-                    Email sinh viên
+                    {t("admin.email")}
                   </label>
                   <input
                     value={email}
@@ -230,7 +232,7 @@ export const ScheduleManager = () => {
                     className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
                   >
                     <Plus className="h-4 w-4" />
-                    Thêm lịch
+                    {t("admin.add")}
                   </button>
                   <button
                     onClick={() => {
@@ -241,7 +243,7 @@ export const ScheduleManager = () => {
                     type="button"
                     className="rounded-xl border border-gray-200 px-4 py-3 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-700"
                   >
-                    Hủy
+                    {t("admin.cancel")}
                   </button>
                 </div>
               </div>
@@ -255,10 +257,10 @@ export const ScheduleManager = () => {
             <div className="flex items-center justify-between border-b border-gray-100 px-6 py-5 dark:border-gray-700">
               <h3 className="flex items-center gap-2 text-lg font-semibold text-gray-900 dark:text-white">
                 <Calendar className="h-5 w-5 text-blue-700 dark:text-blue-300" />
-                Danh sách lịch trực
+                {t("admin.scheduleList")}
               </h3>
               <span className="rounded-full bg-blue-100 px-3 py-1 text-sm font-semibold text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
-                {schedules.length} lịch
+                {t("admin.scheduleCount", { count: schedules.length })}
               </span>
             </div>
 
@@ -269,10 +271,10 @@ export const ScheduleManager = () => {
                     <Calendar className="h-8 w-8 text-gray-400" />
                   </div>
                   <p className="font-medium text-gray-900 dark:text-white">
-                    Chưa có lịch trực nào
+                    {t("admin.noSchedules")}
                   </p>
                   <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                    Hãy thêm lịch trực đầu tiên
+                    {t("admin.addFirstSchedule")}
                   </p>
                 </div>
               ) : (

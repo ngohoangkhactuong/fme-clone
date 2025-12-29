@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import { useTranslation } from "react-i18next";
 import { User, Mail, Lock, ArrowRight } from "lucide-react";
 
 const SignUp: React.FC = () => {
   const { signUp } = useAuth();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -20,13 +22,13 @@ const SignUp: React.FC = () => {
     setIsLoading(true);
 
     if (!EMAIL_REGEX.test(email.trim())) {
-      setError("Email phải có định dạng mssv@student.hcmute.edu.vn");
+      setError(t("auth.invalidEmail"));
       setIsLoading(false);
       return;
     }
 
     if (password.length < 8) {
-      setError("Mật khẩu phải có ít nhất 8 ký tự");
+      setError(t("auth.passwordTooShort"));
       setIsLoading(false);
       return;
     }
@@ -34,7 +36,7 @@ const SignUp: React.FC = () => {
     const ok = await signUp(name.trim(), email.trim(), password);
     setIsLoading(false);
     if (ok) navigate(-1);
-    else setError("Email đã tồn tại hoặc không hợp lệ");
+    else setError(t("auth.emailExists"));
   };
 
   return (
@@ -57,10 +59,10 @@ const SignUp: React.FC = () => {
               <User className="h-8 w-8 text-white drop-shadow-lg" />
             </div>
             <h1 className="relative text-3xl font-bold text-white drop-shadow-lg">
-              Tạo tài khoản
+              {t("auth.signUpTitle")}
             </h1>
             <p className="relative mt-2 text-blue-100">
-              Đăng ký để truy cập đầy đủ tính năng
+              {t("auth.signUpSubtitle")}
             </p>
           </div>
 
@@ -71,7 +73,7 @@ const SignUp: React.FC = () => {
                   htmlFor="name"
                   className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300"
                 >
-                  Họ và tên
+                  {t("auth.fullName")}
                 </label>
                 <div className="group relative">
                   <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
@@ -79,12 +81,12 @@ const SignUp: React.FC = () => {
                   </div>
                   <input
                     id="name"
-                    aria-label="Họ và tên"
+                    aria-label={t("auth.fullName")}
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     className="w-full rounded-lg border border-gray-200 bg-gray-50 py-3.5 pr-4 pl-12 text-sm transition-all focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:focus:border-blue-500 dark:focus:ring-blue-500/20"
                     required
-                    placeholder="Nguyễn Văn A"
+                    placeholder={t("auth.namePlaceholder")}
                   />
                 </div>
               </div>
@@ -94,7 +96,7 @@ const SignUp: React.FC = () => {
                   htmlFor="email"
                   className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300"
                 >
-                  Email sinh viên
+                  {t("auth.studentEmail")}
                 </label>
                 <div className="group relative">
                   <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
@@ -102,17 +104,17 @@ const SignUp: React.FC = () => {
                   </div>
                   <input
                     id="email"
-                    aria-label="Email"
+                    aria-label={t("auth.studentEmail")}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="w-full rounded-lg border border-gray-200 bg-gray-50 py-3.5 pr-4 pl-12 text-sm transition-all focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:focus:border-blue-500 dark:focus:ring-blue-500/20"
                     type="email"
                     required
-                    placeholder="23146053@student.hcmute.edu.vn"
+                    placeholder={t("auth.emailPlaceholder")}
                   />
                 </div>
                 <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
-                  Sử dụng email sinh viên HCMUTE
+                  {t("auth.useHcmuteEmail")}
                 </p>
               </div>
 
@@ -121,7 +123,7 @@ const SignUp: React.FC = () => {
                   htmlFor="password"
                   className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300"
                 >
-                  Mật khẩu
+                  {t("auth.passwordLabel")}
                 </label>
                 <div className="group relative">
                   <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
@@ -129,17 +131,17 @@ const SignUp: React.FC = () => {
                   </div>
                   <input
                     id="password"
-                    aria-label="Mật khẩu"
+                    aria-label={t("auth.passwordLabel")}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="w-full rounded-lg border border-gray-200 bg-gray-50 py-3.5 pr-4 pl-12 text-sm transition-all focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:focus:border-blue-500 dark:focus:ring-blue-500/20"
                     type="password"
                     required
-                    placeholder="Ít nhất 8 ký tự"
+                    placeholder={t("auth.passwordMinLength")}
                   />
                 </div>
                 <p className="mt-2 text-xs text-gray-500 dark:text-gray-400">
-                  Mật khẩu cần có ít nhất 8 ký tự
+                  {t("auth.passwordHelp")}
                 </p>
               </div>
 
@@ -187,7 +189,7 @@ const SignUp: React.FC = () => {
                   </svg>
                 ) : (
                   <>
-                    Tạo tài khoản
+                    {t("common.signUp")}
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </>
                 )}
@@ -196,13 +198,15 @@ const SignUp: React.FC = () => {
 
             <div className="mt-6 text-center text-sm">
               <span className="text-gray-600 dark:text-gray-400">
-                Đã có tài khoản?{" "}
+                {t("auth.alreadyHaveAccount")}
               </span>
               <Link
                 to="/auth/signin"
                 className="font-medium text-blue-700 transition-colors hover:text-blue-800 dark:text-blue-300 dark:hover:text-blue-200"
               >
-                <span className="underline underline-offset-2">Đăng nhập</span>
+                <span className="underline underline-offset-2">
+                  {t("auth.signInLink")}
+                </span>
               </Link>
             </div>
           </form>

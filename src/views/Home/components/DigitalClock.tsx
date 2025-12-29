@@ -1,5 +1,6 @@
 import { Clock, Calendar, Sparkles } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const padZero = (value: number): string =>
   value < 10 ? `0${value}` : `${value}`;
@@ -15,10 +16,10 @@ const ClockDisplay = ({ time }: { time: Date }) => (
   </div>
 );
 
-const DateDisplay = ({ time }: { time: Date }) => (
+const DateDisplay = ({ time, locale }: { time: Date; locale: string }) => (
   <div className="mb-4 flex items-center justify-center gap-2 text-sm font-medium text-blue-100">
     <Calendar className="h-4 w-4" />
-    {time.toLocaleDateString("vi-VN", {
+    {time.toLocaleDateString(locale === "vi" ? "vi-VN" : "en-US", {
       day: "numeric",
       month: "long",
       weekday: "long",
@@ -27,17 +28,21 @@ const DateDisplay = ({ time }: { time: Date }) => (
   </div>
 );
 
-const MottoSection = () => (
-  <div className="relative overflow-hidden rounded-xl border border-white/20 bg-white/10 p-4 backdrop-blur-sm">
-    <Sparkles className="absolute top-3 right-3 h-4 w-4 text-yellow-300" />
-    <p className="relative text-center text-sm leading-relaxed font-medium text-white italic">
-      Chủ đề năm học 2025–2026: Sáng tạo – Hội nhập – Phát triển
-    </p>
-  </div>
-);
+const MottoSection = () => {
+  const { t } = useTranslation();
+  return (
+    <div className="relative overflow-hidden rounded-xl border border-white/20 bg-white/10 p-4 backdrop-blur-sm">
+      <Sparkles className="absolute top-3 right-3 h-4 w-4 text-yellow-300" />
+      <p className="relative text-center text-sm leading-relaxed font-medium text-white italic">
+        {t("home.academicYearMotto")}
+      </p>
+    </div>
+  );
+};
 
 export const DigitalClock = () => {
   const [time, setTime] = useState<Date>(new Date());
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000);
@@ -49,12 +54,12 @@ export const DigitalClock = () => {
       <div className="mb-4 flex items-center gap-2">
         <Clock className="h-5 w-5 text-white drop-shadow" />
         <span className="text-sm font-semibold text-white drop-shadow">
-          Thời gian hiện tại
+          {t("home.currentTime")}
         </span>
       </div>
 
       <ClockDisplay time={time} />
-      <DateDisplay time={time} />
+      <DateDisplay time={time} locale={i18n.language} />
       <MottoSection />
     </div>
   );

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 type ImageUploaderProps = {
   images: string[];
@@ -9,6 +10,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
   images,
   onChange
 }) => {
+  const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [local, setLocal] = useState<string[]>(images || []);
   const [full, setFull] = useState<string | null>(null);
@@ -63,11 +65,9 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
           onClick={() => inputRef.current?.click()}
           className="rounded-md border border-gray-200 px-3 py-2 text-sm dark:border-gray-600"
         >
-          Thêm ảnh
+          {t("common.addImage")}
         </button>
-        <p className="text-sm text-gray-500">
-          Hỗ trợ kéo thả hoặc chọn nhiều ảnh (jpg, png)
-        </p>
+        <p className="text-sm text-gray-500">{t("common.dragDropOrSelect")}</p>
       </div>
 
       <input
@@ -83,7 +83,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
       <div className="grid grid-cols-3 gap-3">
         {local.length === 0 && (
           <div className="col-span-3 rounded-md border border-dashed border-gray-200 p-6 text-center text-sm text-gray-500 dark:border-gray-700">
-            Chưa có ảnh đính kèm
+            {t("common.noImages")}
           </div>
         )}
 
@@ -92,7 +92,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
             <button
               onClick={() => setFull(src)}
               className="block h-28 w-full overflow-hidden rounded-md bg-gray-100"
-              aria-label={`Xem ảnh ${idx + 1}`}
+              aria-label={`${t("common.viewImage")} ${idx + 1}`}
             >
               <img
                 src={src}
@@ -103,7 +103,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
             <button
               onClick={() => remove(idx)}
               className="absolute top-2 right-2 rounded-full bg-white/80 p-1 text-xs shadow"
-              aria-label={`Xóa ảnh ${idx + 1}`}
+              aria-label={`${t("common.deleteImage")} ${idx + 1}`}
             >
               ✕
             </button>

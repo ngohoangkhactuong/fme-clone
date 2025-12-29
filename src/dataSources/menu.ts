@@ -1,16 +1,15 @@
 export type MenuItem = {
-  label: string;
+  labelKey: string;
   path: string;
 };
 
 export const menuData: MenuItem[] = [
-  { label: "Home", path: "/" },
-  { label: "Giới thiệu", path: "/gioi-thieu" },
-  { label: "Đào tạo", path: "/dao-tao" },
-  { label: "NCKH", path: "/nckh" },
-  { label: "Kiểm định", path: "/kiem-dinh" },
-  { label: "Biểu mẫu", path: "/bieu-mau" },
-  { label: "Đoàn thể", path: "/doan-the" },
-  { label: "Đoàn - Hội", path: "/doan-hoi" },
-  { label: "English", path: "/en" }
+  { labelKey: "menu.home", path: "/" },
+  { labelKey: "menu.introduction", path: "/gioi-thieu" },
+  { labelKey: "menu.education", path: "/dao-tao" },
+  { labelKey: "menu.research", path: "/nckh" },
+  { labelKey: "menu.accreditation", path: "/kiem-dinh" },
+  { labelKey: "menu.forms", path: "/bieu-mau" },
+  { labelKey: "menu.unions", path: "/doan-the" },
+  { labelKey: "menu.committees", path: "/doan-hoi" }
 ];

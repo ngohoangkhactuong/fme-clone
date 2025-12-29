@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import { useTranslation } from "react-i18next";
 import { User, Lock, ArrowRight } from "lucide-react";
 
 const SignIn: React.FC = () => {
   const { signIn } = useAuth();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -18,7 +20,7 @@ const SignIn: React.FC = () => {
 
     const EMAIL_REGEX = /^(\d+)@student\.hcmute\.edu\.vn$/i;
     if (!EMAIL_REGEX.test(email.trim())) {
-      setError("Email phải có định dạng mssv@student.hcmute.edu.vn");
+      setError(t("auth.invalidEmail"));
       setIsLoading(false);
       return;
     }
@@ -26,7 +28,7 @@ const SignIn: React.FC = () => {
     const ok = await signIn(email.trim(), password);
     setIsLoading(false);
     if (ok) navigate(-1);
-    else setError("Email hoặc mật khẩu không hợp lệ");
+    else setError(t("auth.loginFailed"));
   };
 
   return (
@@ -35,10 +37,10 @@ const SignIn: React.FC = () => {
         <div className="overflow-hidden rounded-2xl bg-white shadow-md dark:bg-gray-800">
           <div className="px-8 pt-8 text-center">
             <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
-              Đăng nhập
+              {t("common.signIn")}
             </h1>
             <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-              Sử dụng email sinh viên HCMUTE
+              {t("auth.useHcmuteEmail")}
             </p>
           </div>
 
@@ -50,7 +52,7 @@ const SignIn: React.FC = () => {
                   htmlFor="email"
                   className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300"
                 >
-                  Email sinh viên
+                  {t("auth.studentEmail")}
                 </label>
                 <div className="group relative">
                   <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
@@ -67,7 +69,7 @@ const SignIn: React.FC = () => {
                     className="w-full rounded-xl border border-gray-200 bg-gray-50 py-3.5 pr-4 pl-12 text-sm transition-all focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:focus:border-blue-500 dark:focus:ring-blue-500/20"
                     type="email"
                     required
-                    placeholder="23146053@student.hcmute.edu.vn"
+                    placeholder={t("auth.emailPlaceholder")}
                   />
                 </div>
               </div>
@@ -77,7 +79,7 @@ const SignIn: React.FC = () => {
                   htmlFor="password"
                   className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300"
                 >
-                  Mật khẩu
+                  {t("auth.passwordLabel")}
                 </label>
                 <div className="group relative">
                   <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
@@ -88,13 +90,13 @@ const SignIn: React.FC = () => {
                   </div>
                   <input
                     id="password"
-                    aria-label="Mật khẩu"
+                    aria-label={t("auth.passwordLabel")}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="w-full rounded-xl border border-gray-200 bg-gray-50 py-3.5 pr-4 pl-12 text-sm transition-all focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:focus:border-blue-500 dark:focus:ring-blue-500/20"
                     type="password"
                     required
-                    placeholder="••••••••"
+                    placeholder={t("auth.passwordPlaceholder")}
                   />
                 </div>
               </div>
@@ -143,7 +145,7 @@ const SignIn: React.FC = () => {
                   </svg>
                 ) : (
                   <>
-                    Đăng nhập
+                    {t("common.signIn")}
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </>
                 )}
@@ -155,20 +157,22 @@ const SignIn: React.FC = () => {
                 to="/auth/signup"
                 className="font-medium text-blue-700 transition-colors hover:text-blue-800 dark:text-blue-300 dark:hover:text-blue-200"
               >
-                Chưa có tài khoản?{" "}
-                <span className="underline underline-offset-2">Đăng ký</span>
+                {t("auth.noAccount")}
+                <span className="underline underline-offset-2">
+                  {t("auth.signUpLink")}
+                </span>
               </Link>
               <Link
                 to="#"
                 className="text-gray-600 transition-colors hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
               >
-                Quên mật khẩu?
+                {t("auth.forgotPassword")}
               </Link>
             </div>
           </form>
         </div>
         <p className="mt-6 text-center text-xs text-gray-600 dark:text-gray-400">
-          Mật khẩu mặc định: password123
+          {t("auth.defaultPassword")}
         </p>
       </div>
     </div>

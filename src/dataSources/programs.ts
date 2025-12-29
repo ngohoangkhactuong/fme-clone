@@ -1,10 +1,13 @@
-export const undergraduatePrograms: string[] = [
-  "Công nghệ Kỹ thuật Cơ điện tử",
-  "Công nghệ Kỹ thuật Cơ khí",
-  "Công nghệ Chế tạo máy",
-  "Kỹ thuật Công nghiệp",
-  "Kỹ nghệ gỗ & Nội thất",
-  "Robot & Trí tuệ nhân tạo"
+export const undergraduateProgramKeys: string[] = [
+  "programs.mechatronics",
+  "programs.mechanicalEngineering",
+  "programs.manufacturing",
+  "programs.industrialEngineering",
+  "programs.woodAndFurniture",
+  "programs.roboticsAI"
 ];
 
-export const postgraduatePrograms: string[] = ["Thạc sĩ", "Tiến sĩ"];
+export const postgraduateProgramKeys: string[] = [
+  "programs.masters",
+  "programs.doctorate"
+];
