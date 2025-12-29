@@ -12,13 +12,13 @@ const BannerNavButton = ({
   <button
     onClick={onClick}
     aria-label={direction === "prev" ? "Slide trước" : "Slide tiếp theo"}
-    className="absolute top-1/2 -translate-y-1/2 rounded-lg bg-white/90 p-2 opacity-0 shadow-md ring-1 ring-gray-900/5 backdrop-blur-sm transition-all group-hover:opacity-100 hover:bg-white hover:shadow-lg dark:bg-gray-900/90 dark:ring-white/10 dark:hover:bg-gray-800"
-    style={{ [direction === "prev" ? "left" : "right"]: "1rem" }}
+    className="absolute top-1/2 -translate-y-1/2 rounded bg-white/80 p-1.5 opacity-0 transition-opacity group-hover:opacity-100 hover:bg-white dark:bg-gray-800/80 dark:hover:bg-gray-800"
+    style={{ [direction === "prev" ? "left" : "right"]: "0.75rem" }}
   >
     {direction === "prev" ? (
-      <ChevronLeft className="h-5 w-5 text-gray-700 dark:text-gray-200" />
+      <ChevronLeft className="h-4 w-4 text-gray-700 dark:text-gray-200" />
     ) : (
-      <ChevronRight className="h-5 w-5 text-gray-700 dark:text-gray-200" />
+      <ChevronRight className="h-4 w-4 text-gray-700 dark:text-gray-200" />
     )}
   </button>
 );
@@ -32,16 +32,14 @@ const BannerIndicators = ({
   total: number;
   onSelect: (index: number) => void;
 }) => (
-  <div className="absolute right-0 bottom-4 left-0 flex justify-center gap-1.5">
+  <div className="absolute right-0 bottom-3 left-0 flex justify-center gap-1">
     {Array.from({ length: total }).map((_, i) => (
       <button
         key={i}
         onClick={() => onSelect(i)}
         aria-label={`Slide ${i + 1}`}
-        className={`h-2 cursor-pointer rounded-full transition-all ${
-          i === current
-            ? "w-8 bg-white shadow-md"
-            : "w-2 bg-white/50 hover:bg-white/75"
+        className={`h-1.5 cursor-pointer rounded-full transition-all ${
+          i === current ? "w-6 bg-white" : "w-1.5 bg-white/60 hover:bg-white/80"
         }`}
       />
     ))}
@@ -61,13 +59,13 @@ export const BannerCarousel = () => {
   }, []);
 
   return (
-    <div className="group relative w-full overflow-hidden rounded-2xl shadow-lg ring-1 ring-gray-900/5 dark:shadow-gray-950/50 dark:ring-white/5">
+    <div className="group relative w-full overflow-hidden rounded-lg border border-gray-200 dark:border-gray-800">
       <img
         src={bannerData[index]}
         alt="Banner"
-        className="h-[420px] w-full scale-100 object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
+        className="h-[360px] w-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-102"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/5 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
 
       <BannerNavButton direction="prev" onClick={prev} />
       <BannerNavButton direction="next" onClick={next} />
