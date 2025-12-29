@@ -1,10 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { Link } from "react-router-dom";
 import { Settings, FileText, Calendar, Users } from "lucide-react";
+import { STORAGE_KEYS } from "@/constants";
 
 const Profile: React.FC = () => {
   const { user } = useAuth();
+  type ReportSummary = {
+    id?: string;
+    title?: string;
+    submittedAt?: string;
+    status?: string;
+    submittedBy?: string;
+  };
+  const [recentReports, setRecentReports] = useState<ReportSummary[]>([]);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEYS.REPORTS) || "[]";
+      const list = JSON.parse(raw) as ReportSummary[];
+      if (user) {
+        const mine = list.filter((r) => r.submittedBy === user.email);
+        setRecentReports(mine.slice(-5).reverse());
+      }
+    } catch (err) {
+      void err;
+    }
+  }, [user]);
 
   if (!user) {
     return (
@@ -80,9 +102,32 @@ const Profile: React.FC = () => {
                 <Calendar size={16} /> Hoạt động gần đây
               </h3>
               <div className="mt-4">
-                <div className="rounded-lg border border-dashed border-gray-300 p-8 text-center text-sm text-gray-500 dark:border-gray-700 dark:text-gray-400">
-                  Chưa có hoạt động
-                </div>
+                {recentReports.length === 0 ? (
+                  <div className="rounded-lg border border-dashed border-gray-300 p-8 text-center text-sm text-gray-500 dark:border-gray-700 dark:text-gray-400">
+                    Chưa có hoạt động
+                  </div>
+                ) : (
+                  <ul className="space-y-3">
+                    {recentReports.map((r) => (
+                      <li
+                        key={r.id}
+                        className="flex items-start justify-between"
+                      >
+                        <div>
+                          <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                            {r.title || "(Không có tiêu đề)"}
+                          </div>
+                          <div className="text-xs text-gray-500">
+                            {r.submittedAt
+                              ? new Date(r.submittedAt).toLocaleString()
+                              : "-"}
+                          </div>
+                        </div>
+                        <div className="text-xs text-gray-500">{r.status}</div>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
             </div>
 

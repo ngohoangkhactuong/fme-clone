@@ -4,6 +4,7 @@ import { MainLayout } from "./components/layout/MainLayout";
 import HomePage from "./views/Home";
 import DutyReportPage from "./views/Home/components/DutyReportPage";
 import ScheduleManager from "./views/Admin/ScheduleManager";
+import ReportsManager from "./views/Admin/ReportsManager";
 import ScheduleCalendar from "./views/Home/components/ScheduleCalendar";
 import { AuthProvider } from "./hooks/useAuth";
 import SignIn from "./views/Auth/SignIn";
@@ -24,6 +25,7 @@ const App = () => (
           <Route element={<Profile />} path={ROUTES.ACCOUNT.PROFILE} />
           <Route element={<AccountSettings />} path={ROUTES.ACCOUNT.SETTINGS} />
           <Route element={<ScheduleManager />} path={ROUTES.ADMIN.SCHEDULES} />
+          <Route element={<ReportsManager />} path={ROUTES.ADMIN.REPORTS} />
           <Route element={<ScheduleCalendar />} path={ROUTES.CALENDAR} />
         </Routes>
       </MainLayout>

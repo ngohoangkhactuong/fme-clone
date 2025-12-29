@@ -9,7 +9,8 @@ import {
   User,
   Mail,
   ShieldAlert,
-  CalendarCheck
+  CalendarCheck,
+  Check
 } from "lucide-react";
 
 type ScheduleItem = {
@@ -18,6 +19,9 @@ type ScheduleItem = {
   shift: string; // e.g. "Sáng (7:30 - 11:30)"
   studentName: string;
   studentEmail: string;
+  confirmed?: boolean;
+  confirmedBy?: string;
+  confirmedAt?: string;
 };
 
 const STORAGE_KEY = "duty:schedules:v1";
@@ -28,10 +32,39 @@ const DEFAULT_SHIFTS = [
   "Tối (17:30 - 21:30)"
 ];
 
+const formatDate = (d: Date) => d.toISOString().slice(0, 10);
+
 const seedIfEmpty = () => {
   const raw = localStorage.getItem(STORAGE_KEY);
   if (!raw) {
-    const sample: ScheduleItem[] = [];
+    const today = new Date();
+    const sample: ScheduleItem[] = [
+      {
+        id: `s-${Date.now()}-1`,
+        date: formatDate(today),
+        shift: DEFAULT_SHIFTS[0],
+        studentName: "Nguyễn Văn A",
+        studentEmail: "20190001@student.hcmute.edu.vn"
+      },
+      {
+        id: `s-${Date.now()}-2`,
+        date: formatDate(
+          new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1)
+        ),
+        shift: DEFAULT_SHIFTS[1],
+        studentName: "Trần Thị B",
+        studentEmail: "20190002@student.hcmute.edu.vn"
+      },
+      {
+        id: `s-${Date.now()}-3`,
+        date: formatDate(
+          new Date(today.getFullYear(), today.getMonth(), today.getDate() + 3)
+        ),
+        shift: DEFAULT_SHIFTS[2],
+        studentName: "Lê Văn C",
+        studentEmail: "20190003@student.hcmute.edu.vn"
+      }
+    ];
     localStorage.setItem(STORAGE_KEY, JSON.stringify(sample));
   }
 };
@@ -87,7 +120,8 @@ export const ScheduleManager = () => {
       date,
       shift,
       studentName: name,
-      studentEmail: email
+      studentEmail: email,
+      confirmed: false
     };
     setSchedules((s) => [item, ...s]);
     setNotif("Đã thêm lịch trực.");
@@ -277,12 +311,41 @@ export const ScheduleManager = () => {
                           </div>
                         </div>
                       </div>
-                      <button
-                        onClick={() => removeSchedule(it.id)}
-                        className="flex h-10 w-10 items-center justify-center rounded-xl text-gray-400 transition-all hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/20 dark:hover:text-red-400"
-                      >
-                        <Trash2 className="h-5 w-5" />
-                      </button>
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => {
+                            // admin can toggle confirmation for any schedule
+                            if (!user || user.role !== "admin") return;
+                            setSchedules((s) =>
+                              s.map((x) =>
+                                x.id === it.id
+                                  ? {
+                                      ...x,
+                                      confirmed: !x.confirmed,
+                                      confirmedBy: !x.confirmed
+                                        ? user.email
+                                        : undefined,
+                                      confirmedAt: !x.confirmed
+                                        ? new Date().toISOString()
+                                        : undefined
+                                    }
+                                  : x
+                              )
+                            );
+                          }}
+                          className="flex h-10 w-10 items-center justify-center rounded-xl text-gray-400 transition-all hover:bg-green-50 hover:text-green-600 dark:hover:bg-green-900/20 dark:hover:text-green-400"
+                          title={it.confirmed ? "Bỏ xác nhận" : "Xác nhận"}
+                        >
+                          <Check className="h-5 w-5" />
+                        </button>
+
+                        <button
+                          onClick={() => removeSchedule(it.id)}
+                          className="flex h-10 w-10 items-center justify-center rounded-xl text-gray-400 transition-all hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/20 dark:hover:text-red-400"
+                        >
+                          <Trash2 className="h-5 w-5" />
+                        </button>
+                      </div>
                     </div>
                   ))}
                 </div>

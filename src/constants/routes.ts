@@ -9,7 +9,8 @@ export const ROUTES = {
     SETTINGS: "/account/settings"
   },
   ADMIN: {
-    SCHEDULES: "/admin/schedules"
+    SCHEDULES: "/admin/schedules",
+    REPORTS: "/admin/reports"
   },
   CALENDAR: "/calendar",
   DUTY_REPORT: "/bao-cao-ca-truc"

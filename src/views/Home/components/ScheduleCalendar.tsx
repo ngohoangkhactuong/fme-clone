@@ -11,6 +11,9 @@ import {
 } from "date-fns";
 import { vi } from "date-fns/locale";
 import { Calendar, ChevronLeft, ChevronRight, Clock, User } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "@/constants";
 
 type ScheduleItem = {
   id: string;
@@ -18,6 +21,9 @@ type ScheduleItem = {
   shift: string;
   studentName: string;
   studentEmail: string;
+  confirmed?: boolean;
+  confirmedBy?: string;
+  confirmedAt?: string;
 };
 
 const STORAGE_KEY = "duty:schedules:v1";
@@ -28,6 +34,8 @@ export const ScheduleCalendar = () => {
   const [current, setCurrent] = useState<Date>(new Date());
   const [schedules, setSchedules] = useState<ScheduleItem[]>([]);
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     try {
@@ -37,6 +45,38 @@ export const ScheduleCalendar = () => {
       // ignore
     }
   }, []);
+
+  const persistSchedules = (next: ScheduleItem[]) => {
+    setSchedules(next);
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+    } catch (err) {
+      void err;
+    }
+  };
+
+  const toggleConfirm = (id: string) => {
+    if (!user) return;
+    const next = schedules.map((s) => {
+      if (s.id !== id) return s;
+      // only assigned student or admin can confirm
+      if (user.role !== "admin" && user.email !== s.studentEmail) return s;
+      const now = new Date().toISOString();
+      return {
+        ...s,
+        confirmed: !s.confirmed,
+        confirmedBy: !s.confirmed ? user.email : undefined,
+        confirmedAt: !s.confirmed ? now : undefined
+      };
+    });
+    persistSchedules(next);
+  };
+
+  const openReportFor = (scheduleId: string, date: string) => {
+    navigate(
+      `${ROUTES.DUTY_REPORT}?scheduleId=${encodeURIComponent(scheduleId)}&date=${encodeURIComponent(date)}`
+    );
+  };
 
   const monthStart = useMemo(() => startOfMonth(current), [current]);
   const monthEnd = useMemo(() => endOfMonth(monthStart), [monthStart]);
@@ -245,6 +285,28 @@ export const ScheduleCalendar = () => {
                             {ev.shift}
                           </div>
                         </div>
+                      </div>
+
+                      <div className="mt-3 flex items-center gap-2">
+                        {ev.confirmed ? (
+                          <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
+                            Đã xác nhận
+                          </span>
+                        ) : (
+                          <button
+                            onClick={() => toggleConfirm(ev.id)}
+                            className="rounded-lg bg-blue-600 px-3 py-1 text-xs font-semibold text-white hover:bg-blue-700"
+                          >
+                            Xác nhận
+                          </button>
+                        )}
+
+                        <button
+                          onClick={() => openReportFor(ev.id, ev.date)}
+                          className="rounded-lg border border-gray-200 px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-700"
+                        >
+                          Viết báo cáo
+                        </button>
                       </div>
                     </div>
                   ))}

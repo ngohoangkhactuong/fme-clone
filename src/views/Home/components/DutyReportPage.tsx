@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Notification } from "@/components/layout/Notification";
 import { ImageUploader } from "@/components/common/ImageUploader";
 import { useAuth } from "@/hooks/useAuth";
 import { registeredStudentEmails } from "@/dataSources/registeredStudents";
+import { STORAGE_KEYS } from "@/constants";
 
 type ReportStatus = "draft" | "submitted";
 
@@ -36,6 +38,8 @@ const initialReport: DutyReport = {
 
 export const DutyReportPage = () => {
   const { user } = useAuth();
+  const [searchParams] = useSearchParams();
+  const [linkedScheduleId, setLinkedScheduleId] = useState<string | null>(null);
   const allowed =
     !!user &&
     (user.role === "admin" ||
@@ -45,6 +49,39 @@ export const DutyReportPage = () => {
   const [saving, setSaving] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [showNotification, setShowNotification] = useState(false);
+
+  useEffect(() => {
+    // If opened from a schedule, prefill date and title
+    const scheduleId = searchParams.get("scheduleId");
+    const dateParam = searchParams.get("date");
+    if (scheduleId) {
+      setLinkedScheduleId(scheduleId);
+      try {
+        type MaybeSchedule = {
+          id?: string;
+          date?: string;
+          shift?: string;
+          studentName?: string;
+        };
+        const raw = localStorage.getItem("duty:schedules:v1") || "[]";
+        const list = JSON.parse(raw) as MaybeSchedule[];
+        const found = list.find((s) => s.id === scheduleId);
+        if (found) {
+          setReport((prev) => ({
+            ...prev,
+            date: dateParam || found.date || prev.date,
+            title:
+              prev.title ||
+              `Báo cáo ca trực - ${found.shift} - ${found.studentName}`
+          }));
+        } else if (dateParam) {
+          setReport((prev) => ({ ...prev, date: dateParam }));
+        }
+      } catch {
+        // ignore
+      }
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     try {
@@ -110,10 +147,28 @@ export const DutyReportPage = () => {
         ...report,
         status: "submitted" as ReportStatus,
         // attach who submitted
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        submittedBy: (user as any).email,
-        submittedAt: new Date().toISOString()
-      } as DutyReport & { submittedBy?: string; submittedAt?: string };
+
+        submittedBy: user.email,
+        submittedAt: new Date().toISOString(),
+        id: `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
+        scheduleId: linkedScheduleId || undefined
+      } as DutyReport & {
+        submittedBy?: string;
+        submittedAt?: string;
+        id?: string;
+      };
+
+      // persist submitted reports list in localStorage
+      try {
+        const raw = localStorage.getItem(STORAGE_KEYS.REPORTS) || "[]";
+        const list = JSON.parse(raw) as Array<Record<string, unknown>>;
+        list.push(submitted);
+        localStorage.setItem(STORAGE_KEYS.REPORTS, JSON.stringify(list));
+      } catch (err) {
+        // ignore storage errors
+        void err;
+      }
+
       setReport(submitted);
       localStorage.removeItem(DRAFT_KEY);
       setShowNotification(true);
