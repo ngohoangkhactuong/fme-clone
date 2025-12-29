@@ -32,10 +32,13 @@ const SignIn: React.FC = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-white px-4 py-12 dark:bg-gray-900">
+    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 dark:bg-gray-950">
       <div className="w-full max-w-md">
-        <div className="overflow-hidden rounded-2xl bg-white shadow-md dark:bg-gray-800">
-          <div className="px-8 pt-8 text-center">
+        <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">
+          <div className="px-8 pt-8 pb-6 text-center">
+            <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 ring-1 ring-blue-100 dark:bg-blue-950 dark:ring-blue-900">
+              <User className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+            </div>
             <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
               {t("common.signIn")}
             </h1>
@@ -66,7 +69,7 @@ const SignIn: React.FC = () => {
                     aria-label="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full rounded-xl border border-gray-200 bg-gray-50 py-3.5 pr-4 pl-12 text-sm transition-all focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:focus:border-blue-500 dark:focus:ring-blue-500/20"
+                    className="w-full rounded-lg border border-gray-200 bg-white py-3 pr-4 pl-11 text-sm transition-all focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:focus:border-blue-500 dark:focus:ring-blue-500/20"
                     type="email"
                     required
                     placeholder={t("auth.emailPlaceholder")}
@@ -93,7 +96,7 @@ const SignIn: React.FC = () => {
                     aria-label={t("auth.passwordLabel")}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full rounded-xl border border-gray-200 bg-gray-50 py-3.5 pr-4 pl-12 text-sm transition-all focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:focus:border-blue-500 dark:focus:ring-blue-500/20"
+                    className="w-full rounded-lg border border-gray-200 bg-white py-3 pr-4 pl-11 text-sm transition-all focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:focus:border-blue-500 dark:focus:ring-blue-500/20"
                     type="password"
                     required
                     placeholder={t("auth.passwordPlaceholder")}
@@ -102,9 +105,9 @@ const SignIn: React.FC = () => {
               </div>
 
               {error && (
-                <div className="flex items-center gap-2 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700 dark:border-red-900/50 dark:bg-red-900/20 dark:text-red-400">
+                <div className="flex items-center gap-2 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700 dark:border-red-900/50 dark:bg-red-900/20 dark:text-red-400">
                   <svg
-                    className="h-5 w-5 flex-shrink-0"
+                    className="h-4 w-4 flex-shrink-0"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                   >
@@ -121,7 +124,7 @@ const SignIn: React.FC = () => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="group flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 py-3 font-semibold text-white transition-colors hover:bg-blue-700 focus:ring-4 focus:ring-blue-500/20 disabled:opacity-70"
+                className="group flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 py-2.5 font-medium text-white shadow-sm transition-all hover:bg-blue-700 hover:shadow focus:ring-4 focus:ring-blue-500/20 disabled:opacity-70"
               >
                 {isLoading ? (
                   <svg

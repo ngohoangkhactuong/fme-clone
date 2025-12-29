@@ -17,22 +17,24 @@ const Logo = () => {
   const { t } = useTranslation();
   return (
     <Link
-      className="flex items-center gap-4 transition-transform hover:scale-105"
+      className="group flex items-center gap-3 transition-all hover:opacity-90"
       to="/"
     >
-      <div className="relative">
-        <div className="animate-pulse-slow absolute inset-0 rounded-full bg-blue-400/20 blur-xl" />
-        <img
-          alt="HCMUTE Logo"
-          className="relative h-16 w-auto"
-          src="/logo_ckm.jpg"
-        />
+      <div className="relative flex-shrink-0">
+        <div className="absolute inset-0 rounded-xl bg-blue-400/10 blur-lg transition-opacity group-hover:opacity-75" />
+        <div className="relative overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-gray-900/5 dark:bg-gray-800 dark:ring-white/10">
+          <img
+            alt="HCMUTE Logo"
+            className="h-12 w-12 object-cover"
+            src="/logo_ckm.jpg"
+          />
+        </div>
       </div>
       <div className="hidden md:block">
-        <h1 className="bg-gradient-to-r from-blue-700 to-blue-900 bg-clip-text text-xl font-bold text-transparent dark:from-blue-300 dark:to-blue-500">
+        <h1 className="bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-lg leading-tight font-bold text-transparent dark:from-blue-400 dark:to-blue-600">
           {t("header.departmentName")}
         </h1>
-        <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+        <p className="mt-0.5 text-xs font-medium text-gray-600 dark:text-gray-400">
           {t("header.universityName")}
         </p>
       </div>
@@ -73,13 +75,13 @@ const HeaderActions = ({
   }, [menuOpen]);
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-2">
       <LanguageToggle />
       <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
 
       <Link
         to="/calendar"
-        className="hidden rounded-full border border-blue-600 bg-transparent px-5 py-2 text-sm font-semibold text-blue-700 transition hover:bg-blue-50 sm:inline-block dark:border-blue-500 dark:bg-transparent dark:text-blue-400 dark:hover:bg-blue-500/10"
+        className="hidden rounded-lg border border-blue-200 bg-blue-50 px-4 py-2 text-sm font-medium text-blue-700 shadow-sm transition-all hover:border-blue-300 hover:bg-blue-100 hover:shadow sm:inline-flex dark:border-blue-800 dark:bg-blue-950 dark:text-blue-300 dark:hover:border-blue-700 dark:hover:bg-blue-900"
       >
         {t("schedules.header")}
       </Link>
@@ -87,7 +89,7 @@ const HeaderActions = ({
       {allowed ? (
         <Link
           to="/bao-cao-ca-truc"
-          className="hidden rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-blue-700 transition hover:bg-gray-50 sm:inline-block dark:border-gray-600 dark:bg-gray-800 dark:text-blue-300 dark:hover:bg-gray-700"
+          className="dark:hover:bg-gray-750 hidden rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition-all hover:border-gray-300 hover:bg-gray-50 hover:shadow sm:inline-flex dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:border-gray-600"
           aria-label={t("common.report")}
         >
           {t("common.report")}
@@ -96,7 +98,7 @@ const HeaderActions = ({
         <Link
           to="/auth/signin"
           title={t("common.report")}
-          className="hidden rounded-full border border-gray-200 bg-gray-100/60 px-4 py-2 text-sm font-semibold text-gray-600 sm:inline-block dark:border-gray-700 dark:bg-gray-800/50 dark:text-gray-300"
+          className="hidden rounded-lg border border-gray-200 bg-gray-50 px-4 py-2 text-sm font-medium text-gray-500 shadow-sm sm:inline-flex dark:border-gray-700 dark:bg-gray-800/70 dark:text-gray-400"
         >
           {t("common.report")}
         </Link>
@@ -272,16 +274,15 @@ const HeaderActions = ({
 const Navigation = () => {
   const { t } = useTranslation();
   return (
-    <nav className="border-t border-blue-200/50 bg-gradient-to-r from-blue-50/50 via-white to-blue-50/50 dark:border-blue-900/50 dark:from-gray-900 dark:via-blue-950/20 dark:to-gray-900">
-      <ul className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-1 px-4 py-2">
+    <nav className="border-t border-gray-200 bg-gray-50 dark:border-gray-800 dark:bg-gray-900">
+      <ul className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-0.5 px-4 py-1">
         {menuData.map((item) => (
           <li key={item.labelKey}>
             <Link
-              className="group relative block cursor-pointer rounded-md px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:text-blue-700 dark:text-gray-300 dark:hover:text-blue-300"
+              className="group relative block cursor-pointer rounded-md px-3.5 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-white hover:text-blue-600 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-blue-400"
               to={item.path}
             >
               <span className="relative z-10">{t(item.labelKey)}</span>
-              <span className="absolute inset-x-4 -bottom-0.5 h-0.5 scale-x-0 rounded-full bg-blue-600 transition-transform group-hover:scale-x-100 dark:bg-blue-400" />
             </Link>
           </li>
         ))}
@@ -304,14 +305,14 @@ const Header = ({ theme, toggleTheme }: HeaderProps) => {
 
   return (
     <header
-      className={`sticky top-0 z-50 backdrop-blur-xl transition-all duration-300 ${
+      className={`sticky top-0 z-50 border-b transition-all duration-200 ${
         scrolled
-          ? "bg-gradient-to-r from-blue-50/95 via-white/95 to-blue-50/95 shadow-lg shadow-blue-500/20 dark:from-gray-900/80 dark:via-blue-950/30 dark:to-gray-900/80 dark:shadow-blue-400/10"
-          : "bg-gradient-to-r from-blue-50 via-white to-blue-50 dark:from-gray-900 dark:via-blue-950/30 dark:to-gray-900"
+          ? "border-gray-200 bg-white/95 shadow-sm backdrop-blur-xl dark:border-gray-800 dark:bg-gray-950/95"
+          : "border-transparent bg-white dark:bg-gray-950"
       }`}
     >
-      <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between gap-4">
+      <div className="mx-auto max-w-7xl px-4 py-3 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between">
           <Logo />
           <HeaderActions theme={theme} toggleTheme={toggleTheme} />
         </div>

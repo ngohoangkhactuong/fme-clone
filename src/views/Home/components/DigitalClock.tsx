@@ -31,9 +31,9 @@ const DateDisplay = ({ time, locale }: { time: Date; locale: string }) => (
 const MottoSection = () => {
   const { t } = useTranslation();
   return (
-    <div className="relative overflow-hidden rounded-xl border border-white/20 bg-white/10 p-4 backdrop-blur-sm">
-      <Sparkles className="absolute top-3 right-3 h-4 w-4 text-yellow-300" />
-      <p className="relative text-center text-sm leading-relaxed font-medium text-white italic">
+    <div className="relative overflow-hidden rounded-lg border border-white/10 bg-white/10 p-3 backdrop-blur-sm">
+      <Sparkles className="absolute top-2 right-2 h-3.5 w-3.5 text-yellow-300" />
+      <p className="relative text-center text-xs leading-relaxed text-white/90 italic">
         {t("home.academicYearMotto")}
       </p>
     </div>
@@ -50,10 +50,10 @@ export const DigitalClock = () => {
   }, []);
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-blue-200/50 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 p-6 shadow-lg shadow-blue-500/30 transition-shadow hover:shadow-xl hover:shadow-blue-500/40 dark:border-blue-700/50 dark:from-blue-900 dark:via-blue-950 dark:to-gray-900">
-      <div className="mb-4 flex items-center gap-2">
-        <Clock className="h-5 w-5 text-white drop-shadow" />
-        <span className="text-sm font-semibold text-white drop-shadow">
+    <div className="overflow-hidden rounded-xl border border-gray-200 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 p-5 shadow-sm dark:border-gray-800 dark:from-blue-900 dark:via-blue-950 dark:to-gray-900">
+      <div className="mb-3 flex items-center gap-2">
+        <Clock className="h-4 w-4 text-white/90 drop-shadow" />
+        <span className="text-sm font-medium text-white/90 drop-shadow">
           {t("home.currentTime")}
         </span>
       </div>
