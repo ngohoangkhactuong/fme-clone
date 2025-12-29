@@ -49,6 +49,18 @@ cd fme-clone
 yarn install
 ```
 
+3. Cấu hình Firebase (cho Google Authentication):
+
+```bash
+# Copy file env example
+cp .env.example .env
+
+# Chỉnh sửa .env và điền Firebase config của bạn
+# Xem chi tiết trong FIREBASE_SETUP.md
+```
+
+**Lưu ý**: Xem file [FIREBASE_SETUP.md](./FIREBASE_SETUP.md) để biết hướng dẫn chi tiết cấu hình Firebase và Google Authentication.
+
 3. Môi trường phát triển
 
 ```bash
@@ -136,9 +148,37 @@ Trang báo cáo ca trực được thêm vào nhằm cho phép nhân viên/sinh 
 
   - Tổng quan (title, status)
   - Chi tiết (summary, tasks, incidents)
-  - Thời gian (date, startTime, endTime)
-  - Ảnh đính kèm (ImageUploader: upload, thumbnail, full view, remove)
-  - Ghi chú bổ sung
+
+## Tính năng: Đăng nhập với Google (Google Authentication)
+
+Ứng dụng hỗ trợ đăng nhập bằng tài khoản Google thông qua Firebase Authentication:
+
+### Các tính năng chính:
+
+- **Đăng nhập truyền thống**: Email/password với định dạng HCMUTE (`mssv@student.hcmute.edu.vn`)
+- **Đăng nhập Google**: Sử dụng popup Google OAuth
+- **Tự động tạo tài khoản**: Khi đăng nhập Google lần đầu, hệ thống tự động tạo tài khoản
+- **Đồng bộ avatar**: Avatar từ Google được tự động cập nhật
+- **Phân quyền**: Tài khoản được tự động phân quyền admin nếu studentId là `23146053`
+
+### Files liên quan:
+
+- `src/config/firebase.ts` — Cấu hình Firebase
+- `src/hooks/useAuth.tsx` — Authentication logic với Google sign-in
+- `src/views/Auth/SignIn.tsx` — UI đăng nhập với nút Google
+- `FIREBASE_SETUP.md` — Hướng dẫn chi tiết cấu hình
+
+### Cách sử dụng:
+
+1. Cấu hình Firebase theo hướng dẫn trong `FIREBASE_SETUP.md`
+2. Truy cập `/auth/signin`
+3. Click nút "Đăng nhập bằng Google"
+4. Chọn tài khoản Google
+5. Hệ thống tự động tạo/cập nhật tài khoản và đăng nhập
+
+- Thời gian (date, startTime, endTime)
+- Ảnh đính kèm (ImageUploader: upload, thumbnail, full view, remove)
+- Ghi chú bổ sung
 
 - Behaviour & UX:
   - Hỗ trợ lưu nháp tự động (localStorage key: `dutyReportDraft:v1`) — autosave mỗi 3s khi ở trạng thái draft

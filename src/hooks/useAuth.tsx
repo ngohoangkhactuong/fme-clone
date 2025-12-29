@@ -8,6 +8,8 @@ import React, {
 } from "react";
 import type { MockAccount } from "@/dataSources/mockAccounts";
 import { initialMockAccounts } from "@/dataSources/mockAccounts";
+import { signInWithPopup, signOut as firebaseSignOut } from "firebase/auth";
+import { auth, googleProvider } from "@/config/firebase";
 
 type User = {
   email: string;
@@ -20,6 +22,7 @@ type User = {
 type AuthContextValue = {
   user: User | null;
   signIn: (email: string, password: string) => Promise<boolean>;
+  signInWithGoogle: () => Promise<boolean>;
   signUp: (name: string, email: string, password: string) => Promise<boolean>;
   updateProfile: (name: string) => Promise<boolean>;
   updateAvatar: (dataUrl: string | null) => Promise<boolean>;
@@ -94,6 +97,62 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       return true;
     }
     return false;
+  }, []);
+
+  const signInWithGoogle = useCallback(async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const googleUser = result.user;
+
+      // Extract user info from Google
+      const email = googleUser.email || "";
+      const name = googleUser.displayName || "";
+      const avatar = googleUser.photoURL || undefined;
+
+      // Check if user already exists in local accounts
+      const accounts = readAccounts();
+      let existingAccount = accounts.find((a) => a.email === email);
+
+      if (!existingAccount) {
+        // Create new account for Google user
+        // Try to extract student ID if email is HCMUTE format
+        const emailMatch = EMAIL_REGEX.exec(email);
+        const studentId = emailMatch ? emailMatch[1] : undefined;
+        const role: "admin" | "user" =
+          studentId === "23146053" ? "admin" : "user";
+
+        const newAccount: Account = {
+          name,
+          email,
+          password: "", // No password for Google auth
+          role,
+          studentId,
+          avatar
+        };
+
+        accounts.push(newAccount);
+        writeAccounts(accounts);
+        existingAccount = newAccount;
+      } else if (avatar && existingAccount.avatar !== avatar) {
+        // Update avatar if changed
+        const idx = accounts.findIndex((a) => a.email === email);
+        accounts[idx] = { ...accounts[idx], avatar };
+        writeAccounts(accounts);
+      }
+
+      setUser({
+        email: existingAccount.email,
+        name: existingAccount.name,
+        role: existingAccount.role,
+        studentId: existingAccount.studentId,
+        avatar: avatar || existingAccount.avatar
+      });
+
+      return true;
+    } catch (error) {
+      console.error("Google sign-in error:", error);
+      return false;
+    }
   }, []);
 
   const signUp = useCallback(
@@ -175,19 +234,36 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     [user]
   );
 
-  const signOut = useCallback(() => setUser(null), []);
+  const signOut = useCallback(async () => {
+    try {
+      await firebaseSignOut(auth);
+    } catch (error) {
+      console.error("Sign out error:", error);
+    }
+    setUser(null);
+  }, []);
 
   const value = useMemo(
     () => ({
       user,
       signIn,
+      signInWithGoogle,
       signUp,
       updateProfile,
       updateAvatar,
       changePassword,
       signOut
     }),
-    [user, signIn, signUp, updateProfile, updateAvatar, changePassword, signOut]
+    [
+      user,
+      signIn,
+      signInWithGoogle,
+      signUp,
+      updateProfile,
+      updateAvatar,
+      changePassword,
+      signOut
+    ]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
