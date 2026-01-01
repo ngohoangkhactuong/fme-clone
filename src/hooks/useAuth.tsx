@@ -109,13 +109,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       const name = googleUser.displayName || "";
       const avatar = googleUser.photoURL || undefined;
 
+      // Validate email format - must be HCMUTE student email
+      if (!EMAIL_REGEX.test(email)) {
+        // Sign out from Firebase if email is not valid
+        await firebaseSignOut(auth);
+        console.error("Invalid email format. Must be HCMUTE student email.");
+        return false;
+      }
+
       // Check if user already exists in local accounts
       const accounts = readAccounts();
       let existingAccount = accounts.find((a) => a.email === email);
 
       if (!existingAccount) {
         // Create new account for Google user
-        // Try to extract student ID if email is HCMUTE format
+        // Extract student ID from HCMUTE email
         const emailMatch = EMAIL_REGEX.exec(email);
         const studentId = emailMatch ? emailMatch[1] : undefined;
         const role: "admin" | "user" =

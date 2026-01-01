@@ -126,8 +126,10 @@ const resources = {
         orContinueWith: "Or continue with",
         signInWithGoogle: "Sign in with Google",
         signUpWithGoogle: "Sign up with Google",
-        googleSignInFailed: "Google sign-in failed. Please try again.",
-        googleSignUpFailed: "Google sign-up failed. Please try again.",
+        googleSignInFailed:
+          "Google sign-in failed. Please use your HCMUTE student email (mssv@student.hcmute.edu.vn).",
+        googleSignUpFailed:
+          "Google sign-up failed. Please use your HCMUTE student email (mssv@student.hcmute.edu.vn).",
         signUpTitle: "Create account",
         signUpSubtitle: "Register to access full features",
         fullName: "Full name",
@@ -333,8 +335,10 @@ const resources = {
         orContinueWith: "Hoặc tiếp tục với",
         signInWithGoogle: "Đăng nhập bằng Google",
         signUpWithGoogle: "Đăng ký bằng Google",
-        googleSignInFailed: "Đăng nhập Google thất bại. Vui lòng thử lại.",
-        googleSignUpFailed: "Đăng ký Google thất bại. Vui lòng thử lại.",
+        googleSignInFailed:
+          "Đăng nhập Google thất bại. Vui lòng sử dụng email sinh viên HCMUTE (mssv@student.hcmute.edu.vn).",
+        googleSignUpFailed:
+          "Đăng ký Google thất bại. Vui lòng sử dụng email sinh viên HCMUTE (mssv@student.hcmute.edu.vn).",
         signUpTitle: "Tạo tài khoản",
         signUpSubtitle: "Đăng ký để truy cập đầy đủ tính năng",
         fullName: "Họ và tên",
