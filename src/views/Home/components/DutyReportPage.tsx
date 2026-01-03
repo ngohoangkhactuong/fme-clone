@@ -4,7 +4,6 @@ import { Notification } from "@/components/layout/Notification";
 import { useTranslation } from "react-i18next";
 import { ImageUploader } from "@/components/common/ImageUploader";
 import { useAuth } from "@/hooks/useAuth";
-import { registeredStudentEmails } from "@/dataSources/registeredStudents";
 import { STORAGE_KEYS } from "@/constants";
 
 type ReportStatus = "draft" | "submitted";
@@ -46,7 +45,7 @@ export const DutyReportPage = () => {
     !!user &&
     (user.role === "admin" ||
       user.studentId === "23146053" ||
-      registeredStudentEmails.includes(user.email));
+      user.canAccessReports === true);
   const [report, setReport] = useState<DutyReport>(initialReport);
   const [saving, setSaving] = useState(false);
   const [submitting, setSubmitting] = useState(false);

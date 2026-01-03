@@ -6,10 +6,29 @@ import React, {
   useState,
   useCallback
 } from "react";
-import type { MockAccount } from "@/dataSources/mockAccounts";
-import { initialMockAccounts } from "@/dataSources/mockAccounts";
 import { signInWithPopup, signOut as firebaseSignOut } from "firebase/auth";
 import { auth, googleProvider } from "@/config/firebase";
+
+// Account type for localStorage-based auth
+type Account = {
+  name: string;
+  email: string;
+  password: string;
+  role: "admin" | "user";
+  studentId?: string;
+  avatar?: string;
+};
+
+// Initial seed accounts
+const initialAccounts: Account[] = [
+  {
+    name: "Admin User",
+    email: "23146053@student.hcmute.edu.vn",
+    password: "admin123",
+    role: "admin",
+    studentId: "23146053"
+  }
+];
 
 type User = {
   email: string;
@@ -17,6 +36,7 @@ type User = {
   role: "admin" | "user";
   studentId?: string;
   avatar?: string;
+  canAccessReports?: boolean;
 };
 
 type AuthContextValue = {
@@ -37,8 +57,6 @@ const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 const ACCOUNTS_KEY = "fme:accounts";
 const AUTH_USER_KEY = "fme:authUser";
-
-type Account = MockAccount;
 
 const readAccounts = (): Account[] => {
   try {
@@ -63,7 +81,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     const existing = readAccounts();
     if (!existing || existing.length === 0) {
-      writeAccounts(initialMockAccounts as Account[]);
+      writeAccounts(initialAccounts);
     }
   }, []);
 

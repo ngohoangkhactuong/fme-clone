@@ -1,6 +1,6 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useEffect, useState } from "react";
-import { bannerData } from "@/dataSources/banner";
+import { useCallback, useEffect, useState } from "react";
+import { useActiveBanners } from "@/hooks/useBannersApi";
 
 const BannerNavButton = ({
   direction,
@@ -47,22 +47,44 @@ const BannerIndicators = ({
 );
 
 export const BannerCarousel = () => {
+  const { data: bannersResponse, isLoading } = useActiveBanners();
+  const banners = bannersResponse?.data || [];
   const [index, setIndex] = useState(0);
 
-  const next = () => setIndex((prev) => (prev + 1) % bannerData.length);
+  const next = useCallback(
+    () => setIndex((prev) => (prev + 1) % (banners.length || 1)),
+    [banners.length]
+  );
   const prev = () =>
-    setIndex((prev) => (prev - 1 + bannerData.length) % bannerData.length);
+    setIndex(
+      (prev) => (prev - 1 + (banners.length || 1)) % (banners.length || 1)
+    );
 
   useEffect(() => {
+    if (banners.length === 0) return undefined;
     const timer = setInterval(next, 4000);
     return () => clearInterval(timer);
-  }, []);
+  }, [banners.length, next]);
+
+  if (isLoading) {
+    return (
+      <div className="h-[360px] w-full animate-pulse rounded-lg bg-gray-200 dark:bg-gray-800" />
+    );
+  }
+
+  if (banners.length === 0) {
+    return (
+      <div className="flex h-[360px] w-full items-center justify-center rounded-lg border border-gray-200 bg-gray-100 dark:border-gray-800 dark:bg-gray-900">
+        <span className="text-gray-500">No banners available</span>
+      </div>
+    );
+  }
 
   return (
     <div className="group relative w-full overflow-hidden rounded-lg border border-gray-200 dark:border-gray-800">
       <img
-        src={bannerData[index]}
-        alt="Banner"
+        src={banners[index]?.imageUrl}
+        alt={banners[index]?.title || "Banner"}
         className="h-[360px] w-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-102"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
@@ -73,7 +95,7 @@ export const BannerCarousel = () => {
       <BannerIndicators
         current={index}
         onSelect={setIndex}
-        total={bannerData.length}
+        total={banners.length}
       />
     </div>
   );

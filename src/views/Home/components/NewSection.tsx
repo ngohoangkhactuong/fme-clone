@@ -1,6 +1,7 @@
 import { ArrowRight, Calendar, TrendingUp } from "lucide-react";
-import { newsData } from "@/dataSources/news";
 import { useTranslation } from "react-i18next";
+import { useTrendingNews } from "@/hooks/useNewsApi";
+import type { NewsDTO } from "@/types/api.types";
 
 const NewsHeader = () => {
   const { t } = useTranslation();
@@ -25,23 +26,23 @@ const NewsHeader = () => {
   );
 };
 
-const NewsCard = ({ news }: { news: (typeof newsData)[0] }) => {
+const NewsCard = ({ news }: { news: NewsDTO }) => {
   const { t } = useTranslation();
   return (
     <article
       className="group relative cursor-pointer overflow-hidden rounded-lg border border-gray-200 bg-white transition-all hover:border-blue-500 hover:shadow-sm dark:border-gray-800 dark:bg-gray-900 dark:hover:border-blue-600"
-      onClick={() => window.open(news.url, "_blank")}
+      onClick={() => news.url && window.open(news.url, "_blank")}
       role="link"
       tabIndex={0}
       onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
+        if ((e.key === "Enter" || e.key === " ") && news.url) {
           window.open(news.url, "_blank");
         }
       }}
     >
       <div className="relative h-40 overflow-hidden">
         <img
-          src={news.img}
+          src={news.imageUrl}
           alt={news.title}
           className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
@@ -53,7 +54,7 @@ const NewsCard = ({ news }: { news: (typeof newsData)[0] }) => {
           </span>
         </div>
 
-        {news.trending && (
+        {news.isTrending && (
           <div className="absolute top-2 right-2">
             <div className="flex items-center gap-1 rounded bg-red-500 px-2 py-0.5 text-xs font-medium text-white">
               <TrendingUp className="h-3 w-3" />
@@ -66,7 +67,9 @@ const NewsCard = ({ news }: { news: (typeof newsData)[0] }) => {
       <div className="p-4">
         <div className="mb-1.5 flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
           <Calendar className="h-3 w-3" />
-          {news.date}
+          {news.publishedDate
+            ? new Date(news.publishedDate).toLocaleDateString()
+            : ""}
         </div>
 
         <h3 className="line-clamp-2 text-sm leading-tight font-medium text-gray-900 transition-colors group-hover:text-blue-600 dark:text-gray-100 dark:group-hover:text-blue-400">
@@ -82,13 +85,42 @@ const NewsCard = ({ news }: { news: (typeof newsData)[0] }) => {
   );
 };
 
-export const NewsSection = () => (
-  <section className="space-y-6">
-    <NewsHeader />
-    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-      {newsData.map((news) => (
-        <NewsCard key={news.title} news={news} />
-      ))}
+const NewsSkeleton = () => (
+  <div className="animate-pulse rounded-lg border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
+    <div className="h-40 bg-gray-200 dark:bg-gray-800" />
+    <div className="space-y-2 p-4">
+      <div className="h-3 w-20 rounded bg-gray-200 dark:bg-gray-700" />
+      <div className="h-4 w-full rounded bg-gray-200 dark:bg-gray-700" />
+      <div className="h-4 w-3/4 rounded bg-gray-200 dark:bg-gray-700" />
     </div>
-  </section>
+  </div>
 );
+
+export const NewsSection = () => {
+  const { data: newsResponse, isLoading } = useTrendingNews();
+  const newsList = newsResponse?.data || [];
+
+  if (isLoading) {
+    return (
+      <section className="space-y-6">
+        <NewsHeader />
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {[1, 2, 3].map((i) => (
+            <NewsSkeleton key={i} />
+          ))}
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section className="space-y-6">
+      <NewsHeader />
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {newsList.map((news) => (
+          <NewsCard key={news.id} news={news} />
+        ))}
+      </div>
+    </section>
+  );
+};

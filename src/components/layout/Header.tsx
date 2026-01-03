@@ -1,11 +1,20 @@
-import { menuData } from "@/dataSources/menu";
 import LanguageToggle from "@/components/common/LanguageToggle";
 import { useTranslation } from "react-i18next";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Settings, LogOut, Moon, Sun } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
-import { registeredStudentEmails } from "@/dataSources/registeredStudents";
+
+// Navigation menu items
+const menuData = [
+  { labelKey: "menu.home", path: "/" },
+  { labelKey: "menu.introduction", path: "/introduction" },
+  { labelKey: "menu.news", path: "/news" },
+  { labelKey: "menu.education", path: "/education" },
+  { labelKey: "menu.research", path: "/research" },
+  { labelKey: "menu.students", path: "/students" },
+  { labelKey: "menu.contact", path: "/contact" }
+];
 
 type HeaderProps = {
   theme: "light" | "dark";
@@ -56,7 +65,7 @@ const HeaderActions = ({
     !!user &&
     (user.role === "admin" ||
       user.studentId === "23146053" ||
-      registeredStudentEmails.includes(user.email));
+      user.canAccessReports === true);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
